@@ -14,7 +14,7 @@ const ScoreWrapper = posed.div({
     delay: 300,
     transition: {
       y: { type: 'spring', stiffness: 100, damping: 15 },
-      default: { duration: 300 }
+      default: { duration: 500 }
     }
   },
   out: {
@@ -22,8 +22,7 @@ const ScoreWrapper = posed.div({
     opacity: 1,
     delay: 300,
     transition: {
-      y: { type: 'spring', stiffness: 100, damping: 15 },
-      default: { duration: 300 }
+      default: { duration: 500 }
     }
   },
 });;
