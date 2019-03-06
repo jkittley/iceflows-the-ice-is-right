@@ -35,7 +35,7 @@ class ScorePopup extends React.Component {
     if (this.props.scoreType === "win") {
       return <ScoreWrapper className="score-popup win" pose={ this.props.mode }>
       <div className="score-popup-inner">
-      <h1>Winner!!! <FaGrinWink/></h1>
+      <h1>Correct!!! <FaGrinWink/></h1>
       </div></ScoreWrapper>;
     } else if (this.props.scoreType === "loose") {
       return <ScoreWrapper className="score-popup loose" pose={ this.props.mode }>

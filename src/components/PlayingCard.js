@@ -102,7 +102,6 @@ class PlayingCard extends React.Component {
                       onClick={this.factSelected.bind(this)} 
                     />
                 ))}
-        
               </Card>
             </div>
           </div>
