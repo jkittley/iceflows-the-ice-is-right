@@ -19,6 +19,7 @@ class Game extends React.Component {
       deck2SelectedFact: null,
       gameOver: false,
       score: 0,
+      numDraws: 0,
       factMeta: {},
       settings: {
         showFacts: ['fact_fast_flow','fact_max_thick','fact_mean_thick','fact_thick_in_fast_flow']
@@ -114,15 +115,17 @@ class Game extends React.Component {
   }
  
   win () {
-    this.setState({ score: this.state.score + 1 });
+    this.setState({ score: this.state.score + 100 });
   }
 
   loose() {
     // var newScore = Math.max(this.state.score - 1, 0);
-    this.setState({ score: this.state.score - 1 });
+    this.setState({ score: this.state.score - 50});
   }
 
   draw() {
+    console.log("DRAW");
+    this.setState({ numDraws: this.state.numDraws + 1});
   }
 
   play(guess) {
@@ -161,8 +164,8 @@ class Game extends React.Component {
 
   render() {
     return (
-      <Container fluid>
-        <ScoreCard score={this.state.score} />
+      <Container fluid className="game-area">
+        <ScoreCard score={this.state.score} numDraws={this.state.numDraws} />
         <Settings {...this.state.settings} factMeta={this.state.factMeta} onSave={ this.saveSettings.bind(this) } />
         <LogoHeader />
         <Container>

@@ -14,3 +14,13 @@
 .stats {
   height: 10vh;
 }
+.game-area.container-fluid {
+  overflow: hidden;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+}
+
+.game-area .container {
+  padding: 0;
+}

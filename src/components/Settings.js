@@ -2,18 +2,39 @@
 import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Col, Label, Input } from 'reactstrap';
 import { FaCog } from 'react-icons/fa';
+import posed from 'react-pose';
+
 import './Settings.css';
 
+const SettingsWrap = posed.div({
+  hidden: {
+    x: 1000,
+    opacity: 0,
+    transition: { duration: 200 }
+  },
+  visible: {
+    x: 0,
+    opacity: 1,
+    transition: { duration: 200 }
+  }
+});
+
 class Settings extends React.Component {
+  
   constructor(props) {
     super(props);
     this.state = {
       visible: false,
-      showFacts: props.showFacts
+      showFacts: props.showFacts,
+      animation: "hidden"
     };
     this.toggle.bind(this);
     this.save.bind(this);
     this.selectFact.bind(this)
+  }
+
+  componentDidMount() {
+    this.setState({ animation: "visible" });
   }
 
   toggle() {
@@ -40,7 +61,9 @@ class Settings extends React.Component {
 
   render() {
     if (!this.state.visible) {
-      return <div className="settingsPane"><Button size="lg" color="warning" onClick={ () => this.toggle() }><FaCog/></Button></div>
+      return <SettingsWrap pose={this.state.animation}>
+      <div className="settingsPane"><Button size="lg" color="warning" onClick={ () => this.toggle() }><FaCog/></Button></div>
+      </SettingsWrap>;
     } else {
       return <Modal isOpen={this.state.visible}>
       <ModalHeader toggle={ () => this.toggle() }>Settings</ModalHeader>
@@ -62,6 +85,7 @@ class Settings extends React.Component {
 
       </ModalBody>
       <ModalFooter>
+        <Button color="secondary" onClick={ () => this.toggle() }>Cancel</Button>{' '}
         <Button color="primary" onClick={ () => this.save() }>Save</Button>{' '}
       </ModalFooter>
       </Modal>;

@@ -2,7 +2,7 @@ import React from 'react';
 import Fact from './Fact';
 import { Card, CardBody, Row, Button, Col } from 'reactstrap';
 import posed from 'react-pose';
-import { FaHandPointRight, FaHandPointUp, FaHandPointDown } from 'react-icons/fa';
+import { FaHandPointLeft, FaHandPointRight, FaHandPointUp, FaHandPointDown } from 'react-icons/fa';
 import "./PlayingCard.css"
 
 const CardWrapper = posed.div({
@@ -120,7 +120,7 @@ class PlayingCard extends React.Component {
         { this.state.flipped && !this.props.highlightFact && 
           <Button size="lg" color="light" block outline disabled className="mt-2">Please Select a fact</Button>
         }
-        { this.props.passCard && this.state.flipped && <Button size="lg" color="light" block className="mt-2" onClick={this.passCard.bind(this)}><FaHandPointRight/> Next</Button> }
+        { this.props.passCard && this.state.flipped && <Button size="lg" color="light" block className="mt-2" onClick={this.passCard.bind(this)}><FaHandPointRight/> Play On <FaHandPointLeft/> </Button> }
         {/* { !this.props.passCard&& this.state.flipped  && <Button size="lg" color="light" block className="mt-2" onClick={ this.props.dealFunc }><FaUndo/> New Card</Button> } */}
     </CardWrapper>;
   }
