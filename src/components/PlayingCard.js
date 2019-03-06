@@ -3,7 +3,7 @@ import Fact from './Fact';
 import { Card, CardBody, Row, Button, Col } from 'reactstrap';
 import posed from 'react-pose';
 import { FaHandPointRight, FaHandPointUp, FaHandPointDown } from 'react-icons/fa';
-
+import "./PlayingCard.css"
 
 const CardWrapper = posed.div({
   hidden: {

@@ -1,0 +1,16 @@
+/*  Main sections  */
+.logo {
+  text-align: center;
+  margin-bottom: 10px;
+  height: 20vh;
+  margin-bottom: 20px;
+}
+.logo img {
+  height: 100%;
+}
+.decks{
+  height: 70vh;
+}
+.stats {
+  height: 10vh;
+}

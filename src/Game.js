@@ -4,8 +4,9 @@ import { Container } from 'reactstrap';
 import CardList from './components/CardList';
 import LogoHeader from './components/LogoHeader';
 import GameOver from './components/GameOver';
-import ScorePopup from './components/ScorePopup';
+import ScoreCard from './components/ScoreCard';
 import Settings from './components/Settings';
+import "./Game.css"
 
 class Game extends React.Component {
   constructor(props) {
@@ -17,7 +18,7 @@ class Game extends React.Component {
       deck1SelectedFact: null,
       deck2SelectedFact: null,
       gameOver: false,
-      scorePopup: "hidden",
+      score: 0,
       factMeta: {},
       settings: {
         showFacts: ['fact_fast_flow','fact_max_thick','fact_mean_thick','fact_thick_in_fast_flow']
@@ -113,14 +114,12 @@ class Game extends React.Component {
   }
  
   win () {
-    console.log("You guessed right");
-    this.setState({ scorePopup: "in" });
-    setTimeout( () => this.setState({ scorePopup: "out" }), 2000);
-    setTimeout( () => this.setState({ scorePopup: "hidden" }), 2000);
+    this.setState({ score: this.state.score + 1 });
   }
 
   loose() {
-    console.log("You guessed WRONG");
+    // var newScore = Math.max(this.state.score - 1, 0);
+    this.setState({ score: this.state.score - 1 });
   }
 
   draw() {
@@ -174,6 +173,7 @@ class Game extends React.Component {
   render() {
     return (
       <Container>
+        <ScoreCard score={this.state.score} />
         <Settings {...this.state.settings} factMeta={this.state.factMeta} onSave={ this.saveSettings.bind(this) } />
         <LogoHeader />
         <div className="decks d-flex flex-row">
@@ -197,7 +197,6 @@ class Game extends React.Component {
         </div>
         <div className="stats text-center mt-2">Cards remaining: { this.state.allCards.length }</div>
        <GameOver show={this.state.gameOver} playAgain={this.reset.bind(this)} />
-       <ScorePopup mode={this.state.scorePopup}/>
        </Container>
     );
   }

@@ -1,6 +1,7 @@
 import React from 'react';
 import PlayingCard from './PlayingCard';
 import { CardGroup } from 'reactstrap';
+import "./CardList.css";
 
 class CardList extends React.Component {
 

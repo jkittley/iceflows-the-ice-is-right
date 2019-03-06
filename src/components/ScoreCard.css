@@ -1,0 +1,7 @@
+.score-card {
+  font-family: 'PlaySir', cursive;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 5000;
+}

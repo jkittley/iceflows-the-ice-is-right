@@ -1,11 +1,12 @@
 import React from 'react';
 import posed from 'react-pose';
+import "./ScorePopup.css";
 
 const ScoreWrapper = posed.div({
   hidden: {
-    y: -500,
+    y: -1000,
     opacity: 0,
-    transition: { duration: 150 }
+    transition: { duration: 1 }
   },
   in: {
     y: 0,
@@ -17,7 +18,7 @@ const ScoreWrapper = posed.div({
     }
   },
   out: {
-    y: -500,
+    y: 2000,
     opacity: 1,
     delay: 300,
     transition: {
@@ -29,10 +30,17 @@ const ScoreWrapper = posed.div({
 
 class ScorePopup extends React.Component {
   render() {
-    return <ScoreWrapper className="playing-card" pose={ this.props.mode }>
-    <div className="w-100 bg-black">
-     <h1>SCORE</h1>
-    </div></ScoreWrapper>;
+    if (this.props.scoreType === "win") {
+      return <ScoreWrapper className="score-popup win" pose={ this.props.mode }>
+      <div className="score-popup-inner">
+      <h1>Score!!!</h1>
+      </div></ScoreWrapper>;
+    } else {
+      return <ScoreWrapper className="score-popup loose" pose={ this.props.mode }>
+      <div className="score-popup-inner">
+      <h1>You Loose!!!</h1>
+      </div></ScoreWrapper>;
+    }
   }
 }
 

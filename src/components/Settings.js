@@ -17,7 +17,10 @@ class Settings extends React.Component {
   }
 
   toggle() {
-    this.setState({ visible: !this.state.visible });
+    this.setState({ 
+      visible: !this.state.visible,
+      showFacts: this.props.showFacts
+    });
   }
 
   save() {
@@ -28,11 +31,10 @@ class Settings extends React.Component {
   }
 
   selectFact(fact, checked) {
-    console.log("Selected", fact, checked);
     if (checked) {
       this.setState({ showFacts: [ ...this.state.showFacts, fact.id ]})
     } else {
-      this.setState({ showFacts: this.state.showFacts.filter((f) => f != fact.id) })
+      this.setState({ showFacts: this.state.showFacts.filter((f) => f !== fact.id) })
     }
   }
 
@@ -43,7 +45,7 @@ class Settings extends React.Component {
       return <Modal isOpen={this.state.visible}>
       <ModalHeader toggle={ () => this.toggle() }>Settings</ModalHeader>
       <ModalBody>
-        
+      <h5>Show Facts</h5>  
       { Object.keys(this.props.factMeta).map(function(key, i) {
         var meta = this.props.factMeta[key];
         var selected = this.props.showFacts.indexOf(meta.id) >= 0; 
