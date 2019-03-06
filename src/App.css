@@ -1,3 +1,10 @@
+body, html {
+  background-color: #0099ff!important;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+}
+
 @font-face {
     font-family: 'PlaySir';
     src: url('./res/fonts/PLAYSIR Regular.otf') ;
