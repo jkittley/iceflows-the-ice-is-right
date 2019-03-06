@@ -196,7 +196,7 @@ class Game extends React.Component {
           />
         </div>
         <div className="stats text-center mt-2">Cards remaining: { this.state.allCards.length }</div>
-       <GameOver show={this.state.gameOver} playAgain={this.reset.bind(this)} />
+        { this.state.gameOver && <GameOver playAgain={this.reset.bind(this)} score={this.state.score} /> }
        </Container>
     );
   }

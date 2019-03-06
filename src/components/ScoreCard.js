@@ -23,15 +23,15 @@ class ScoreCard extends React.Component {
   pointGained() {
     console.log("pointGained");
     this.setState({ scorePopup: "in", scoreType: "win" });
-    setTimeout( () => this.setState({ scorePopup: "out" }), 2000);
-    setTimeout( () => this.setState({ scorePopup: "hidden" }), 4000);
+    setTimeout( () => this.setState({ scorePopup: "out" }), 1000);
+    setTimeout( () => this.setState({ scorePopup: "hidden" }), 2000);
   }
 
   pointLost() {
     console.log("pointLost");
     this.setState({ scorePopup: "in", scoreType: "loose" });
-    setTimeout( () => this.setState({ scorePopup: "out" }), 2000);
-    setTimeout( () => this.setState({ scorePopup: "hidden" }), 4000);
+    setTimeout( () => this.setState({ scorePopup: "out" }), 1000);
+    setTimeout( () => this.setState({ scorePopup: "hidden" }), 2000);
   }
 
   render() {
