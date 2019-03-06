@@ -28,13 +28,15 @@ class Welcome extends React.Component {
   }
 
   render() {
-    return <Container className="text-center">
+    return <Container fluid className="text-center">
         <LogoHeader/>
+        <Container>
         <WelcomeWrapper pose={this.state.animation}>
         <h1>Welcome</h1>
         <h3 className="mb-4">This game is really easy and fun to play.</h3>
         <Button size="lg" color="warning" onClick={ () => this.onClick() }>Play</Button>
         </WelcomeWrapper>
+        </Container>
       </Container>;
   }
 }

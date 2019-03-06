@@ -161,10 +161,11 @@ class Game extends React.Component {
 
   render() {
     return (
-      <Container>
+      <Container fluid>
         <ScoreCard score={this.state.score} />
         <Settings {...this.state.settings} factMeta={this.state.factMeta} onSave={ this.saveSettings.bind(this) } />
         <LogoHeader />
+        <Container>
         <div className="decks d-flex flex-row">
           <CardList 
             autoFlip 
@@ -186,6 +187,7 @@ class Game extends React.Component {
         </div>
         <div className="stats text-center mt-2">Cards remaining: { this.state.allCards.length }</div>
         { this.state.gameOver && <GameOver playAgain={this.reset.bind(this)} score={this.state.score} /> }
+        </Container>
        </Container>
     );
   }

@@ -14,3 +14,10 @@
 .stats {
   height: 10vh;
 }
+
+@media only screen and (max-height: 900px) {
+  .logo img {
+    width: 100%;
+    height: 100px;
+  }
+}
