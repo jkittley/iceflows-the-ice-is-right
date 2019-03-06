@@ -1,8 +1,8 @@
 import React from 'react';
 import Fact from './Fact';
-import { Card, CardBody, CardTitle, Button, ListGroup } from 'reactstrap';
+import { Card, CardBody, Row, Button, Col } from 'reactstrap';
 import posed from 'react-pose';
-import { FaUndo, FaHandPointLeft, FaHandPointUp } from 'react-icons/fa';
+import { FaHandPointRight, FaHandPointUp, FaHandPointDown } from 'react-icons/fa';
 
 
 const CardWrapper = posed.div({
@@ -35,8 +35,11 @@ class PlayingCard extends React.Component {
       loading: true,
       shutting: false,
       flipped: props.stopAnimation === true ? true : false,
-      animation: props.stopAnimation === true ? "visible" : "hidden" ,
-    }
+      animation: props.stopAnimation === true ? "visible" : "hidden",
+    };
+    this.flip.bind(this);
+    this.play.bind(this);
+    this.factSelected.bind(this);
   }
 
   componentDidMount() {
@@ -46,6 +49,11 @@ class PlayingCard extends React.Component {
         this.flip();
       }, 15);
     }  
+  }
+
+  play(guess) {
+    this.flip();
+    if (this.props.playFunc) this.props.playFunc(guess);
   }
 
   flip (dir=true) {
@@ -77,7 +85,7 @@ class PlayingCard extends React.Component {
             <div className="front">
               <Card style={{ backgroundImage: "url("+imgCoverPath+")" }}>
                 <CardBody>
-                  <div class="img" style={{ backgroundImage: "url("+imgFilePath+")" }}></div>
+                  <div className="img" style={{ backgroundImage: "url("+imgFilePath+")" }}></div>
                   <h1 className="title">{this.props.title }</h1>
                 </CardBody>
               </Card>
@@ -87,13 +95,11 @@ class PlayingCard extends React.Component {
                 <div className="img" style={{ backgroundImage: "url("+imgFilePath+")" }}></div>
                 <h1 className="title mt-2">{this.props.title }</h1>
               
-                { this.props.facts.map( (x,i) => (
+                { this.props.facts.filter((f) => this.props.settings.showFacts.indexOf(f.id) >= 0).map( (x,i) => (
                     <Fact 
                       key={i} {...x} 
-                      isSelected={this.props.initFact && x.title===this.props.initFact.title} 
-                      isBetter={this.props.compareFacts(x, this.props.initFact) > 0} 
-                      isWorse={this.props.compareFacts(x, this.props.initFact) < 0} 
-                      onSelect={this.props.onFactSelect} 
+                      isSelected={this.props.highlightFact === x.title} 
+                      onClick={this.factSelected.bind(this)} 
                     />
                 ))}
         
@@ -101,9 +107,21 @@ class PlayingCard extends React.Component {
             </div>
           </div>
         </div>
-        { !this.state.flipped && <Button size="lg" color="light" block className="mt-2" onClick={this.flip.bind(this)}><FaUndo/> Flip</Button> }
-        { this.props.passCard && this.state.flipped && <Button size="lg" color="light" block className="mt-2" onClick={this.passCard.bind(this)}><FaHandPointLeft/> Pass</Button> }
-        { !this.props.passCard&& this.state.flipped  && <Button size="lg" color="light" block className="mt-2" onClick={ this.props.dealFunc }><FaHandPointUp/> New Card</Button> }
+        { !this.state.flipped && this.props.highlightFact && 
+          <Row>
+            <Col style={{ paddingRight: "2px" }}>
+              <Button size="lg" color="light" block className="mt-2" onClick={ () => this.play("higher")}><FaHandPointUp/> Higher</Button> 
+            </Col>
+            <Col style={{ paddingLeft: "2px" }}>
+              <Button size="lg" color="light" block className="mt-2" onClick={ () => this.play("lower")}><FaHandPointDown/> Lower</Button> 
+            </Col>
+          </Row>
+        }
+        { this.state.flipped && !this.props.highlightFact && 
+          <Button size="lg" color="light" block outline disabled className="mt-2">Please Select a fact</Button>
+        }
+        { this.props.passCard && this.state.flipped && <Button size="lg" color="light" block className="mt-2" onClick={this.passCard.bind(this)}><FaHandPointRight/> Next</Button> }
+        {/* { !this.props.passCard&& this.state.flipped  && <Button size="lg" color="light" block className="mt-2" onClick={ this.props.dealFunc }><FaUndo/> New Card</Button> } */}
     </CardWrapper>;
   }
 }

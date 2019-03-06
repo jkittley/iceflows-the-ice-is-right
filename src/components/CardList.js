@@ -1,6 +1,6 @@
 import React from 'react';
 import PlayingCard from './PlayingCard';
-import { CardGroup, Button } from 'reactstrap';
+import { CardGroup } from 'reactstrap';
 
 class CardList extends React.Component {
 
@@ -15,10 +15,12 @@ class CardList extends React.Component {
           key={card.title} 
           autoFlip={this.props.autoFlip} 
           passCard={this.props.passCard} 
-          initFact={this.props.initFact} 
+          settings={this.props.settings}
+          highlightFact={this.props.highlightFact} 
           onFactSelect={this.props.onFactSelect} 
-          compareFacts={ this.props.compareFacts } 
-          dealFunc={ this.props.deal }
+          compareFacts={this.props.compareFacts} 
+          dealFunc={this.props.deal}
+          playFunc={this.props.playFunc} 
           {...card} />
       ))}
     </CardGroup>

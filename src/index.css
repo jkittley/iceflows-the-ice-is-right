@@ -67,16 +67,11 @@ body, html {
   padding: 10px;
 }
 
-.front .card-body {
-  padding: 0;
-}
-
 .front .img {
-  display: block;
   border-radius: 50%;
   border: solid 4px white;
-  width: 80%;
-  padding-bottom: 80%;
+  width: 300px;
+  height: 300px;
   margin: 20px auto;
   background-size: contain;
   background-position: center;
@@ -84,6 +79,19 @@ body, html {
   background-color: #A7D4F9;
 }
 
+@media only screen and (max-height: 650px) {
+  .front .img {
+    margin: 5px auto;
+    width: 150px;
+    height: 150px;
+  }
+}
+@media only screen and (max-height: 800px) {
+  .front .img {
+    width: 250px;
+    height: 250px;
+  }
+}
 
 /* entire container, keeps perspective */
 .flip-container {
@@ -99,6 +107,7 @@ body, html {
 .flip-container, .front, .back {
 	width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 
 /* flip speed goes here */
