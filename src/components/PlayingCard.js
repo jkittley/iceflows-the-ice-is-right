@@ -98,6 +98,7 @@ class PlayingCard extends React.Component {
                 { this.props.facts.filter((f) => this.props.settings.showFacts.indexOf(f.id) >= 0).map( (x,i) => (
                     <Fact 
                       key={i} {...x} 
+                      cardId={this.props.id}
                       isSelected={this.props.highlightFact === x.title} 
                       onClick={this.factSelected.bind(this)} 
                     />

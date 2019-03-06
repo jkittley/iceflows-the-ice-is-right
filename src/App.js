@@ -2,11 +2,14 @@ import React from 'react';
 import Game from './Game';
 import ScreenTooSmall from './components/ScreenTooSmall';
 import Welcome from './components/Welcome';
+import Settings from './components/Settings';
+import MusicBox from './components/MusicBox';
+import Papa from 'papaparse';
+import Sound from 'react-sound';
 import './App.css';
 import {Helmet} from "react-helmet";
 import ReactGA from 'react-ga';
 ReactGA.initialize('UA-79207363-1');
-
 
 class App extends React.Component {
   
@@ -15,14 +18,72 @@ class App extends React.Component {
     this.state = { 
       width: 0, 
       height: 0,
-      gameOn: false,    
+      gameOn: false,   
+      dataLoaded: false,
+      cards: [], 
+      settings: {
+        showFacts: ['fact_fast_flow','fact_max_thick','fact_mean_thick','fact_thick_in_fast_flow'],
+        muteSFX: false,
+        muteMusic: false,
+      },
+      factMeta: {},
     };
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+    this.loadData = this.loadData.bind(this);
   }
   
   componentDidMount() {
+    this.loadData();
     this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);
+  }
+
+  loadData() {
+    var csvFilePath = require("./res/data.csv");
+    Papa.parse(csvFilePath, {
+      download: true,
+      delimiter: ",",
+      header: true,
+      dynamicTyping: true,
+      skipEmptyLines: true,
+      transform: (x) => x.trim(),
+      transformHeader: (x) => x.trim(),
+      error: function(err, file, inputElem, reason) {
+        console.log("Error", err);
+      },
+      complete: function(results) {
+        // Get the facts
+        var factIds = results.meta.fields.filter(field => field.trim().startsWith("fact")).map(field => field.trim()); 
+        var meta = {}
+        // Add the rows
+        results.data.map(function (row) {
+          // Meta data from meta rows
+          if (row.title === "meta") {
+            factIds.forEach(function (factId) { 
+              if (!(factId in meta)) meta[factId] = { id: factId };
+              meta[factId][row.imagePath] = row[factId];
+            });
+          // Facts from rows
+          } else {
+            var facts = [];
+            factIds.forEach(factId => facts.push({ 
+              ...meta[factId],
+              value: row[factId],
+            }))
+            // Save Row
+            this.setState({ cards: [...this.state.cards, { 
+              ...row, 
+              id: row['No'],
+              facts: facts 
+            }]});
+          }
+        }.bind(this));
+
+        // On complete
+        this.setState({ factMeta: meta, dataLoaded: true });
+      
+      }.bind(this)
+    });
   }
   
   componentWillUnmount() {
@@ -37,17 +98,26 @@ class App extends React.Component {
     this.setState({ gameOn: true });
   }
 
+  saveSettings (changes) {
+    this.setState({ 
+      settings: {
+        ...this.state.settings,
+        ...changes
+      }
+    })
+  }
+
   getMain() {
-    if (this.state.width < 800 || this.state.height < 600) return <ScreenTooSmall />;
-    if (this.state.gameOn) return <Game/>;
-    return <Welcome onClick={ this.startGame.bind(this) }/>
+    if (this.state.width < 800 || this.state.height < 600) return <ScreenTooSmall settings={this.state.settings}/>;
+    if (this.state.gameOn) return <Game cards={this.state.cards} settings={this.state.settings}/>;
+    return <Welcome dataLoaded={this.state.dataLoaded} settings={this.state.settings} onClick={ this.startGame.bind(this) }/>
   }
 
   render() {
     var twitterCard = require("./res/twitter-card.png");
     var openCard = require("./res/opengraph-card.png");
 
-    return <div class="app">
+    return <div className="app">
     <Helmet>
       <meta charSet="utf-8" />
       <title>The Ice Is Right - An Ice Flows Game</title>
@@ -66,6 +136,8 @@ class App extends React.Component {
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="675" />
     </Helmet>
+    <Settings {...this.state.settings} factMeta={this.state.factMeta} onSave={ this.saveSettings.bind(this) } />
+    <MusicBox {...this.state.settings} onSave={ this.saveSettings.bind(this) } />
     { this.getMain() }
     </div>;    
   }

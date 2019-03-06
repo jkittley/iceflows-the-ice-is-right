@@ -1,18 +1,17 @@
 import React from 'react';
-import Papa from 'papaparse';
 import { Container } from 'reactstrap';
 import CardList from './components/CardList';
 import LogoHeader from './components/LogoHeader';
 import GameOver from './components/GameOver';
 import ScoreCard from './components/ScoreCard';
-import Settings from './components/Settings';
 import "./Game.css"
 
 class Game extends React.Component {
+  
   constructor(props) {
     super(props);
     this.state = {
-      allCards: [],
+      allCards: props.cards,
       deck1: [],
       deck2: [],
       deck1SelectedFact: null,
@@ -20,67 +19,17 @@ class Game extends React.Component {
       gameOver: false,
       score: 0,
       numDraws: 0,
-      factMeta: {},
-      settings: {
-        showFacts: ['fact_fast_flow','fact_max_thick','fact_mean_thick','fact_thick_in_fast_flow']
-      }
     };
-    this.play.bind(this);
+    this.play = this.play.bind(this);
   }
 
-  componentWillMount() {
-    var csvFilePath = require("./res/data.csv");
-    Papa.parse(csvFilePath, {
-      download: true,
-      delimiter: ",",
-      header: true,
-      dynamicTyping: true,
-      skipEmptyLines: true,
-      transform: (x) => x.trim(),
-      transformHeader: (x) => x.trim(),
-      error: function(err, file, inputElem, reason) {
-        console.log("Error", err);
-      },
-      complete: function(results) {
-        // Get the facts
-        var factIds = results.meta.fields.filter(field => field.trim().startsWith("fact")).map(field => field.trim()); 
-        var meta = {}
-        // Add the rows
-        results.data.map(function (row) {
-          // Meta data from meta rows
-          if (row.title === "meta") {
-            factIds.forEach(function (factId) { 
-              if (!(factId in meta)) meta[factId] = { id: factId };
-              meta[factId][row.imagePath] = row[factId];
-            });
-          // Facts from rows
-          } else {
-            var facts = [];
-            factIds.forEach(factId => facts.push({ 
-              ...meta[factId],
-              value: row[factId],
-            }))
-            // Save Row
-            this.setState({ allCards: [...this.state.allCards, { ...row, facts: facts }]});
-          }
-        }.bind(this));
-
-        // On complete
-        this.init();
-        this.setState({ factMeta: meta });
-        
-
-      }.bind(this)
-    });
+  componentDidMount() {
+    this.deal1();
+    this.deal2();
   }
 
   reset() {
     window.location.reload();
-  }
-
-  init() {
-    this.deal1();
-    this.deal2();
   }
 
   deal1() { this.deal(1); }
@@ -153,34 +102,24 @@ class Game extends React.Component {
     });
   }
 
-  saveSettings (changes) {
-    this.setState({ 
-      settings: {
-        ...this.state.settings,
-        ...changes
-      }
-    })
-  }
-
   render() {
     return (
       <Container fluid className="game-area">
         <ScoreCard score={this.state.score} numDraws={this.state.numDraws} />
-        <Settings {...this.state.settings} factMeta={this.state.factMeta} onSave={ this.saveSettings.bind(this) } />
         <LogoHeader />
         <Container>
         <div className="decks d-flex flex-row">
           <CardList 
             autoFlip 
             cards={this.state.deck1} 
-            settings={this.state.settings}
+            settings={this.props.settings}
             deal={ this.deal1.bind(this) } 
             highlightFact={ this.state.deck1SelectedFact ? this.state.deck1SelectedFact.title : null } 
             onFactSelect={ this.onFactSelect1.bind(this) } 
           />
           <CardList 
             cards={this.state.deck2} 
-            settings={this.state.settings}
+            settings={this.props.settings}
             deal={this.deal2.bind(this)} 
             passCard={this.passCard.bind(this)} 
             highlightFact={ this.state.deck1SelectedFact ? this.state.deck1SelectedFact.title : null } 

@@ -3,7 +3,6 @@ import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Col, Label, Input } from 'reactstrap';
 import { FaCog } from 'react-icons/fa';
 import posed from 'react-pose';
-
 import './Settings.css';
 
 const SettingsWrap = posed.div({
@@ -28,9 +27,6 @@ class Settings extends React.Component {
       showFacts: props.showFacts,
       animation: "hidden"
     };
-    this.toggle.bind(this);
-    this.save.bind(this);
-    this.selectFact.bind(this)
   }
 
   componentDidMount() {
@@ -60,12 +56,12 @@ class Settings extends React.Component {
   }
 
   render() {
-    if (!this.state.visible) {
-      return <SettingsWrap pose={this.state.animation}>
-      <div className="settingsPane"><Button size="lg" color="warning" onClick={ () => this.toggle() }><FaCog/></Button></div>
-      </SettingsWrap>;
-    } else {
-      return <Modal isOpen={this.state.visible}>
+    return <SettingsWrap pose={this.state.animation}>
+      <div className="settingsPane">
+        <Button size="lg" color="warning" onClick={ () => this.toggle() }><FaCog/></Button>
+      </div>
+      
+   <Modal isOpen={this.state.visible}>
       <ModalHeader toggle={ () => this.toggle() }>Settings</ModalHeader>
       <ModalBody>
       <h5>Show Facts</h5>  
@@ -88,8 +84,8 @@ class Settings extends React.Component {
         <Button color="secondary" onClick={ () => this.toggle() }>Cancel</Button>{' '}
         <Button color="primary" onClick={ () => this.save() }>Save</Button>{' '}
       </ModalFooter>
-      </Modal>;
-    }
+      </Modal></SettingsWrap>;
+    
   }
 }
 
