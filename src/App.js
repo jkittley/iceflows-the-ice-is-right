@@ -3,6 +3,8 @@ import Game from './Game';
 import ScreenTooSmall from './components/ScreenTooSmall';
 import Welcome from './components/Welcome';
 import './App.css';
+import ReactGA from 'react-ga';
+ReactGA.initialize('UA-79207363-1');
 
 class App extends React.Component {
   
