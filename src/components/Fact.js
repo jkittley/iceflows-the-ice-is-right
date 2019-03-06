@@ -8,8 +8,8 @@ class Fact extends React.Component {
     var icon = null;
     if (this.props.isSelected) classNames += " bg-dark text-white";
     return <Row onClick={ () => this.props.onClick(this.props) } className={classNames}>
-    <Col><h4>{this.props.title }</h4></Col>
-    <Col className="text-center"><ReactStars
+    <Col><h5>{this.props.title }</h5></Col>
+    <Col className="text-center d-none d-xl-inline"><ReactStars
       count={5}
       size={24}
       edit={false}

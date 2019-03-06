@@ -38,7 +38,7 @@ class Game extends React.Component {
       transform: (x) => x.trim(),
       transformHeader: (x) => x.trim(),
       error: function(err, file, inputElem, reason) {
-        console.log("Error");
+        console.log("Error", err);
       },
       complete: function(results) {
         // Get the facts
@@ -123,29 +123,19 @@ class Game extends React.Component {
   }
 
   draw() {
-    console.log("You drew");
   }
 
   play(guess) {
-    console.log("Play", guess);
     var factId = this.state.deck1SelectedFact.id;
     var val1 = this.state.deck1[this.state.deck1.length-1][factId];
     var val2 = this.state.deck2[this.state.deck2.length-1][factId];
-    console.log(factId, val1, val2);
     if (val1 > val2) {
-      console.log("card 1 is higher");
       if (guess === "higher") this.loose(); else this.win();
     } else if (val2 > val1) {
-      console.log("card 2 is higher");
       if (guess === "higher") this.win(); else this.loose();
     } else {
-      console.log("They are the same");
       this.draw();
     }
-
-
-    // var c = this.compareFacts(this.state.deck1SelectedFact, this.state.deck2SelectedFact);
-    // console.log(c);
   }
 
   passCard() {
@@ -161,7 +151,6 @@ class Game extends React.Component {
   }
 
   saveSettings (changes) {
-    console.log("Saving changes", changes);
     this.setState({ 
       settings: {
         ...this.state.settings,

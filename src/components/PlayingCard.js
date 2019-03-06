@@ -75,7 +75,7 @@ class PlayingCard extends React.Component {
   render() {   
     if (this.props.title === undefined) return null;
     var imgFilePath = require("../res/cardimgs/"+this.props.imagePath);
-    var imgCoverPath = require("../res/cardcover.jpg");
+    var imgCoverPath = require("../res/cardcover.png");
     var displayCSS = "flip-container";
     if (this.state.flipped) displayCSS += " hover";
 

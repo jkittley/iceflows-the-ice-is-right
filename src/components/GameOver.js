@@ -19,7 +19,7 @@ const GameOverWrapper = posed.div({
       default: { duration: 300 }
     }
   }
-});;
+});
 
 class GameOver extends React.Component {
   constructor(props) {
