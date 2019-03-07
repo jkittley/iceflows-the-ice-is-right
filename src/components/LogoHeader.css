@@ -1,0 +1,10 @@
+/*  Main sections  */
+.logo {
+  overflow: hidden;
+  text-align: center;
+  padding-bottom: 10px;
+  height: 20vh;
+}
+.logo img {
+  height: 100%;
+}

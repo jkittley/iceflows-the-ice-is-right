@@ -3,9 +3,10 @@ import Game from './Game';
 import ScreenTooSmall from './components/ScreenTooSmall';
 import Welcome from './components/Welcome';
 import Settings from './components/Settings';
-import MusicBox from './components/MusicBox';
+import SoundSettings from './components/SoundSettings';
+import MusicPlayer from './components/MusicPlayer';
 import Papa from 'papaparse';
-import Sound from 'react-sound';
+import LogoHeader from './components/LogoHeader';
 import './App.css';
 import {Helmet} from "react-helmet";
 import ReactGA from 'react-ga';
@@ -21,10 +22,11 @@ class App extends React.Component {
       gameOn: false,   
       dataLoaded: false,
       cards: [], 
+      mounted: false,
       settings: {
         showFacts: ['fact_fast_flow','fact_max_thick','fact_mean_thick','fact_thick_in_fast_flow'],
         muteSFX: false,
-        muteMusic: false,
+        muteMusic: true,
       },
       factMeta: {},
     };
@@ -36,6 +38,7 @@ class App extends React.Component {
     this.loadData();
     this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);
+    setTimeout( () => this.setState({ mounted: true }), 200);
   }
 
   loadData() {
@@ -116,7 +119,7 @@ class App extends React.Component {
   render() {
     var twitterCard = require("./res/twitter-card.png");
     var openCard = require("./res/opengraph-card.png");
-
+    if (this.state.mounted===false) return <div className="loading"><h1>Loading</h1></div>;
     return <div className="app">
     <Helmet>
       <meta charSet="utf-8" />
@@ -136,8 +139,10 @@ class App extends React.Component {
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="675" />
     </Helmet>
+    <LogoHeader/>
+    <MusicPlayer url={require('./res/sounds/gamemusic.wav')} muted={this.state.settings.muteMusic } autoPlay autoResume loop />
     <Settings {...this.state.settings} factMeta={this.state.factMeta} onSave={ this.saveSettings.bind(this) } />
-    <MusicBox {...this.state.settings} onSave={ this.saveSettings.bind(this) } />
+    <SoundSettings {...this.state.settings} onSave={ this.saveSettings.bind(this) } />
     { this.getMain() }
     </div>;    
   }

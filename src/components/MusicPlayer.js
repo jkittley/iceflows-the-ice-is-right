@@ -9,36 +9,54 @@ class MusicPlayer extends React.Component {
     super(props);
     this.state = { 
       isLoaded: false,
-      isPlaying: false,
       playStatus: Sound.status.STOPPED
     };
+    this.playSound = this.playSound.bind(this);
+    this.stopSound = this.stopSound.bind(this);
+    this.isPlaying = this.isPlaying.bind(this);
+  }
+  
+  componentDidUpdate(prevProps, prevState) {
+    // If the updated state says muted
+    if (this.props.muted && this.isPlaying()) this.stopSound();
+    // If the updated state is
+    if (prevProps.muted && !this.props.muted && this.props.autoResume) this.playSound();
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.muted && this.state.isPlaying) this.togglePlaySound();
+  isPlaying() {
+    return this.state.playStatus === Sound.status.PLAYING;
   }
 
   togglePlaySound() {
     if (this.state.isLoaded === false) return;
     if (this.state.playStatus === Sound.status.PLAYING) {
-      this.setState({ isPlaying: false, playStatus: Sound.status.STOPPED });
+      this.stopSound();
     } else if (!this.props.muted) {
-      this.setState({ isPlaying: true, playStatus: Sound.status.PLAYING });
+      this.playSound();
     }
+  }
+
+  playSound() {
+    this.setState({ playStatus: Sound.status.PLAYING });
+  }
+
+  stopSound() {
+    this.setState({ playStatus: Sound.status.STOPPED });
   }
 
   onFinishLoad() {
     this.setState({ isLoaded: true });
+    if (this.props.autoPlay && !this.props.muted) this.playSound();
   }
 
   onFinishPlay() {
-    this.setState({ isPlaying: false });
+    if (this.props.callbackFinish) this.props.callbackFinish();
   }
 
   render () {
     if (this.props.showControls && this.state.isLoaded) {
       var controls = <Button className="ml-4" color="danger" onClick={ this.togglePlaySound.bind(this) }>
-               { this.state.isPlaying ? <FaPlay/> : <FaStop/> }
+               { !this.isPlaying() ? <FaPlay/> : <FaStop/> }
       </Button>
     } else if (this.props.showControls) {
       var controls = <Button>Loading...</Button>
@@ -47,14 +65,20 @@ class MusicPlayer extends React.Component {
       {controls}
       { this.props.url && <Sound
           url={this.props.url}
-          autoLoad={true}
+          autoLoad={this.props.autoLoad}
           playStatus={this.state.playStatus}
-          playFromPosition={0}
+          loop={this.props.loop}
           onLoad={this.onFinishLoad.bind(this)}
           onFinishedPlaying={this.onFinishPlay.bind(this)}
       /> }
     </div>
   }
 }
+
+MusicPlayer.defaultProps = {
+  loop: false,
+  callbackFinish: false,
+  autoLoad: true,
+};
          
 export default MusicPlayer;

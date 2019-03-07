@@ -7,12 +7,10 @@ import './Settings.css';
 
 const SettingsWrap = posed.div({
   hidden: {
-    x: 1000,
     opacity: 0,
     transition: { duration: 200 }
   },
   visible: {
-    x: 0,
     opacity: 1,
     transition: { duration: 200 }
   }
@@ -30,7 +28,7 @@ class Settings extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ animation: "visible" });
+    setTimeout( () => this.setState({ animation: "visible" }), 200 );
   }
 
   toggle() {

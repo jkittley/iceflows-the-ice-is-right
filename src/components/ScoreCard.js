@@ -1,7 +1,8 @@
 import React from 'react';
 import posed from 'react-pose';
-import "./ScoreCard.css";
+import MusicPlayer from './MusicPlayer';
 import ScorePopup from './ScorePopup';
+import "./ScoreCard.css";
 
 const ScoreNumberWrap = posed.div({
   hidden: {
@@ -25,6 +26,7 @@ class ScoreCard extends React.Component {
       scoreMessage: "Yay!",
       animation: "hidden",
       bonusAnimation: "hidden",
+      audioFile: null,
     }
   }
 
@@ -51,26 +53,32 @@ class ScoreCard extends React.Component {
   }
 
   pointGained() {
-    this.setState({ scorePopup: "in", scoreType: "win" });
+    this.setState({ scorePopup: "in", scoreType: "win", audioFile: require('../res/sounds/win.wav') });
     setTimeout( () => this.setState({ scorePopup: "out" }), 1000);
-    setTimeout( () => this.setState({ scorePopup: "hidden" }), 2000);
+    setTimeout( () => this.setState({ scorePopup: "hidden", audioFile: null }), 2000);
   }
 
   pointLost() {
-    this.setState({ scorePopup: "in", scoreType: "loose" });
+    this.setState({ scorePopup: "in", scoreType: "loose", audioFile: require('../res/sounds/loose.wav') });
     setTimeout( () => this.setState({ scorePopup: "out" }), 1000);
-    setTimeout( () => this.setState({ scorePopup: "hidden" }), 2000);
+    setTimeout( () => this.setState({ scorePopup: "hidden", audioFile: null }), 2000);
   }
 
   itsADraw() {
     console.log("Its a draw");
-    this.setState({ scorePopup: "in", scoreType: "draw" });
+    this.setState({ scorePopup: "in", scoreType: "draw", audioFile: require('../res/sounds/draw.wav') });
     setTimeout( () => this.setState({ scorePopup: "out" }), 1000);
-    setTimeout( () => this.setState({ scorePopup: "hidden" }), 2000);
+    setTimeout( () => this.setState({ scorePopup: "hidden", audioFile: null }), 2000);
+  }
+
+  resetAudio() {
+    console.log('Callback');
+    this.setState({ audioFile: null });
   }
 
   render() {
     return <div className="score-card bg-black">
+     { this.state.audioFile && <MusicPlayer url={this.state.audioFile} muted={this.props.settings.muteSFX } autoPlay callbackFinish={this.resetAudio.bind(this)} /> }
      <ScoreNumberWrap pose={this.state.animation}>
      <h1>SCORE: { this.props.score }</h1>
      </ScoreNumberWrap>

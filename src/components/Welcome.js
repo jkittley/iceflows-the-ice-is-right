@@ -1,5 +1,4 @@
 import React from 'react';
-import LogoHeader from './LogoHeader';
 import posed from 'react-pose';
 import MusicPlayer from './MusicPlayer';
 import { Container, Button, Row, Col } from 'reactstrap';
@@ -45,12 +44,11 @@ class Welcome extends React.Component {
     var examplePath = require('../res/example.png');
     var welcomeSound = require('../res/sounds/welcome.wav');
     return <Container fluid className="text-left">
-        <LogoHeader/>
         <Container>
         <Row className="mt-4">
           <Col xs="4">
           <WelcomeWrapper1 pose={this.state.animation}>
-            <img src={hostPath} alt="The host with the most"/>
+            <img src={examplePath} className="img-fluid" alt="The host with the most"/>
             <MusicPlayer url={welcomeSound} muted={this.props.settings.muteSFX } showControls/>
           </WelcomeWrapper1>
           </Col>
@@ -62,9 +60,6 @@ class Welcome extends React.Component {
               <h3 className="mb-2 lead">Ok, great. Now, the rules of the game are very simple.</h3>
               <h3 className="mb-2 lead">I have a deck of cards here. Each card in the deck has a list of facts about a particular place in Antarctica 
               e.g. the amount of snow that falls in summer is 50m.</h3>
-              
-              <img src={examplePath} className="img-fluid" alt="Example Cards"/>
-
               <h3 className="mb-2 lead">I'm going to turn over the first card and I want you to pick a fact.</h3>
               <h3 className="mb-2 lead">Then I want you to guess if the same fact on the next card will nave a higher or lower value.</h3>
               <h3 className="mb-2 lead">For every correct guess you get 100 points, for every wrong guess you loose 50 points.</h3>
