@@ -29,4 +29,8 @@ class CardList extends React.Component {
   }
 }
 
+CardList.defaultProps = {
+  autoFlip: false
+};
+         
 export default CardList;

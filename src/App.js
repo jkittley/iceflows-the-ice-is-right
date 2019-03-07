@@ -113,7 +113,7 @@ class App extends React.Component {
   getMain() {
     if (this.state.width < 800 || this.state.height < 600) return <ScreenTooSmall settings={this.state.settings}/>;
     if (this.state.gameOn) return <Game cards={this.state.cards} settings={this.state.settings}/>;
-    return <Welcome dataLoaded={this.state.dataLoaded} settings={this.state.settings} onClick={ this.startGame.bind(this) }/>
+    return <Welcome cards={this.state.cards} dataLoaded={this.state.dataLoaded} settings={this.state.settings} onClick={ this.startGame.bind(this) }/>
   }
 
   render() {

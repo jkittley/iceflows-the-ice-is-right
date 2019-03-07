@@ -37,9 +37,9 @@ class PlayingCard extends React.Component {
       flipped: props.stopAnimation === true ? true : false,
       animation: props.stopAnimation === true ? "visible" : "hidden",
     };
-    this.flip.bind(this);
-    this.play.bind(this);
-    this.factSelected.bind(this);
+    this.flip = this.flip.bind(this);
+    this.play = this.play.bind(this);
+    this.factSelected = this.factSelected.bind(this);
   }
 
   componentDidMount() {
@@ -49,6 +49,11 @@ class PlayingCard extends React.Component {
         this.flip();
       }, 15);
     }  
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // If the property auto flip changes then flip
+    if (!prevState.flipped && this.props.autoFlip) { this.flip(); }
   }
 
   play(guess) {
