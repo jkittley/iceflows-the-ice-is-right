@@ -1,8 +1,9 @@
 import React from 'react';
-import { Container, Progress } from 'reactstrap';
+import { Container } from 'reactstrap';
 import CardList from './components/CardList';
 import GameOver from './components/GameOver';
 import ScoreCard from './components/ScoreCard';
+import LogoHeader from './components/LogoHeader';
 import "./Game.css"
 
 class Game extends React.Component {
@@ -104,7 +105,13 @@ class Game extends React.Component {
   render() {
     return (
       <Container fluid className="game-area">
-        <ScoreCard score={this.state.score} settings={this.props.settings} numDraws={this.state.numDraws} />
+        <LogoHeader />
+        <ScoreCard 
+          score={this.state.score} 
+          numCards={this.props.cards.length}
+          cardsPlayed={this.state.deck1.length}
+          settings={this.props.settings} 
+          numDraws={this.state.numDraws} />
         <Container>
         <div className="decks d-flex flex-row">
           <CardList 
@@ -125,10 +132,7 @@ class Game extends React.Component {
             playFunc={ this.play.bind(this) }
           />
         </div>
-        <div className="stats text-center text-white mt-2">
-          Cards remaining: { this.state.allCards.length }
-          <Progress value={ this.props.cards.length -this.state.allCards.length } max={this.props.cards.length}/>
-        </div>
+        
         { this.state.gameOver && <GameOver playAgain={this.reset.bind(this)} score={this.state.score} /> }
         </Container>
        </Container>

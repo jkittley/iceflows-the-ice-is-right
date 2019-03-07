@@ -51,7 +51,6 @@ class Welcome extends React.Component {
   onFactSelect(fact) {
     if (this.state.tourStage!==2) return;
     this.setState( { selectedFact: fact, autoFlip: false, allowTourAdv: true });
-    this.advTour();
   }
 
   deal() {
@@ -97,20 +96,21 @@ class Welcome extends React.Component {
     return <Container fluid className="text-left">
         <Container>
         <Row className="mt-4">
-          <Col xs="5">
+          <Col xs={ this.state.tourStage === 0 ? "12" : "5" }>
            <WelcomeWrapper2 pose={this.state.animation}>
             <div className="bg-white p-4 rounded">
               
-              { this.state.tourStage === 0 && <div>
-               <h3>Hello and welcome to the ICE IS RIGHT! </h3>
-               <h3>Let me remind you of the rules.</h3></div>
+              { this.state.tourStage === 0 && <div className="text-center">
+               <h3>The ICE IS RIGHT is a card game, which all the penguins down in Antarctic like to play.</h3>
+               <h3>Let me show you how its played. Click next to begin.</h3>
+               </div>
               }
               { this.state.tourStage === 1 && <div>
-               <h3>I have a deck of cards.</h3>
-               <h3>Each card in the deck has a list of facts about a particular Antarctic Basin.</h3></div>
+               <h3>The game is played with a deck of { this.props.cards.length} cards. One card for each Antarctic Basin.</h3>
+               <h3>On the back of each card you can see the Basins name and a map of where it is on the continent.</h3></div>
               }
               { this.state.tourStage === 2 &&
-               <h3>Look at all those lovely stats! Now pick one, go on click on it.</h3>
+               <h3>On the front, is a list of facts about a this Antarctic Basin. Now pick one, go on click on it.</h3>
               }
               { this.state.tourStage === 3 &&
                <h3>Great, you selected {this.state.selectedFact.title} ({this.state.selectedFact.value} {this.state.selectedFact.unit}). Now I will deal another card.</h3>
@@ -127,9 +127,10 @@ class Welcome extends React.Component {
                <h3>Brilliant! For every correct guess you get 100 points and for every wrong answer you loose 50 point! Are you ready to play?</h3>
                <Button className="mt-4" size="lg" block color="warning" onClick={ () => this.props.goPlay() }><FaHandPointRight/> Play <FaHandPointLeft/></Button></div>
               }
-             
+              { this.state.tourStage !== 6 &&
               <Button className="mt-4" color="success" onClick={this.advTour} disabled={!this.state.allowTourAdv}><FaHandPointRight/> Next</Button>
-             
+              }
+
             </div>
               
             <Button className="mt-4" outline color="light" onClick={this.props.goHome}><FaHandPointLeft/> Back</Button>

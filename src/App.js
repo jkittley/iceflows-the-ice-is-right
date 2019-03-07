@@ -6,7 +6,6 @@ import Settings from './components/Settings';
 import SoundSettings from './components/SoundSettings';
 import MusicPlayer from './components/MusicPlayer';
 import Papa from 'papaparse';
-import LogoHeader from './components/LogoHeader';
 import './App.css';
 import {Helmet} from "react-helmet";
 import ReactGA from 'react-ga';
@@ -139,7 +138,6 @@ class App extends React.Component {
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="675" />
     </Helmet>
-    <LogoHeader/>
     <MusicPlayer url={require('./res/sounds/gamemusic.wav')} muted={this.state.settings.muteMusic } autoPlay autoResume loop />
     <Settings {...this.state.settings} factMeta={this.state.factMeta} onSave={ this.saveSettings.bind(this) } />
     <SoundSettings {...this.state.settings} onSave={ this.saveSettings.bind(this) } />

@@ -1,10 +1,8 @@
 
 .decks {
-  height: 70vh;
+  height: 80vh;
 }
-.stats {
-  height: 10vh;
-}
+
 .game-area.container-fluid {
   overflow: hidden;
   padding: 0;

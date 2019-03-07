@@ -2,9 +2,15 @@
 .logo {
   overflow: hidden;
   text-align: center;
-  padding-bottom: 10px;
-  height: 20vh;
+  padding-bottom: 30px;
+  height: 15vh;
+  margin-bottom:10px;
 }
+
+.logo.large {
+  height: 30vh;
+}
+
 .logo img {
   height: 100%;
 }

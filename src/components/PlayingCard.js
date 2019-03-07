@@ -122,8 +122,8 @@ class PlayingCard extends React.Component {
             </Col>
           </Row>
         }
-        { this.state.flipped && !this.props.highlightFact && 
-          <Button size="lg" color="light" block outline disabled className="mt-2">Please Select a fact</Button>
+        { this.state.flipped && !this.props.highlightFact && <div className="text-center p-2">
+          <h5 className="text-white">Please Select a fact</h5></div>
         }
         { this.props.passCard && this.state.flipped && <Button size="lg" color="light" block className="mt-2" onClick={this.passCard.bind(this)}><FaHandPointRight/> Play On <FaHandPointLeft/> </Button> }
         {/* { !this.props.passCard&& this.state.flipped  && <Button size="lg" color="light" block className="mt-2" onClick={ this.props.dealFunc }><FaUndo/> New Card</Button> } */}
