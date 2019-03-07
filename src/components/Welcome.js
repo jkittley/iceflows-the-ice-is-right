@@ -1,7 +1,7 @@
 import React from 'react';
 import posed from 'react-pose';
 import Tour from './Tour';
-import { Container, Button, Row, Col } from 'reactstrap';
+import { Container, Row, Col } from 'reactstrap';
 import LogoHeader from './LogoHeader';
 import "./Welcome.css";
 
@@ -96,7 +96,7 @@ class Welcome extends React.Component {
           <Col xs={{ size: 5, offset: 1 }}>
             <WelcomeWrapper2 pose={this.state.animation}>
               { this.props.dataLoaded &&
-                <a onClick={ () => this.onPressPlay() }><div className="img play">Play Now!</div></a>
+                <a href="#" onClick={ () => this.onPressPlay() }><div className="img play">Play Now!</div></a>
               }
               { !this.props.dataLoaded &&
                 <div className="img play">Loading...</div>
@@ -107,7 +107,7 @@ class Welcome extends React.Component {
             <WelcomeWrapper1 pose={this.state.animation}>
               
               { this.props.dataLoaded &&
-                <a onClick={ () => this.showTour() }><div className="img tour">How To Play</div></a>
+                <a href="#" onClick={ () => this.showTour() }><div className="img tour">How To Play</div></a>
               }
               { !this.props.dataLoaded &&
                 <div className="img tour">Loading...</div>

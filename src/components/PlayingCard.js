@@ -126,7 +126,9 @@ class PlayingCard extends React.Component {
         { this.state.flipped && !this.props.highlightFact && <div className="text-center p-2">
           <h5 className="text-white">Please Select a fact</h5></div>
         }
-        { this.props.passCard && this.state.flipped && <Button size="lg" color="light" block className="mt-2" onClick={this.passCard.bind(this)}><FaHandPointRight/> Play On <FaHandPointLeft/> </Button> }
+        { this.props.passCard && this.state.flipped && <Button size="lg" color="light" block className="mt-2" onClick={this.passCard.bind(this)}>
+          <FaHandPointRight/> { this.props.numCardsLeft > 0 ? "Deal Next Card" : "Finish" }{' '}<FaHandPointLeft/> 
+        </Button> }
         {/* { !this.props.passCard&& this.state.flipped  && <Button size="lg" color="light" block className="mt-2" onClick={ this.props.dealFunc }><FaUndo/> New Card</Button> } */}
     </CardWrapper>;
   }

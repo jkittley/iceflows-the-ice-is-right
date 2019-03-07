@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container } from 'reactstrap';
+import { Container, Button } from 'reactstrap';
 import CardList from './components/CardList';
 import GameOver from './components/GameOver';
 import ScoreCard from './components/ScoreCard';
@@ -29,7 +29,8 @@ class Game extends React.Component {
   }
 
   reset() {
-    window.location.reload();
+    // window.location.reload();
+    this.props.exitGame();
   }
 
   deal1() { this.deal(1); }
@@ -113,6 +114,9 @@ class Game extends React.Component {
           settings={this.props.settings} 
           numDraws={this.state.numDraws} />
         <Container>
+        <div className="exit">
+        <Button color="light" outline onClick={this.reset.bind(this)}>Exit</Button>
+        </div>
         <div className="decks d-flex flex-row">
           <CardList 
             autoFlip 
@@ -130,10 +134,11 @@ class Game extends React.Component {
             highlightFact={ this.state.deck1SelectedFact ? this.state.deck1SelectedFact.title : null } 
             onFactSelect={ this.onFactSelect2.bind(this) } 
             playFunc={ this.play.bind(this) }
+            numCardsLeft={this.props.cards.length-this.state.deck1.length}
           />
         </div>
         
-        { this.state.gameOver && <GameOver playAgain={this.reset.bind(this)} score={this.state.score} /> }
+        { this.state.gameOver && <GameOver playAgain={this.reset.bind(this)} settings={this.props.settings} score={this.state.score} /> }
         </Container>
        </Container>
     );

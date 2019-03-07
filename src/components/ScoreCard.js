@@ -27,7 +27,7 @@ class ScoreCard extends React.Component {
       scoreMessage: "Yay!",
       animation: "hidden",
       bonusAnimation: "hidden",
-      showBonusAnimation: false,
+      showBonusAnimation: "hidden",
       audioFile: null,
     }
   }
@@ -57,20 +57,20 @@ class ScoreCard extends React.Component {
   pointGained() {
     this.setState({ showBonusAnimation: true, scorePopup: "in", scoreType: "win", audioFile: require('../res/sounds/win.wav') });
     setTimeout( () => this.setState({ scorePopup: "out" }), 1500);
-    setTimeout( () => this.setState({ showBonusAnimation: false, scorePopup: "hidden", audioFile: null }), 3000);
+    setTimeout( () => this.setState({ showBonusAnimation: false, scorePopup: "hidden", audioFile: null }), 2000);
   }
 
   pointLost() {
     this.setState({ showBonusAnimation: true, scorePopup: "in", scoreType: "loose", audioFile: require('../res/sounds/loose.wav') });
     setTimeout( () => this.setState({ scorePopup: "out" }), 1500);
-    setTimeout( () => this.setState({ showBonusAnimation: false, scorePopup: "hidden", audioFile: null }), 3000);
+    setTimeout( () => this.setState({ showBonusAnimation: false, scorePopup: "hidden", audioFile: null }), 2000);
   }
 
   itsADraw() {
     console.log("Its a draw");
     this.setState({ showBonusAnimation: true, scorePopup: "in", scoreType: "draw", audioFile: require('../res/sounds/draw.wav') });
     setTimeout( () => this.setState({ scorePopup: "out" }), 1500);
-    setTimeout( () => this.setState({ showBonusAnimation: false, scorePopup: "hidden", audioFile: null }), 3000);
+    setTimeout( () => this.setState({ showBonusAnimation: false, scorePopup: "hidden", audioFile: null }), 2000);
   }
 
   resetAudio() {
@@ -86,7 +86,7 @@ class ScoreCard extends React.Component {
      </ScoreNumberWrap>
      <div className="stats text-center text-white mt-2">
         <Progress value={ this.props.cardsPlayed } max={this.props.numCards}/>
-        <h6 className="mt-2">Cards remaining: { this.props.cardsPlayed }</h6>
+        <h6 className="mt-2">Cards remaining: { Math.max(0, this.props.numCards - this.props.cardsPlayed) }</h6>
       </div>
 
       { this.state.showBonusAnimation && <ScorePopup mode={this.state.scorePopup} scoreType={this.state.scoreType} /> }

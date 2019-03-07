@@ -2,6 +2,7 @@
 import React from 'react';
 import { Button } from 'reactstrap';
 import posed from 'react-pose';
+import MusicPlayer from './MusicPlayer';
 import "./GameOver.css";
 
 const GameOverWrapper = posed.div({
@@ -34,6 +35,8 @@ class GameOver extends React.Component {
   }
 
   render() {
+    var audioFile = require('../res/sounds/gameover-good.wav');
+    if (this.props.score <= 0) audioFile = require('../res/sounds/gameover-bad.wav');
     return <GameOverWrapper className="game-over" pose={this.state.animation}>
       <div className="game-over-inner">
         <h1>Game Over</h1>
@@ -42,6 +45,7 @@ class GameOver extends React.Component {
           <Button color="warning" size="lg" onClick={ () => this.props.playAgain() }>Play Again?</Button>{' '}
         </div>
       </div>
+      <MusicPlayer url={audioFile} muted={this.props.settings.muteSFX } autoPlay />
     </GameOverWrapper>;
   }
 }

@@ -22,6 +22,7 @@ class CardList extends React.Component {
           compareFacts={this.props.compareFacts} 
           dealFunc={this.props.deal}
           playFunc={this.props.playFunc} 
+          numCardsLeft={this.props.numCardsLeft}
           {...card} />
       ))}
     </CardGroup>

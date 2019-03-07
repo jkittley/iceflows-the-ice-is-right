@@ -13,3 +13,9 @@
 .game-area .container {
   padding: 0;
 }
+
+.game-area .exit {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
