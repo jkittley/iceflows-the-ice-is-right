@@ -89,7 +89,9 @@ class Welcome extends React.Component {
 
     return <Container fluid className="welcome">
 
+          <WelcomeWrapper1 pose={this.state.animation}>
           <LogoHeader size="large" />
+          </WelcomeWrapper1>
           
            <WelcomeWrapper2 pose={this.state.animation}>
            <div class="img play">           

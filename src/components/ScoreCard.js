@@ -55,21 +55,21 @@ class ScoreCard extends React.Component {
 
   pointGained() {
     this.setState({ scorePopup: "in", scoreType: "win", audioFile: require('../res/sounds/win.wav') });
-    setTimeout( () => this.setState({ scorePopup: "out" }), 1000);
-    setTimeout( () => this.setState({ scorePopup: "hidden", audioFile: null }), 2000);
+    setTimeout( () => this.setState({ scorePopup: "out" }), 1500);
+    setTimeout( () => this.setState({ scorePopup: "hidden", audioFile: null }), 3000);
   }
 
   pointLost() {
     this.setState({ scorePopup: "in", scoreType: "loose", audioFile: require('../res/sounds/loose.wav') });
-    setTimeout( () => this.setState({ scorePopup: "out" }), 1000);
-    setTimeout( () => this.setState({ scorePopup: "hidden", audioFile: null }), 2000);
+    setTimeout( () => this.setState({ scorePopup: "out" }), 1500);
+    setTimeout( () => this.setState({ scorePopup: "hidden", audioFile: null }), 3000);
   }
 
   itsADraw() {
     console.log("Its a draw");
     this.setState({ scorePopup: "in", scoreType: "draw", audioFile: require('../res/sounds/draw.wav') });
-    setTimeout( () => this.setState({ scorePopup: "out" }), 1000);
-    setTimeout( () => this.setState({ scorePopup: "hidden", audioFile: null }), 2000);
+    setTimeout( () => this.setState({ scorePopup: "out" }), 1500);
+    setTimeout( () => this.setState({ scorePopup: "hidden", audioFile: null }), 3000);
   }
 
   resetAudio() {
