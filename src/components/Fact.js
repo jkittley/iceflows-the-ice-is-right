@@ -19,7 +19,7 @@ class Fact extends React.Component {
 
   render() {
     var uid = this.props.id+"_"+this.props.cardId;
-    var classNames = "fact py-2"
+    var classNames = "fact py-2 hand"
     var icon = null;
     if (this.props.isSelected) classNames += " bg-dark text-white";
     return <Row onClick={ () => this.props.onClick(this.props) } className={classNames}>
