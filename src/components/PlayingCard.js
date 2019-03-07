@@ -99,7 +99,7 @@ class PlayingCard extends React.Component {
               <Card>
                 <div className="img" style={{ backgroundImage: "url("+imgFilePath+")" }}></div>
                 <h1 className="title mt-2">{this.props.title }</h1>
-              
+                <div class="fact-list">
                 { this.props.facts.filter((f) => this.props.settings.showFacts.indexOf(f.id) >= 0).map( (x,i) => (
                     <Fact 
                       key={i} {...x} 
@@ -108,6 +108,7 @@ class PlayingCard extends React.Component {
                       onClick={this.factSelected.bind(this)} 
                     />
                 ))}
+                </div>
               </Card>
             </div>
           </div>

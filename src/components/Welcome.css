@@ -2,17 +2,35 @@
   text-align: center;
 }
 .welcome .img {
-  width: 100%;
-  padding-bottom: 50%;
+  width: 300px;
+  height: 300px;
+  line-height: 280px;
   background-color: blue;
-  margin: auto auto;
   background-repeat: repeat;
-  padding: 20px;
+  color: white;
+  border: 10px solid white;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  -webkit-box-shadow: 10px 10px 35px -13px rgba(0,0,0,0.75);
+  -moz-box-shadow: 10px 10px 35px -13px rgba(0,0,0,0.75);
+  box-shadow: 10px 10px 35px -13px rgba(0,0,0,0.75);
+  font-size: 30px;
+  cursor: pointer;
 }
+
+.welcome .img:hover {
+  border-color: yellow;
+}
+
 .welcome .img.play {
+  margin-right:20px;
+  margin-left:auto;
   background-image: url('../res/cardcover.png');
 }
 
 .welcome .img.tour {
+  margin-left:20px;
+  margin-right:auto;
   background-image: url('../res/cardcover.png');
 }

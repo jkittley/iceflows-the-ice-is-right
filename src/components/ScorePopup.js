@@ -1,7 +1,5 @@
 import React from 'react';
 import posed from 'react-pose';
-import { FaGrinWink, FaFrownOpen } from 'react-icons/fa';
-
 import "./ScorePopup.css";
 
 const ScoreWrapper = posed.div({

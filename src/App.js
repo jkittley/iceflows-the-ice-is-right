@@ -118,7 +118,7 @@ class App extends React.Component {
   render() {
     var twitterCard = require("./res/twitter-card.png");
     var openCard = require("./res/opengraph-card.png");
-    if (this.state.mounted===false) return <div className="loading"><h1>Loading</h1></div>;
+    if (this.state.mounted===false) return <div className="loading"><h1>Loading...</h1></div>;
     return <div className="app">
     <Helmet>
       <meta charSet="utf-8" />

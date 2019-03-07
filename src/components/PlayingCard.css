@@ -30,6 +30,11 @@
   font-size: 20px;
 }
 
+.playing-card .fact-list {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
 @media only screen and (max-width: 1000px) {
   .playing-card .fact .badge-pill {
     margin: 0;

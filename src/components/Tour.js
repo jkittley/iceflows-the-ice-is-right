@@ -1,24 +1,22 @@
 import React from 'react';
 import posed from 'react-pose';
 import CardList from './CardList';
+import LogoHeader from './LogoHeader';
 import { FaHandPointLeft, FaHandPointRight } from 'react-icons/fa';
 import { Container, Button, Row, Col } from 'reactstrap';
 
-const WelcomeWrapper1 = posed.div({
+const TourWrapper = posed.div({
   out: {
-    x: 1500,
+    y: -500,
     opacity: 0,
     delay: 100,
     transition: {
       default: { duration: 300 }
     }
-  }
-});
-
-const WelcomeWrapper2 = posed.div({
-  out: {
-    x: -1500,
-    opacity: 0,
+  },
+  in: {
+    y: 0,
+    opacity: 1,
     delay: 100,
     transition: {
       default: { duration: 300 }
@@ -31,7 +29,7 @@ class Welcome extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
-      animation: null,
+      animation: "out",
       deck: [],
       autoFlip: false,
       allowTourAdv: true,
@@ -41,6 +39,12 @@ class Welcome extends React.Component {
     };
     this.advTour = this.advTour.bind(this);
     this.backTour = this.backTour.bind(this);
+    this.goHome = this.goHome.bind(this);
+    this.goPlay = this.goPlay.bind(this);
+  }
+
+  componentDidMount() {
+    setTimeout( () => this.setState({ animation: "in" }), 500);
   }
 
   onClick() {
@@ -91,13 +95,25 @@ class Welcome extends React.Component {
     }
   }
 
+  goHome() {
+    this.setState({ animation: "out" });
+    setTimeout(this.props.goHome, 500);
+  }
+
+  goPlay() {
+    this.setState({ animation: "out" });
+    setTimeout(this.props.goPlay, 500);
+  }
 
   render() {
     return <Container fluid className="text-left">
         <Container>
+        <TourWrapper pose={this.state.animation}>
+        <LogoHeader />
+        </TourWrapper>
         <Row className="mt-4">
-          <Col xs={ this.state.tourStage === 0 ? "12" : "5" }>
-           <WelcomeWrapper2 pose={this.state.animation}>
+          <Col xs={5}>
+           <TourWrapper pose={this.state.animation}>
             <div className="bg-white p-4 rounded">
               
               { this.state.tourStage === 0 && <div className="text-center">
@@ -124,8 +140,9 @@ class Welcome extends React.Component {
               </div>
               }
               { this.state.tourStage === 6 && <div>
-               <h3>Brilliant! For every correct guess you get 100 points and for every wrong answer you loose 50 point! Are you ready to play?</h3>
-               <Button className="mt-4" size="lg" block color="warning" onClick={ () => this.props.goPlay() }><FaHandPointRight/> Play <FaHandPointLeft/></Button></div>
+               <h3>That's It!</h3>
+               <h3>You are ready to play. In the game every correct guess scores 100 points and every wrong guess looses 50 points!</h3>
+               <Button className="mt-4" size="lg" block color="warning" onClick={ () => this.goPlay() }><FaHandPointRight/> Play <FaHandPointLeft/></Button></div>
               }
               { this.state.tourStage !== 6 &&
               <Button className="mt-4" color="success" onClick={this.advTour} disabled={!this.state.allowTourAdv}><FaHandPointRight/> Next</Button>
@@ -133,13 +150,13 @@ class Welcome extends React.Component {
 
             </div>
               
-            <Button className="mt-4" outline color="light" onClick={this.props.goHome}><FaHandPointLeft/> Back</Button>
+            <Button className="mt-4" outline color="light" onClick={this.goHome}><FaHandPointLeft/> Back</Button>
 
-            </WelcomeWrapper2>
+            </TourWrapper>
           </Col>
 
           <Col xs="7">
-          <WelcomeWrapper1 pose={this.state.animation}>
+          <TourWrapper pose={this.state.animation}>
             <div className="decks d-flex">
             <CardList  
               cards={this.state.deck} 
@@ -152,7 +169,7 @@ class Welcome extends React.Component {
             />
             </div>
             
-          </WelcomeWrapper1>
+          </TourWrapper>
           </Col>
 
         </Row>
