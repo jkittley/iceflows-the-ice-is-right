@@ -116,6 +116,7 @@ class Welcome extends React.Component {
             </WelcomeWrapper1>
           </Col>
         </Row>
+        <h2 className="mt-4 pt-4">Pick a card, any card.</h2>
       </Container>
     </Container>;
   }

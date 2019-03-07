@@ -34,15 +34,20 @@ class Fact extends React.Component {
         {this.props.desc }
       </UncontrolledTooltip>
     </Col>
-    <Col className="d-none d-xl-inline"><ReactStars
+    
+    <Col className="text-right">
+    <Badge pill>{icon} {this.props.value } {this.props.unit }{' '}
+    <div className="d-none d-xl-inline ml-2"><ReactStars
       className="float-right"
-      count={5}
-      size={24}
+      count={4}
+      size={20}
       edit={false}
       value={(this.props.value / this.props.max) * 5}
-      color2={'#ffd700'} />
+      color1={'#444'} 
+      color2={'#FFD700'} />
+    </div>
+    </Badge>
     </Col>
-    <Col className="text-right"><Badge pill>{icon} {this.props.value } {this.props.unit }</Badge></Col>
     </Row>
   }
 }

@@ -66,6 +66,7 @@ class MusicPlayer extends React.Component {
       {controls}
       { this.props.url && <Sound
           url={this.props.url}
+          playFromPosition={20}
           autoLoad={this.props.autoLoad}
           playStatus={this.state.playStatus}
           loop={this.props.loop}

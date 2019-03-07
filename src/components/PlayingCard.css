@@ -30,7 +30,14 @@
   font-size: 20px;
 }
 
+.playing-card .fact:hover {
+  background-color: #eee;
+
+}
+
 .playing-card .fact-list {
+  margin: 0;
+  padding: 5px;
   overflow-y: auto;
   overflow-x: hidden;
 }
