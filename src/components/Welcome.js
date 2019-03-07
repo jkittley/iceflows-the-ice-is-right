@@ -96,10 +96,10 @@ class Welcome extends React.Component {
           <Col xs={{ size: 5, offset: 1 }}>
             <WelcomeWrapper2 pose={this.state.animation}>
               { this.props.dataLoaded &&
-                <a onClick={ () => this.onPressPlay() }><div class="img play">Play Now!</div></a>
+                <a onClick={ () => this.onPressPlay() }><div className="img play">Play Now!</div></a>
               }
               { !this.props.dataLoaded &&
-                <div class="img play">Loading...</div>
+                <div className="img play">Loading...</div>
               }
             </WelcomeWrapper2>
           </Col>
@@ -107,10 +107,10 @@ class Welcome extends React.Component {
             <WelcomeWrapper1 pose={this.state.animation}>
               
               { this.props.dataLoaded &&
-                <a onClick={ () => this.showTour() }><div class="img tour">How To Play</div></a>
+                <a onClick={ () => this.showTour() }><div className="img tour">How To Play</div></a>
               }
               { !this.props.dataLoaded &&
-                <div class="img tour">Loading...</div>
+                <div className="img tour">Loading...</div>
               }
               
             </WelcomeWrapper1>
