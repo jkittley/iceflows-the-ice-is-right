@@ -20,10 +20,6 @@
 .playing-card .back .img {
   height: 300px;
   width: 100%;
-  background-size: contain;
-  background-color: #A7D4F9;
-  background-position: center;
-  background-repeat: no-repeat;
 }
 
 .playing-card .fact .badge-pill {
@@ -75,15 +71,15 @@
 }
 
 .playing-card .front .img {
-  border-radius: 50%;
-  border: solid 4px white;
   width: 400px;
   height: 400px;
-  margin: 20px auto;
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-color: #A7D4F9;
+  margin: auto auto;
+}
+
+
+
+.playing-card .front .card {
+  background-image: url('../res/cardcover.png');
 }
 
 @media only screen and (max-width: 1000px), screen and (max-height: 720px)  {
@@ -133,6 +129,11 @@
   background-size: cover;
   background-repeat: no-repeat;
   text-align: center;
+}
+
+.playing-card .back .card {
+  padding: 10px;
+  background-color: #C0D6E4;
 }
 
 /* back, initially hidden pane */

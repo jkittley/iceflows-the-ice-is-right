@@ -1,0 +1,69 @@
+.map {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.map.zoom {
+  position: absolute;
+  z-index: 500000;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: white;
+}
+
+.map .layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 100%;
+  height: 100%;
+}
+
+.map.round .layer, .map.round .overlay {
+  border-radius: 50%;
+  border: solid 4px white;
+  overflow: hidden;
+}
+
+
+.map.zoom.round .layer, .map.zoom.round .overlay {
+  border-radius: 0;
+  border: none;
+}
+
+.map .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.map .controls {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.map .highlight {
+  stroke: rgb(255, 0, 221)!important;
+  stroke-width: 5px;
+}
+
+#Image_icethickness___test {
+  /* display: none; */
+}
+
+#Image_bedelevation___test {
+  display: none;
+}

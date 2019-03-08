@@ -3,6 +3,7 @@ import Fact from './Fact';
 import { Card, CardBody, Row, Button, Col } from 'reactstrap';
 import posed from 'react-pose';
 import { FaHandPointLeft, FaHandPointRight, FaHandPointUp, FaHandPointDown } from 'react-icons/fa';
+import Map from './Map';
 import "./PlayingCard.css"
 
 const CardWrapper = posed.div({
@@ -79,8 +80,6 @@ class PlayingCard extends React.Component {
 
   render() {   
     if (this.props.title === undefined) return null;
-    var imgFilePath = require("../res/cardimgs/"+this.props.imagePath);
-    var imgCoverPath = require("../res/cardcover.png");
     var displayCSS = "flip-container";
     if (this.state.flipped) displayCSS += " hover";
 
@@ -88,16 +87,31 @@ class PlayingCard extends React.Component {
         <div className={displayCSS}>
           <div className="flipper">
             <div className="front">
-              <Card style={{ backgroundImage: "url("+imgCoverPath+")" }}>
+              <Card>
                 <CardBody>
-                  <div className="img" style={{ backgroundImage: "url("+imgFilePath+")" }}></div>
+                  <div className="img">
+                    <Map 
+                      uid={"card_front_"+this.props.id} 
+                      initLayer={this.props.imagePath }
+                      initZone={this.props.zoneId }
+                      round={true}
+                    />
+                  </div>
                   <h1 className="title">{this.props.title }</h1>
                 </CardBody>
               </Card>
             </div>
             <div className="back">
               <Card>
-                <div className="img" style={{ backgroundImage: "url("+imgFilePath+")" }}></div>
+                <div className="img">
+                  <Map
+                   uid={"card_back_"+this.props.id} 
+                   initLayer={this.props.imagePath }
+                   initZone={this.props.zoneId }
+                   round={true}
+                  />
+                </div>
+                
                 <h1 className="title mt-2">{this.props.title }</h1>
                 <div className="fact-list">
                 { this.props.facts.filter((f) => this.props.settings.showFacts.indexOf(f.id) >= 0).map( (x,i) => (

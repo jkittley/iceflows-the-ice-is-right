@@ -11,11 +11,13 @@
     "react-ga": "^2.5.7",
     "react-helmet": "^5.2.0",
     "react-icons": "^3.4.0",
+    "react-inlinesvg": "^0.8.4",
     "react-pose": "^4.0.7",
     "react-scripts": "2.1.5",
     "react-sound": "^1.2.0",
     "react-stars": "^2.2.5",
-    "reactstrap": "^7.1.0"
+    "reactstrap": "^7.1.0",
+    "uuid": "^3.3.2"
   },
   "scripts": {
     "start": "react-scripts start",

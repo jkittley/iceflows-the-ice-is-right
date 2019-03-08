@@ -83,9 +83,9 @@ class Welcome extends React.Component {
   }
   
   render() {
-
+    
     if (this.state.showTour) return <Tour {...this.props} goPlay={ () => this.onPressPlay() } goHome={ () => this.showTour(false) } />;
-
+    
     return <Container fluid className="welcome">
       <WelcomeWrapper1 pose={this.state.animation}>
         <LogoHeader size="large" />

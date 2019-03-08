@@ -3,6 +3,7 @@ import Sound from 'react-sound';
 import {Button} from 'reactstrap';
 import { FaPlay, FaStop} from 'react-icons/fa';
 
+
 class MusicPlayer extends React.Component {
   
   constructor(props) {
@@ -15,7 +16,7 @@ class MusicPlayer extends React.Component {
     this.stopSound = this.stopSound.bind(this);
     this.isPlaying = this.isPlaying.bind(this);
   }
-  
+
   componentDidUpdate(prevProps, prevState) {
     // If the updated state says muted
     if (this.props.muted && this.isPlaying()) this.stopSound();
@@ -54,6 +55,9 @@ class MusicPlayer extends React.Component {
   }
 
   render () {
+
+    return null;
+
     var controls = null;
     if (this.props.showControls && this.state.isLoaded) {
       controls = <Button className="ml-4" color="danger" onClick={ this.togglePlaySound.bind(this) }>
