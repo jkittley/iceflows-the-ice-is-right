@@ -1,0 +1,21 @@
+.fact .badge-pill {
+  font-size: 20px;
+}
+
+.fact:hover {
+  background-color: #eee;
+}
+
+@media only screen and (max-width: 1000px) {
+  .fact .badge-pill {
+    margin: 0;
+    font-size: 14px;
+  }
+}
+
+@media only screen and (max-width: 1199px) {
+  .playing-card .fact .badge-pill {
+    margin: 0;
+    font-size: 16px;
+  }
+}
