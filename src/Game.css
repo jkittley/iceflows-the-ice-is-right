@@ -16,6 +16,6 @@
 
 .game-area .exit {
   position: absolute;
-  bottom: 10px;
-  right: 10px;
+  top: 120px;
+  left: 10px;
 }

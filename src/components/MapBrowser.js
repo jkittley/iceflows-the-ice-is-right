@@ -2,7 +2,8 @@ import React from 'react';
 import posed from 'react-pose';
 import LogoHeader from './LogoHeader';
 import Map from './Map';
-import { Container } from 'reactstrap';
+import { Container, Button } from 'reactstrap';
+import { FaHandPointLeft } from 'react-icons/fa';
 import "./MapBrowser.css";
 
 const MapBrowserWrapper = posed.div({
@@ -48,14 +49,22 @@ class MapBrowser extends React.Component {
     return <Container className="text-left">
         <MapBrowserWrapper pose={this.state.animation}>
         <LogoHeader />
+        
+
         <div className="mapexplorer">
         <Map 
           zoneInfo={this.props.zoneInfo} 
           allowZoneSelect={true}
           allowZoom={false}
+          infoOpen={true}
         />
         </div>
         </MapBrowserWrapper>
+
+        <div className="back-button-pane">  
+          <Button color="light" onClick={this.goHome}><FaHandPointLeft/> Back</Button>
+        </div>
+      
       </Container>;
   }
 }

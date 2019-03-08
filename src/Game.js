@@ -157,6 +157,7 @@ class Game extends React.Component {
                 deal={ this.deal1.bind(this) } 
                 highlightFact={ this.state.deck1SelectedFact ? this.state.deck1SelectedFact.title : null } 
                 onFactSelect={ this.onFactSelect1.bind(this) } 
+                zoneInfo={this.props.zoneInfo} 
               />
               <CardList 
                 cards={this.state.deck2} 
@@ -167,6 +168,7 @@ class Game extends React.Component {
                 onFactSelect={ this.onFactSelect2.bind(this) } 
                 playFunc={ this.play.bind(this) }
                 numCardsLeft={this.props.cards.length-this.state.deck1.length}
+                zoneInfo={this.props.zoneInfo} 
               />
             </div>
         

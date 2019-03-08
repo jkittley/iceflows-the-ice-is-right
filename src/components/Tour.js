@@ -4,6 +4,7 @@ import CardList from './CardList';
 import LogoHeader from './LogoHeader';
 import { FaHandPointLeft, FaHandPointRight } from 'react-icons/fa';
 import { Container, Button, Row, Col } from 'reactstrap';
+import "./Tour.css";
 
 const TourWrapper = posed.div({
   out: {
@@ -149,9 +150,6 @@ class Welcome extends React.Component {
               }
 
             </div>
-              
-            <Button className="mt-4" outline color="light" onClick={this.goHome}><FaHandPointLeft/> Back</Button>
-
             </TourWrapper>
           </Col>
 
@@ -174,6 +172,11 @@ class Welcome extends React.Component {
 
         </Row>
         </Container>
+
+        <div className="back-button-pane">  
+          <Button color="light" onClick={this.goHome}><FaHandPointLeft/> Back</Button>
+        </div>
+
       </Container>;
   }
 }

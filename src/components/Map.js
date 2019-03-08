@@ -20,7 +20,7 @@ class Map extends React.Component {
       layerOrder: ["icedepth", "bedelev"],
       activeLayer: null,
       activeZone: null,
-      showInfoPane: false,
+      showInfoPane: this.props.infoOpen,
     };
     // Init the active layer
     this.state.activeLayer = this.state.layers[this.state.layerOrder[0]];
@@ -133,6 +133,7 @@ Map.defaultProps = {
   zoneInfo: false,
   allowZoom: true,
   allowZoneSelect: false,
+  infoOpen: false,
 }
 
 export default Map

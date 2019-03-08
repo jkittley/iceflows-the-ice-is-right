@@ -72,7 +72,6 @@ class CardBrowser extends React.Component {
                 <Button key={idx} size="sm" className="m-1" color="light" onClick={ () => this.deal(idx) }>{ card.title }</Button>
               )}
               <br/>
-              <Button className="mt-4 ml-1" outline color="light" onClick={this.goHome}><FaHandPointLeft/> Back</Button>
             </TourWrapper>
           </Col>
 
@@ -92,6 +91,11 @@ class CardBrowser extends React.Component {
         </Row>
         
         </Container>
+
+        <div className="back-button-pane">  
+          <Button color="light" onClick={this.goHome}><FaHandPointLeft/> Back</Button>
+        </div>
+
       </Container>;
   }
 }

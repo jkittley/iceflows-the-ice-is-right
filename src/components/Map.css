@@ -29,6 +29,8 @@
 
 .map.round .layer, .map.round .overlay {
   border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%; 
   border: solid 4px white;
   overflow: hidden;
 }
@@ -78,4 +80,20 @@
   background-color: rgba(0,0,0,.5);
   padding: 10px;
   color: white;
+}
+
+.map .infoPane h3 {
+  font-size: 16px;
+  margin-bottom: 3px;
+}
+
+.map .infoPane p {
+  font-size: 14px;
+}
+
+.map.round .infoPane {
+  font-size: 14px;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px; 
 }
