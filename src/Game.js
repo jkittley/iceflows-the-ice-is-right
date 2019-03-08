@@ -4,13 +4,41 @@ import CardList from './components/CardList';
 import GameOver from './components/GameOver';
 import ScoreCard from './components/ScoreCard';
 import LogoHeader from './components/LogoHeader';
+import posed from 'react-pose';
 import "./Game.css"
+
+const GameWrap = posed.div({
+  start: {
+    y: -500,
+    opacity: 0,
+    delay: 100,
+    transition: {
+      default: { duration: 300 }
+    }
+  },
+  in: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      default: { duration: 300 }
+    }
+  },
+  out: {
+    y: -500,
+    opacity: 0,
+    delay: 100,
+    transition: {
+      default: { duration: 300 }
+    }
+  }
+});
 
 class Game extends React.Component {
   
   constructor(props) {
     super(props);
     this.state = {
+      animation: "hidden",
       allCards: props.cards,
       deck1: [],
       deck2: [],
@@ -24,13 +52,14 @@ class Game extends React.Component {
   }
 
   componentDidMount() {
+    this.setState({ animation: "in" });
     this.deal1();
     this.deal2();
   }
 
   reset() {
-    // window.location.reload();
-    this.props.exitGame();
+    this.setState({ animation: "out" });
+    setTimeout( () => this.props.exitGame(), 500);
   }
 
   deal1() { this.deal(1); }
@@ -106,40 +135,45 @@ class Game extends React.Component {
   render() {
     return (
       <Container fluid className="game-area">
-        <LogoHeader />
-        <ScoreCard 
-          score={this.state.score} 
-          numCards={this.props.cards.length}
-          cardsPlayed={this.state.deck1.length}
-          settings={this.props.settings} 
-          numDraws={this.state.numDraws} />
-        <Container>
-        <div className="exit">
-        <Button color="light" outline onClick={this.reset.bind(this)}>Quit</Button>
-        </div>
-        <div className="decks d-flex flex-row">
-          <CardList 
-            autoFlip 
-            cards={this.state.deck1} 
-            settings={this.props.settings}
-            deal={ this.deal1.bind(this) } 
-            highlightFact={ this.state.deck1SelectedFact ? this.state.deck1SelectedFact.title : null } 
-            onFactSelect={ this.onFactSelect1.bind(this) } 
-          />
-          <CardList 
-            cards={this.state.deck2} 
-            settings={this.props.settings}
-            deal={this.deal2.bind(this)} 
-            passCard={this.passCard.bind(this)} 
-            highlightFact={ this.state.deck1SelectedFact ? this.state.deck1SelectedFact.title : null } 
-            onFactSelect={ this.onFactSelect2.bind(this) } 
-            playFunc={ this.play.bind(this) }
-            numCardsLeft={this.props.cards.length-this.state.deck1.length}
-          />
-        </div>
+        <GameWrap pose={this.state.animation}>
+          <LogoHeader />
+          <ScoreCard 
+            score={this.state.score} 
+            numCards={this.props.cards.length}
+            cardsPlayed={this.state.deck1.length}
+            settings={this.props.settings} 
+            numDraws={this.state.numDraws} />
+          <Container>
+          <div className="exit">
+          <Button color="light" outline onClick={this.reset.bind(this)}>Quit</Button>
+          </div>
+
+          
+            <div className="decks d-flex flex-row">
+              <CardList 
+                autoFlip 
+                cards={this.state.deck1} 
+                settings={this.props.settings}
+                deal={ this.deal1.bind(this) } 
+                highlightFact={ this.state.deck1SelectedFact ? this.state.deck1SelectedFact.title : null } 
+                onFactSelect={ this.onFactSelect1.bind(this) } 
+              />
+              <CardList 
+                cards={this.state.deck2} 
+                settings={this.props.settings}
+                deal={this.deal2.bind(this)} 
+                passCard={this.passCard.bind(this)} 
+                highlightFact={ this.state.deck1SelectedFact ? this.state.deck1SelectedFact.title : null } 
+                onFactSelect={ this.onFactSelect2.bind(this) } 
+                playFunc={ this.play.bind(this) }
+                numCardsLeft={this.props.cards.length-this.state.deck1.length}
+              />
+            </div>
         
-        { this.state.gameOver && <GameOver playAgain={this.reset.bind(this)} settings={this.props.settings} score={this.state.score} /> }
-        </Container>
+        
+          { this.state.gameOver && <GameOver playAgain={this.reset.bind(this)} settings={this.props.settings} score={this.state.score} /> }
+          </Container>
+        </GameWrap>
        </Container>
     );
   }

@@ -1,6 +1,11 @@
+body {
+  background-image: url('../res/patterns/pattern4.png');
+}
+
 .welcome {
   text-align: center;
 }
+
 .welcome button {
   width: 250px;
   height: 350px;
@@ -37,20 +42,20 @@
 .welcome button.play  {
   margin-right:20px;
   margin-left:auto;
-  background-image: url('../res/cardcover.png');
+  background-image: url('../res/patterns/pattern1.png');
   transform:rotate(6deg);
 }
 
 .welcome button.browse  {
   margin-right:20px;
   margin-left:auto;
-  background-image: url('../res/cardcover-browse.png');
+  background-image: url('../res/patterns/pattern2.png');
   transform:rotate(-5deg);
 }
 
 .welcome button.tour  {
   margin-left:20px;
   margin-right:auto;
-  background-image: url('../res/cardcover-learn.png');
+  background-image: url('../res/patterns/pattern3.png');
   transform:rotate(5deg);
 }

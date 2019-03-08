@@ -2,6 +2,8 @@ import React from 'react';
 import Game from './Game';
 import ScreenTooSmall from './components/ScreenTooSmall';
 import Welcome from './components/Welcome';
+import Tour from './components/Tour';
+import CardBrowser from './components/CardBrowser';
 import Settings from './components/Settings';
 import SoundSettings from './components/SoundSettings';
 import MusicPlayer from './components/MusicPlayer';
@@ -18,7 +20,7 @@ class App extends React.Component {
     this.state = { 
       width: 0, 
       height: 0,
-      gameOn: false,   
+      page: null,   
       dataLoaded: false,
       cards: [], 
       mounted: false,
@@ -31,6 +33,7 @@ class App extends React.Component {
     };
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     this.loadData = this.loadData.bind(this);
+    this.pickPage = this.pickPage.bind(this);
   }
   
   componentDidMount() {
@@ -96,8 +99,9 @@ class App extends React.Component {
     this.setState({ width: window.innerWidth, height: window.innerHeight });
   }
 
-  startGame() {
-    this.setState({ gameOn: true });
+  pickPage(page=null) {
+    console.log(page);
+    this.setState({ page: page });
   }
 
   saveSettings (changes) {
@@ -111,12 +115,12 @@ class App extends React.Component {
 
   getMain() {
     if (this.state.width < 800 || this.state.height < 600) return <ScreenTooSmall settings={this.state.settings}/>;
-    if (this.state.gameOn) return <Game exitGame={this.exitGame.bind(this)} cards={this.state.cards} settings={this.state.settings}/>;
-    return <Welcome cards={this.state.cards} dataLoaded={this.state.dataLoaded} settings={this.state.settings} onClick={ this.startGame.bind(this) }/>
-  }
 
-  exitGame() {
-    this.setState({ gameOn: false });
+    if (this.state.page === "game")   return <Game        cards={this.state.cards} settings={this.state.settings} exitGame={ this.pickPage } />;
+    if (this.state.page === "tour")   return <Tour        cards={this.state.cards} settings={this.state.settings} goHome={ this.pickPage } goPlay={ () => this.pickPage("game") } />;
+    if (this.state.page === "browse") return <CardBrowser cards={this.state.cards} settings={this.state.settings} goHome={ () => this.pickPage(null) } />;
+    
+    return <Welcome cards={this.state.cards} dataLoaded={this.state.dataLoaded} settings={this.state.settings} onPagePick={ this.pickPage }/>
   }
 
   render() {

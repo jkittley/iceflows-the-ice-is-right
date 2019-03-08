@@ -69,7 +69,7 @@ class Welcome extends React.Component {
             
            
               { this.props.cards.map( (card, idx) => 
-                <Button size="sm" className="m-1" color="light" onClick={ () => this.deal(idx) }>{ card.title }</Button>
+                <Button key={idx} size="sm" className="m-1" color="light" onClick={ () => this.deal(idx) }>{ card.title }</Button>
               )}
               <br/>
               <Button className="mt-4 ml-1" outline color="light" onClick={this.goHome}><FaHandPointLeft/> Back</Button>
