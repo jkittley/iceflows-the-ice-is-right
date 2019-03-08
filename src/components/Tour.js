@@ -2,8 +2,9 @@ import React from 'react';
 import posed from 'react-pose';
 import CardList from './CardList';
 import LogoHeader from './LogoHeader';
-import { FaHandPointLeft, FaHandPointRight } from 'react-icons/fa';
+import { FaHandPointLeft, FaHandPointRight, FaDrawPolygon } from 'react-icons/fa';
 import { Container, Button, Row, Col } from 'reactstrap';
+import { compareFacts } from "../Helpers";
 import "./Tour.css";
 
 const TourWrapper = posed.div({
@@ -85,15 +86,12 @@ class Welcome extends React.Component {
   }
 
   checkGuess() {
-    var val1 = this.state.deck[this.state.deck.length-1][this.state.selectedFact.id];
-    var val2 = this.state.selectedFact.value;
-    if (val1 > val2) {
-      return "You were right!";
-    } else if (val2 > val1) {
-      return "You were wrong :(";
-    } else {
-      return "Hah, it was a draw!";
-    }
+    var card1 = this.state.selectedFact.value;
+    var card2 = this.state.deck[this.state.deck.length-1][this.state.selectedFact.id];
+    var result = compareFacts(this.state.guess, card1, card2)
+    if (result === 1) { return "Well done, you got it right!"; }
+    else if (result === -1) { return "Whoops, you were wrong. Never mind there are plenty more cards in the pack :)."; } 
+    else { return "Hah, it was a draw! What are the chances?!"; }
   }
 
   goHome() {
@@ -132,9 +130,11 @@ class Welcome extends React.Component {
               { this.state.tourStage === 3 &&
                <h3>Great, you selected {this.state.selectedFact.title} ({this.state.selectedFact.value} {this.state.selectedFact.unit}). Now I will deal another card.</h3>
               }
-              { this.state.tourStage === 4 &&
+              { this.state.tourStage === 4 && <div>
                <h3>Now, I want you to guess if the same fact on this card is higher or lower than the {this.state.selectedFact.value} {this.state.selectedFact.unit} you chose on the previous card. Use the buttons below the card.</h3>
-              }
+               <h3>Hint: You can use the map to help you, try the buttons in the top left corner.</h3>
+               </div>
+             }
               { this.state.tourStage === 5 && <div>
                <h3>{this.checkGuess() }</h3>
                <h3>You guessed {this.state.guess}, and the previous card said {this.state.selectedFact.value} {this.state.selectedFact.unit}.</h3>

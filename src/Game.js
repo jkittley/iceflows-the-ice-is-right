@@ -4,6 +4,7 @@ import CardList from './components/CardList';
 import GameOver from './components/GameOver';
 import ScoreCard from './components/ScoreCard';
 import LogoHeader from './components/LogoHeader';
+import { compareFacts } from "./Helpers";
 import posed from 'react-pose';
 import "./Game.css"
 
@@ -49,6 +50,9 @@ class Game extends React.Component {
       numDraws: 0,
     };
     this.play = this.play.bind(this);
+    this.win = this.win.bind(this);
+    this.loose = this.loose.bind(this);
+    this.draw = this.draw.bind(this);
   }
 
   componentDidMount() {
@@ -98,12 +102,10 @@ class Game extends React.Component {
   }
 
   loose() {
-    // var newScore = Math.max(this.state.score - 1, 0);
     this.setState({ score: this.state.score - 50});
   }
 
   draw() {
-    console.log("DRAW");
     this.setState({ numDraws: this.state.numDraws + 1});
   }
 
@@ -111,13 +113,10 @@ class Game extends React.Component {
     var factId = this.state.deck1SelectedFact.id;
     var val1 = this.state.deck1[this.state.deck1.length-1][factId];
     var val2 = this.state.deck2[this.state.deck2.length-1][factId];
-    if (val1 > val2) {
-      if (guess === "higher") this.loose(); else this.win();
-    } else if (val2 > val1) {
-      if (guess === "higher") this.win(); else this.loose();
-    } else {
-      this.draw();
-    }
+    var result = compareFacts(guess, val1, val2);
+    if (result === 1) { this.win(); }
+    else if (result === -1) { this.loose(); } 
+    else { this.draw(); }
   }
 
   passCard() {
