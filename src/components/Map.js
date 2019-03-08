@@ -1,23 +1,12 @@
 import React from 'react';
-import {Container, Button, ButtonGroup } from 'reactstrap';
+import { Button, ButtonGroup } from 'reactstrap';
 import SVG from 'react-inlinesvg';
-import posed from 'react-pose';
-import { FaSearch } from 'react-icons/fa';
+import { FaSearch, FaCaretRight } from 'react-icons/fa';
 import overlayImg from '../res/maps/overlay.svg';
 import "./Map.css";
 
 const uuidv4 = require('uuid/v4');
 
-const LayerWrapper = posed.div({
-  hidden: {
-    opacity: 0,
-    transition: { duration: 200 }
-  },
-  visible: {
-    opacity: 1,
-    transition: { duration: 200 }
-  }
-});
 
 class Map extends React.Component {
 
@@ -48,9 +37,11 @@ class Map extends React.Component {
     this.mapRef = React.createRef();
   }
 
+  componentDidMount() {
+  }
+
   myOnLoadHandler() {
     if (this.props.initZone) this.selectZone(this.props.initZone);
-    setTimeout( () => { if (this.props.initLayer) this.selectLayer(this.props.initLayer)}, 500);
   }
 
   toggleLayer() {
@@ -82,11 +73,10 @@ class Map extends React.Component {
   render () {
     return <div id={this.props.uid} className={"map" + (this.props.round ? " round" : "") } ref={this.mapRef}>
 
-      { Object.keys(this.state.layers).map( (k, i) => 
-        <LayerWrapper key={i} pose={this.state.layers[k] === this.state.activeLayer ? "visible" : "hidden"}>
-        <div className="layer" style={{ backgroundImage: "url(" + this.state.layers[k].image + ")" }}></div>
-        </LayerWrapper>
-      )}
+      { Object.keys(this.state.layers).map( function(k, i) { 
+        var isVisible = this.state.layers[k] === this.state.activeLayer;
+        return <div className="layer" key={uuidv4()} style={{ opacity: isVisible ? 1 : 0, backgroundImage: "url(" + this.state.layers[k].image + ")" }}></div>;
+      }.bind(this))}
   
       <div className="overlay" ref={this.overlayRef}>
         <SVG
@@ -100,8 +90,8 @@ class Map extends React.Component {
 
       <div className="controls">
         <ButtonGroup size="sm">
-          <Button color="success" onClick={this.toggleLayer}>{ this.state.activeLayer ? this.state.activeLayer.title : "Change"}</Button>
-          <Button color="success" onClick={this.toggleZoom}><FaSearch/></Button>
+          <Button color="info" onClick={this.toggleZoom}><FaSearch/></Button>
+          <Button color="success" onClick={this.toggleLayer}>{ this.state.activeLayer ? this.state.activeLayer.title : "Change"} <FaCaretRight/></Button>
         </ButtonGroup>
       </div>
 

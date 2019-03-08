@@ -23,6 +23,7 @@ class CardList extends React.Component {
           dealFunc={this.props.deal}
           playFunc={this.props.playFunc} 
           numCardsLeft={this.props.numCardsLeft}
+          hideControls={this.props.hideControls}
           {...card} />
       ))}
     </CardGroup>

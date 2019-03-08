@@ -115,7 +115,7 @@ class Game extends React.Component {
           numDraws={this.state.numDraws} />
         <Container>
         <div className="exit">
-        <Button color="light" outline onClick={this.reset.bind(this)}>Exit</Button>
+        <Button color="light" outline onClick={this.reset.bind(this)}>Quit</Button>
         </div>
         <div className="decks d-flex flex-row">
           <CardList 

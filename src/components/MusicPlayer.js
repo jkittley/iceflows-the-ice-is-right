@@ -56,8 +56,6 @@ class MusicPlayer extends React.Component {
 
   render () {
 
-    return null;
-
     var controls = null;
     if (this.props.showControls && this.state.isLoaded) {
       controls = <Button className="ml-4" color="danger" onClick={ this.togglePlaySound.bind(this) }>

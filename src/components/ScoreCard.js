@@ -56,21 +56,21 @@ class ScoreCard extends React.Component {
 
   pointGained() {
     this.setState({ showBonusAnimation: true, scorePopup: "in", scoreType: "win", audioFile: require('../res/sounds/win.wav') });
-    setTimeout( () => this.setState({ scorePopup: "out" }), 1500);
-    setTimeout( () => this.setState({ showBonusAnimation: false, scorePopup: "hidden", audioFile: null }), 2000);
+    setTimeout( () => this.setState({ scorePopup: "out" }), 1000);
+    setTimeout( () => this.setState({ showBonusAnimation: false, scorePopup: "hidden", audioFile: null }), 1500);
   }
 
   pointLost() {
     this.setState({ showBonusAnimation: true, scorePopup: "in", scoreType: "loose", audioFile: require('../res/sounds/loose.wav') });
-    setTimeout( () => this.setState({ scorePopup: "out" }), 1500);
-    setTimeout( () => this.setState({ showBonusAnimation: false, scorePopup: "hidden", audioFile: null }), 2000);
+    setTimeout( () => this.setState({ scorePopup: "out" }), 1000);
+    setTimeout( () => this.setState({ showBonusAnimation: false, scorePopup: "hidden", audioFile: null }), 1500);
   }
 
   itsADraw() {
     console.log("Its a draw");
     this.setState({ showBonusAnimation: true, scorePopup: "in", scoreType: "draw", audioFile: require('../res/sounds/draw.wav') });
-    setTimeout( () => this.setState({ scorePopup: "out" }), 1500);
-    setTimeout( () => this.setState({ showBonusAnimation: false, scorePopup: "hidden", audioFile: null }), 2000);
+    setTimeout( () => this.setState({ scorePopup: "out" }), 1000);
+    setTimeout( () => this.setState({ showBonusAnimation: false, scorePopup: "hidden", audioFile: null }), 1500);
   }
 
   resetAudio() {

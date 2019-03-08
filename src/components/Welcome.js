@@ -1,7 +1,8 @@
 import React from 'react';
 import posed from 'react-pose';
 import Tour from './Tour';
-import { Container, Row, Col } from 'reactstrap';
+import CardBrowser from './CardBrowser';
+import { Container, Row, Col, Button} from 'reactstrap';
 import LogoHeader from './LogoHeader';
 import "./Welcome.css";
 
@@ -63,8 +64,10 @@ class Welcome extends React.Component {
     this.state = { 
       animation: "start",
       showTour: false,
+      showBrowse: false,
     };
     this.onPressPlay = this.onPressPlay.bind(this);
+    this.showBrowse = this.showBrowse.bind(this);
   }
 
   componentDidMount() {
@@ -81,10 +84,18 @@ class Welcome extends React.Component {
     else this.setState({ animation: "in" });
     setTimeout( () => this.setState({ showTour: setto }), 500);
   }
+
+  showBrowse(setto=true) {
+    if (setto) this.setState({ animation: "out" }); 
+    else this.setState({ animation: "in" });
+    setTimeout( () => this.setState({ showBrowse: setto }), 500);
+  }
   
   render() {
-    
+
+    if (!this.props.dataLoaded) return <h1>Loading...</h1>
     if (this.state.showTour) return <Tour {...this.props} goPlay={ () => this.onPressPlay() } goHome={ () => this.showTour(false) } />;
+    if (this.state.showBrowse) return <CardBrowser {...this.props} goHome={ () => this.showBrowse(false) } />;
     
     return <Container fluid className="welcome">
       <WelcomeWrapper1 pose={this.state.animation}>
@@ -93,27 +104,20 @@ class Welcome extends React.Component {
 
       <Container>
         <Row>
-          <Col xs={{ size: 5, offset: 1 }}>
+          <Col xs={{ size: 3, offset: 2 }}>
             <WelcomeWrapper2 pose={this.state.animation}>
-              { this.props.dataLoaded &&
-                <a href="#" onClick={ () => this.onPressPlay() }><div className="img play">Play Now!</div></a>
-              }
-              { !this.props.dataLoaded &&
-                <div className="img play">Loading...</div>
-              }
+                <Button className="play" onClick={ () => this.onPressPlay() }><div>Play Now!</div></Button>
             </WelcomeWrapper2>
           </Col>
-          <Col xs={{ size: 5 }}>
+          <Col xs={{ size: 2 }}>
             <WelcomeWrapper1 pose={this.state.animation}>
-              
-              { this.props.dataLoaded &&
-                <a href="#" onClick={ () => this.showTour() }><div className="img tour">How To Play</div></a>
-              }
-              { !this.props.dataLoaded &&
-                <div className="img tour">Loading...</div>
-              }
-              
+                <Button  className="browse" onClick={ () => this.showBrowse() }><div>Browse Cards</div></Button>
             </WelcomeWrapper1>
+          </Col>
+          <Col xs={{ size: 3 }}>
+            <WelcomeWrapper2 pose={this.state.animation}>
+                <Button className="tour" onClick={ () => this.showTour() }><div>How To Play</div></Button>
+            </WelcomeWrapper2>
           </Col>
         </Row>
         <h2 className="mt-4 pt-4">Pick a card, any card.</h2>

@@ -106,7 +106,6 @@ class PlayingCard extends React.Component {
                 <div className="img">
                   <Map
                    uid={"card_back_"+this.props.id} 
-                   initLayer={this.props.imagePath }
                    initZone={this.props.zoneId }
                   />
                 </div>
@@ -126,7 +125,9 @@ class PlayingCard extends React.Component {
             </div>
           </div>
         </div>
-        { !this.state.flipped && this.props.highlightFact && 
+
+
+        { !this.props.hideControls &&  !this.state.flipped && this.props.highlightFact && 
           <Row>
             <Col style={{ paddingRight: "2px" }}>
               <Button size="lg" color="light" block className="mt-2" onClick={ () => this.play("higher")}><FaHandPointUp/> Higher</Button> 
@@ -136,15 +137,21 @@ class PlayingCard extends React.Component {
             </Col>
           </Row>
         }
-        { this.state.flipped && !this.props.highlightFact && <div className="text-center p-2">
+        { !this.props.hideControls && this.state.flipped && !this.props.highlightFact && <div className="text-center p-2">
           <h5 className="text-white">Please Select a fact</h5></div>
         }
-        { this.props.passCard && this.state.flipped && <Button size="lg" color="light" block className="mt-2" onClick={this.passCard.bind(this)}>
+        { !this.props.hideControls && this.props.passCard && this.state.flipped && <Button size="lg" color="light" block className="mt-2" onClick={this.passCard.bind(this)}>
           <FaHandPointRight/> { this.props.numCardsLeft > 0 ? "Deal Next Card" : "Finish" }{' '}<FaHandPointLeft/> 
         </Button> }
-        {/* { !this.props.passCard&& this.state.flipped  && <Button size="lg" color="light" block className="mt-2" onClick={ this.props.dealFunc }><FaUndo/> New Card</Button> } */}
+        {/* { !this.props.hideControls && !this.props.passCard&& this.state.flipped  && <Button size="lg" color="light" block className="mt-2" onClick={ this.props.dealFunc }><FaUndo/> New Card</Button> } */}
+    
+    
     </CardWrapper>;
   }
+}
+
+PlayingCard.defaultProps = {
+  hideControls: false
 }
 
 export default PlayingCard;
