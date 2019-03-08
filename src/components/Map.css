@@ -80,15 +80,21 @@
   background-color: rgba(0,0,0,.5);
   padding: 10px;
   color: white;
+  -webkit-border-bottom-right-radius: 8px;
+  -webkit-border-bottom-left-radius: 8px;
+  -moz-border-radius-bottomright: 8px;
+  -moz-border-radius-bottomleft: 8px;
+  border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 8px;
 }
 
 .map .infoPane h3 {
-  font-size: 16px;
+  font-size: 2em;
   margin-bottom: 3px;
 }
 
 .map .infoPane p {
-  font-size: 14px;
+  font-size: 1.5em;
 }
 
 .map.round .infoPane {
