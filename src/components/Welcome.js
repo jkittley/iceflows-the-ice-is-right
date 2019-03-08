@@ -167,21 +167,28 @@ class Welcome extends React.Component {
 
       <Container>
         <Row>
-          <Col xs={{ size: 3, offset: 2 }}>
+          <Col xs={{ size: 2, offset: 2 }} style={{ zIndex: 5000 }}>
             <CardWrap1 pose={this.state.animation}>
                 <Button className="play" onClick={ () => this.onPagePick("game") }><div>Play Now!</div></Button>
             </CardWrap1>
-          </Col>
-          <Col xs={{ size: 2 }}>
-            <CardWrap2 pose={this.state.animation}>
-                <Button  className="browse" onClick={ () => this.onPagePick("browse") }><div>Browse Cards</div></Button>
-            </CardWrap2>
           </Col>
           <Col xs={{ size: 3 }}>
             <CardWrap3 pose={this.state.animation}>
                 <Button className="tour" onClick={ () => this.onPagePick("tour") }><div>How To Play</div></Button>
             </CardWrap3>
           </Col>
+
+          <Col xs={{ size: 2 }}>
+            <CardWrap2 pose={this.state.animation}>
+                <Button  className="browse" onClick={ () => this.onPagePick("browse") }><div>Browse Cards</div></Button>
+            </CardWrap2>
+          </Col>
+          <Col xs={{ size: 2 }}>
+            <CardWrap2 pose={this.state.animation}>
+                <Button  className="map" onClick={ () => this.onPagePick("map") }><div>Map Explorer</div></Button>
+            </CardWrap2>
+          </Col>
+
         </Row>
         <FootWrap pose={this.state.animation}>
         <h2 className="mt-4 pt-4">Pick a card, any card.</h2>

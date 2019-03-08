@@ -44,6 +44,15 @@ body {
   margin-left:auto;
   background-image: url('../res/patterns/pattern1.png');
   transform:rotate(6deg);
+  z-index: 500!important
+}
+
+.welcome button.tour  {
+  margin-left:20px;
+  margin-right:auto;
+  background-image: url('../res/patterns/pattern3.png');
+  transform:rotate(-5deg);
+  z-index: 400!important;
 }
 
 .welcome button.browse  {
@@ -53,9 +62,10 @@ body {
   transform:rotate(-5deg);
 }
 
-.welcome button.tour  {
-  margin-left:20px;
-  margin-right:auto;
-  background-image: url('../res/patterns/pattern3.png');
+.welcome button.map  {
+  margin-right:20px;
+  margin-left:auto;
+  background-image: url('../res/patterns/pattern2.png');
   transform:rotate(5deg);
 }
+

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, ButtonGroup } from 'reactstrap';
 import SVG from 'react-inlinesvg';
-import { FaSearch, FaCaretRight } from 'react-icons/fa';
+import { FaSearch, FaCaretRight, FaInfo } from 'react-icons/fa';
 import overlayImg from '../res/maps/overlay.svg';
 import "./Map.css";
 
@@ -19,11 +19,8 @@ class Map extends React.Component {
       },
       layerOrder: ["icedepth", "bedelev"],
       activeLayer: null,
-      zones: [
-        { id: "b1", title: "Zone name b1", highlight: false },
-        { id: "b2", title: "Zone name b2", highlight: false },
-        { id: "b3", title: "Zone name b3", highlight: false }
-      ],
+      activeZone: null,
+      showInfoPane: false,
     };
     // Init the active layer
     this.state.activeLayer = this.state.layers[this.state.layerOrder[0]];
@@ -32,16 +29,30 @@ class Map extends React.Component {
     this.toggleLayer = this.toggleLayer.bind(this);
     this.selectZone = this.selectZone.bind(this);
     this.toggleZoom = this.toggleZoom.bind(this);
+    this.onBasinOver = this.onBasinOver.bind(this);
+    this.showZoneInfo = this.showZoneInfo.bind(this);
     // Refs
     this.overlayRef = React.createRef();
     this.mapRef = React.createRef();
   }
 
-  componentDidMount() {
+  onBasinOver(zoneId) {
+    if (this.props.allowZoneSelect) {
+      console.log(zoneId);
+      this.selectZone(zoneId);
+    }
   }
 
   myOnLoadHandler() {
     if (this.props.initZone) this.selectZone(this.props.initZone);
+    
+    if (this.props.zoneInfo && this.props.allowZoneSelect) {
+      Object.keys(this.props.zoneInfo).forEach( (zoneId) => { 
+        var element = document.getElementById(zoneId+"___"+this.props.uid);
+        element.addEventListener("mousedown", () => this.onBasinOver(zoneId), false);
+        element.classList.add("hand");
+      });
+    }
   }
 
   toggleLayer() {
@@ -57,17 +68,23 @@ class Map extends React.Component {
   }
   
   selectZone (zoneId, deselectOthers=true) {
-    console.log(zoneId);
     if (deselectOthers) {
       var currentlyHighlighted = this.overlayRef.current.querySelectorAll("path.highlight");
       Array.from(currentlyHighlighted).forEach( (pathElem) => pathElem.classList.remove("highlight") );
     }
     var element = document.getElementById(zoneId+"___"+this.props.uid);
-    if (element) element.classList.add("highlight");
+    if (element) {
+      element.classList.add("highlight");
+      this.setState({  activeZone: zoneId });
+    }
   }
 
   toggleZoom() {
     this.mapRef.current.classList.toggle("zoom");
+  }
+
+  showZoneInfo() {
+    this.setState({ showInfoPane: !this.state.showInfoPane });
   }
 
   render () {
@@ -90,10 +107,20 @@ class Map extends React.Component {
 
       <div className="controls">
         <ButtonGroup size="sm">
-          <Button color="info" onClick={this.toggleZoom}><FaSearch/></Button>
+        { this.props.allowZoom && <Button color="info" onClick={this.toggleZoom}><FaSearch/></Button> }
           <Button color="success" onClick={this.toggleLayer}>{ this.state.activeLayer ? this.state.activeLayer.title : "Change"} <FaCaretRight/></Button>
         </ButtonGroup>
+        { this.props.zoneInfo && this.state.activeZone && this.props.zoneInfo[this.state.activeZone] && 
+          <Button className="ml-1" color={ this.state.showInfoPane ? "warning" : "dark" } size="sm" onClick={this.showZoneInfo}><FaInfo/></Button> 
+        }
       </div>
+      
+      { this.props.zoneInfo && this.state.activeZone && this.props.zoneInfo[this.state.activeZone] && 
+      <div className={ "infoPane" + (this.state.showInfoPane ? "" : " d-none") }>
+      <h3>{this.props.zoneInfo[this.state.activeZone].title} ({this.props.zoneInfo[this.state.activeZone].zoneId})</h3>
+      <p>{this.props.zoneInfo[this.state.activeZone].desc}</p>
+      </div>
+      }
 
     </div>;
   }
@@ -103,6 +130,9 @@ class Map extends React.Component {
 Map.defaultProps = {
   uid: uuidv4(),
   round: false,
+  zoneInfo: false,
+  allowZoom: true,
+  allowZoneSelect: false,
 }
 
 export default Map

@@ -7,7 +7,9 @@ import CardBrowser from './components/CardBrowser';
 import Settings from './components/Settings';
 import SoundSettings from './components/SoundSettings';
 import MusicPlayer from './components/MusicPlayer';
-import Papa from 'papaparse';
+import MapBrowser from './components/MapBrowser';
+import {loadCardData,loadZoneData} from './DataLoaders';
+
 import './App.css';
 import {Helmet} from "react-helmet";
 import ReactGA from 'react-ga';
@@ -30,6 +32,7 @@ class App extends React.Component {
         muteMusic: true,
       },
       factMeta: {},
+      zoneInfo: {},
     };
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     this.loadData = this.loadData.bind(this);
@@ -44,51 +47,32 @@ class App extends React.Component {
   }
 
   loadData() {
-    var csvFilePath = require("./res/data.csv");
-    Papa.parse(csvFilePath, {
-      download: true,
-      delimiter: ",",
-      header: true,
-      dynamicTyping: true,
-      skipEmptyLines: true,
-      transform: (x) => x.trim(),
-      transformHeader: (x) => x.trim(),
-      error: function(err, file, inputElem, reason) {
-        console.log("Error", err);
-      },
-      complete: function(results) {
-        // Get the facts
-        var factIds = results.meta.fields.filter(field => field.trim().startsWith("fact")).map(field => field.trim()); 
-        var meta = {}
-        // Add the rows
-        results.data.map(function (row) {
-          // Meta data from meta rows
-          if (row.title === "meta") {
-            factIds.forEach(function (factId) { 
-              if (!(factId in meta)) meta[factId] = { id: factId };
-              meta[factId][row.imagePath] = row[factId];
-            });
-          // Facts from rows
-          } else {
-            var facts = [];
-            factIds.forEach(factId => facts.push({ 
-              ...meta[factId],
-              value: row[factId],
-            }))
-            // Save Row
-            this.setState({ cards: [...this.state.cards, { 
-              ...row, 
-              id: row['No'],
-              facts: facts 
-            }]});
-          }
-        }.bind(this));
-
-        // On complete
+    
+    loadCardData(
+      function (rowData) { // On Row
+        this.setState({ cards: [...this.state.cards, rowData ]});
+      }.bind(this),
+      function (meta) { // On Complete
         this.setState({ factMeta: meta, dataLoaded: true });
-      
-      }.bind(this)
-    });
+      }.bind(this),
+      function(err, file, inputElem, reason) { // On Error
+        console.log("Error", err);
+      }
+    )
+
+    loadZoneData(
+      function (rowData) { // On Row
+        this.setState({ zoneInfo: { ...this.state.zoneInfo, ...rowData } });
+      }.bind(this),
+      function (meta) { // On Complete
+        console.log("Zones", this.state.zoneInfo);
+      }.bind(this),
+      function(err, file, inputElem, reason) { // On Error
+        console.log("Error", err);
+      }
+    )
+
+
   }
   
   componentWillUnmount() {
@@ -119,7 +103,8 @@ class App extends React.Component {
     if (this.state.page === "game")   return <Game        cards={this.state.cards} settings={this.state.settings} exitGame={ this.pickPage } />;
     if (this.state.page === "tour")   return <Tour        cards={this.state.cards} settings={this.state.settings} goHome={ this.pickPage } goPlay={ () => this.pickPage("game") } />;
     if (this.state.page === "browse") return <CardBrowser cards={this.state.cards} settings={this.state.settings} goHome={ () => this.pickPage(null) } />;
-    
+    if (this.state.page === "map")    return <MapBrowser  zoneInfo={this.state.zoneInfo} settings={this.state.settings} goHome={ () => this.pickPage(null) } />;
+
     return <Welcome cards={this.state.cards} dataLoaded={this.state.dataLoaded} settings={this.state.settings} onPagePick={ this.pickPage }/>
   }
 

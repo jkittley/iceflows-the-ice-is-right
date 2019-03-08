@@ -24,7 +24,7 @@ const TourWrapper = posed.div({
   }
 });
 
-class Welcome extends React.Component {
+class CardBrowser extends React.Component {
 
   constructor(props) {
     super(props);
@@ -96,4 +96,4 @@ class Welcome extends React.Component {
   }
 }
 
-export default Welcome;
+export default CardBrowser;
