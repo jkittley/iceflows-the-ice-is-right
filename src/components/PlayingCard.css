@@ -20,6 +20,10 @@
 .playing-card .back .img {
   height: 300px;
   width: 100%;
+  background-color: white;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
 }
 
 .playing-card .fact .badge-pill {
@@ -76,7 +80,13 @@
   margin: auto auto;
 }
 
-
+.playing-card .back .title {
+  text-align: center;
+  background-color: white;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
 
 .playing-card .front .card {
   background-image: url('../res/cardcover.png');

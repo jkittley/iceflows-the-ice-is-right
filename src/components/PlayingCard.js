@@ -108,7 +108,6 @@ class PlayingCard extends React.Component {
                    uid={"card_back_"+this.props.id} 
                    initLayer={this.props.imagePath }
                    initZone={this.props.zoneId }
-                   round={true}
                   />
                 </div>
                 
