@@ -59,6 +59,7 @@ class MapBrowser extends React.Component {
           infoOpen={true}
         />
         </div>
+        <p className="text-center text-white lead">Click on a basin for more information</p>
         </MapBrowserWrapper>
 
         <div className="back-button-pane">  
