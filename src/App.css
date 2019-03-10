@@ -5,6 +5,13 @@ body, html {
   overflow: hidden;
 }
 
+@media (max-width: 767.98px) {
+  body, html {
+    overflow: auto;
+  }
+ }
+
+
 @font-face {
     font-family: 'PlaySir';
     src: url('./res/fonts/PLAYSIR Regular.otf') ;

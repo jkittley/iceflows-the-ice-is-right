@@ -36,9 +36,9 @@ class LogoHeader extends React.Component {
 
   render () {
     return <LogoWrapper pose={this.state.animation}>
-    <Container className={ "logo " + this.props.size }>
+    <div className={ "logo " + this.props.size }>
     <img src={head} alt="The Ice Is Right - An Ice Flows Game"/>
-    </Container>
+    </div>
     </LogoWrapper>;
   }
 

@@ -167,23 +167,23 @@ class Welcome extends React.Component {
 
       <Container>
         <Row>
-          <Col xs={{ size: 2, offset: 2 }} style={{ zIndex: 5000 }}>
+          <Col xl={{ size: 2, offset: 1 }} md={{ size: 2 }} sm={{ size: 6 }} style={{ zIndex: 5000 }}>
             <CardWrap1 pose={this.state.animation}>
                 <Button className="play" onClick={ () => this.onPagePick("game") }><div>Play Now!</div></Button>
             </CardWrap1>
           </Col>
-          <Col xs={{ size: 3 }}>
+          <Col md={{ size: 2 }} sm={{ size: 6 }}>
             <CardWrap3 pose={this.state.animation}>
                 <Button className="tour" onClick={ () => this.onPagePick("tour") }><div>How To Play</div></Button>
             </CardWrap3>
           </Col>
 
-          <Col xs={{ size: 2 }}>
+          <Col md={{ size: 2, offset: 2 }} sm={{ size: 6 }}>
             <CardWrap2 pose={this.state.animation}>
                 <Button  className="browse" onClick={ () => this.onPagePick("browse") }><div>Browse Cards</div></Button>
             </CardWrap2>
           </Col>
-          <Col xs={{ size: 2 }}>
+          <Col md={{ size: 2 }} sm={{ size: 6 }}>
             <CardWrap2 pose={this.state.animation}>
                 <Button  className="map" onClick={ () => this.onPagePick("map") }><div>Map Explorer</div></Button>
             </CardWrap2>
