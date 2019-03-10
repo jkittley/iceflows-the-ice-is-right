@@ -111,7 +111,7 @@ class Welcome extends React.Component {
         <LogoHeader />
         </TourWrapper>
         <Row className="mt-4">
-          <Col xs={5}>
+          <Col md={12} lg={5} className="mb-2">
            <TourWrapper pose={this.state.animation}>
             <div className="bg-white p-4 rounded">
               
@@ -153,7 +153,7 @@ class Welcome extends React.Component {
             </TourWrapper>
           </Col>
 
-          <Col xs="7">
+          <Col md={12} lg="7">
           <TourWrapper pose={this.state.animation}>
             <div className="decks d-flex">
             <CardList  
