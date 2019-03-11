@@ -2,21 +2,62 @@
 .logo {
   text-align: center;
   padding-bottom: 30px;
-  height: 15vh;
-  margin-bottom:10px;
-}
-
-.logo.large {
-  height: 25vh;
+  height: 20vh;
+  margin-bottom:20px;
 }
 
 .logo img {
   height: 100%;
 }
 
-@media (max-width: 767.98px) {
+@media (max-width: 1200px) { 
+  .logo.game img {
+    width: 600px;
+    height: auto;
+  }
+}
+
+@media (max-width: 992px) { 
+  .logo {
+    height: 13vh;
+  }
+  .logo.game {
+    padding-left: 100px;
+  }
+  .logo.game img {
+    width: 500px;
+    height: auto;
+  }
+}
+
+@media (max-width: 768px) { 
+  .logo {
+    padding-right: 40px;
+  }
   .logo img {
-    width: 100%!important;
+    width: 100%;
+    height: auto;
+  }
+  .logo.game img {
+    width: 400px;
+    height: auto;
+  }
+}
+
+@media (max-width: 576px) { 
+  .logo.game {
+    height: 10vh;
+    margin-bottom:20px;
+  }
+  .logo.game img {
+    width: 300px;
+    height: auto;
+  }
+}
+
+@media (max-width: 480px) { 
+  .logo.game img {
+    width: 80%;
     height: auto;
   }
 }

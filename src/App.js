@@ -98,7 +98,7 @@ class App extends React.Component {
   }
 
   getMain() {
-    if (this.state.width < 800 || this.state.height < 600) return <ScreenTooSmall settings={this.state.settings}/>;
+    // if (this.state.width < 800 || this.state.height < 600) return <ScreenTooSmall settings={this.state.settings}/>;
 
     if (this.state.page === "game")   return <Game        cards={this.state.cards} settings={this.state.settings} zoneInfo={this.state.zoneInfo} exitGame={ this.pickPage } />;
     if (this.state.page === "tour")   return <Tour        cards={this.state.cards} settings={this.state.settings} goHome={ this.pickPage } goPlay={ () => this.pickPage("game") } />;

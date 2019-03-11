@@ -57,21 +57,21 @@ class SoundSettings extends React.Component {
 
   render() {
       return <SoundSettingsWrap pose={this.state.animation}>
-      <div className="SoundSettingsPane">
-          <ButtonGroup>
-            <Button id="btn-mute-all" onClick={ () => this.toggleMuteAll() } size="lg"  color={ this.props.muteMusic && this.props.muteSFX ? "dark" : "light"}>
+      <div className="soundSettingsPane">
+          <ButtonGroup size="lg btn-group-vertical">
+            <Button className="d-none d-lg-inline" id="btn-mute-all" onClick={ () => this.toggleMuteAll() } color={ this.props.muteMusic && this.props.muteSFX ? "dark" : "light"}>
             { this.props.muteMusic && this.props.muteSFX ? <FaVolumeMute/> : <FaVolumeUp/> }
             </Button>
             <UncontrolledTooltip placement="bottom" target="btn-mute-all">
             { this.props.muteMusic && this.props.muteSFX ? "UnMute" : "Mute" } All Sounds
             </UncontrolledTooltip>
-            <Button id="btn-mute-music" onClick={this.toggleMusic.bind(this)} size="lg" color={ this.props.muteMusic ? "dark" : "light"} >
+            <Button id="btn-mute-music" onClick={this.toggleMusic.bind(this)} color={ this.props.muteMusic ? "dark" : "light"} >
              <FaMusic />
             </Button>
             <UncontrolledTooltip placement="bottom" target="btn-mute-music">
             { !this.props.muteMusic ? "Mute" : "UnMute" } Music
             </UncontrolledTooltip>
-            <Button id="btn-mute-sfx" onClick={this.toggleSFX.bind(this)} size="lg" color={ this.props.muteSFX ? "dark" : "light" }>
+            <Button id="btn-mute-sfx" onClick={this.toggleSFX.bind(this)} color={ this.props.muteSFX ? "dark" : "light" }>
              <FaDrum/>
             </Button>
             <UncontrolledTooltip placement="bottom" target="btn-mute-sfx">

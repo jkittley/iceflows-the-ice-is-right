@@ -44,4 +44,8 @@ class LogoHeader extends React.Component {
 
 }
 
+LogoHeader.defaultProps = {
+  size: ""
+}
+
 export default LogoHeader

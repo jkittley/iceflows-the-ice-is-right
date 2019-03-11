@@ -85,7 +85,7 @@ class ScoreCard extends React.Component {
      <h1>SCORE:<span width="200">{ this.props.score }</span></h1>
      </ScoreNumberWrap>
      <div className="stats text-center text-white mt-2">
-        <Progress value={ this.props.cardsPlayed } max={this.props.numCards}/>
+        <Progress className="d-none d-lg-block" value={ this.props.cardsPlayed } max={this.props.numCards}/>
         <h6 className="mt-2">Cards remaining: { Math.max(0, this.props.numCards - this.props.cardsPlayed) }</h6>
       </div>
 

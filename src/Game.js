@@ -135,17 +135,17 @@ class Game extends React.Component {
     return (
       <Container fluid className="game-area">
         <GameWrap pose={this.state.animation}>
-          <LogoHeader />
+          <LogoHeader size="game" />
           <ScoreCard 
             score={this.state.score} 
             numCards={this.props.cards.length}
             cardsPlayed={this.state.deck1.length}
             settings={this.props.settings} 
             numDraws={this.state.numDraws} />
-          <Container>
-          <div className="exit">
-          <Button color="light" outline onClick={this.reset.bind(this)}>Quit</Button>
-          </div>
+          
+            <div className="exit">
+            <Button size="sm" color="light" outline onClick={this.reset.bind(this)}>Quit</Button>
+            </div>
 
           
             <div className="decks d-flex flex-row">
@@ -173,7 +173,6 @@ class Game extends React.Component {
         
         
           { this.state.gameOver && <GameOver playAgain={this.reset.bind(this)} settings={this.props.settings} score={this.state.score} /> }
-          </Container>
         </GameWrap>
        </Container>
     );

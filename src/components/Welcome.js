@@ -160,12 +160,11 @@ class Welcome extends React.Component {
 
     if (!this.props.dataLoaded) return <h1>Loading...</h1>
 
-    return <Container fluid className="welcome">
+    return <Container className="welcome">
       <LogoWrap pose={this.state.animation}>
         <LogoHeader size="large" />
       </LogoWrap>
 
-      <Container>
         <Row>
           <Col xl={{ size: 2, offset: 1 }} md={{ size: 2 }} sm={{ size: 6 }} style={{ zIndex: 5000 }}>
             <CardWrap1 pose={this.state.animation}>
@@ -194,7 +193,6 @@ class Welcome extends React.Component {
         <h2 className="mt-4 pt-4">Pick a card, any card.</h2>
         </FootWrap>
         
-      </Container>
     </Container>;
   }
 }

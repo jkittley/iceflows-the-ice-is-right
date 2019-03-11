@@ -1,6 +1,10 @@
 
 .decks {
   height: 80vh;
+  width: 100%;
+  min-width: 800px;
+  max-width: 1200px;
+  margin: auto auto;
 }
 
 .game-area.container-fluid {
@@ -16,6 +20,26 @@
 
 .game-area .exit {
   position: absolute;
-  top: 120px;
+  top: 140px;
   left: 10px;
 }
+
+
+@media (max-width: 992px) {
+  .game-area .exit {
+    top: 95px;
+  }
+}
+
+@media (max-width: 768px) { 
+  .game-area .exit {
+    position: absolute;
+    top: 70px;
+  }
+  .game-area .exit .btn { 
+    padding: 6px;
+    font-size:90%;
+    line-height: 1;
+  }
+}
+

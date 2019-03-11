@@ -8,8 +8,8 @@ class CardList extends React.Component {
   render() {
     //var arr = this.props.cards.slice(Math.max(this.props.cards.length - 2, 0));
     var arr = this.props.cards;
-    return <div className="w-100 px-1">
-      <CardGroup className="card-list">
+    return <div className="card-list">
+      <CardGroup>
       { arr.map((card, i) => (    
         <PlayingCard 
           style={{ marginTop: i+"px"}}
