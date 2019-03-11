@@ -147,28 +147,29 @@ class Game extends React.Component {
             <Button size="sm" color="light" outline onClick={this.reset.bind(this)}>Quit</Button>
             </div>
 
-          
-            <div className="decks">
-              <CardList 
-                autoFlip 
-                cards={this.state.deck1} 
-                settings={this.props.settings}
-                deal={ this.deal1.bind(this) } 
-                highlightFact={ this.state.deck1SelectedFact ? this.state.deck1SelectedFact.title : null } 
-                onFactSelect={ this.onFactSelect1.bind(this) } 
-                zoneInfo={this.props.zoneInfo} 
-              />
-              <CardList 
-                cards={this.state.deck2} 
-                settings={this.props.settings}
-                deal={this.deal2.bind(this)} 
-                passCard={this.passCard.bind(this)} 
-                highlightFact={ this.state.deck1SelectedFact ? this.state.deck1SelectedFact.title : null } 
-                onFactSelect={ this.onFactSelect2.bind(this) } 
-                playFunc={ this.play.bind(this) }
-                numCardsLeft={this.props.cards.length-this.state.deck1.length}
-                zoneInfo={this.props.zoneInfo} 
-              />
+            <div className="decks-wrapper">
+              <div className="decks">
+                <CardList 
+                  autoFlip 
+                  cards={this.state.deck1} 
+                  settings={this.props.settings}
+                  deal={ this.deal1.bind(this) } 
+                  highlightFact={ this.state.deck1SelectedFact ? this.state.deck1SelectedFact.title : null } 
+                  onFactSelect={ this.onFactSelect1.bind(this) } 
+                  zoneInfo={this.props.zoneInfo} 
+                />
+                <CardList 
+                  cards={this.state.deck2} 
+                  settings={this.props.settings}
+                  deal={this.deal2.bind(this)} 
+                  passCard={this.passCard.bind(this)} 
+                  highlightFact={ this.state.deck1SelectedFact ? this.state.deck1SelectedFact.title : null } 
+                  onFactSelect={ this.onFactSelect2.bind(this) } 
+                  playFunc={ this.play.bind(this) }
+                  numCardsLeft={this.props.cards.length-this.state.deck1.length}
+                  zoneInfo={this.props.zoneInfo} 
+                />
+              </div>
             </div>
         
         

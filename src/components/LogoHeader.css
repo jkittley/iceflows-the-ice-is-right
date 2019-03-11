@@ -4,7 +4,6 @@
   text-align: center;
   padding-bottom: 10px;
   height: 18vh;
-  margin-bottom:20px;
 }
 
 .logo img {
@@ -15,10 +14,6 @@
   .logo {
     height: 16vh;
   }
-  .logo.game img {
-    width: 600px;
-    height: auto;
-  }
 }
 
 @media (max-width: 992px) { 
@@ -28,23 +23,11 @@
   .logo.game {
     padding-left: 100px;
   }
-  .logo.game img {
-    width: 500px;
-    height: auto;
-  }
 }
 
 @media (max-width: 768px) { 
   .logo {
     padding-right: 40px;
-  }
-  .logo img {
-    width: 100%;
-    height: auto;
-  }
-  .logo.game img {
-    width: 400px;
-    height: auto;
   }
 }
 
@@ -52,10 +35,6 @@
   .logo.game {
     height: 10vh;
     margin-bottom:20px;
-  }
-  .logo.game img {
-    width: 300px;
-    height: auto;
   }
 }
 

@@ -166,7 +166,7 @@ class Welcome extends React.Component {
       </LogoWrap>
 
         <Row>
-          <Col xl={{ size: 2, offset: 1 }} md={{ size: 2 }} sm={{ size: 6 }} style={{ zIndex: 5000 }}>
+          <Col xl={{ size: 2, offset: 1 }} md={{ size: 2 }} sm={{ size: 6 }} style={{ zIndex: 500 }}>
             <CardWrap1 pose={this.state.animation}>
                 <Button className="play" onClick={ () => this.onPagePick("game") }><div>Play Now!</div></Button>
             </CardWrap1>

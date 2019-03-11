@@ -23,6 +23,7 @@ class Fact extends React.Component {
     var classNames = "fact py-2 hand"
     var icon = null;
     if (this.props.isSelected) classNames += " bg-dark text-white";
+    
     return <Row onClick={ () => this.props.onClick(this.props) } className={classNames}>
     <Col >
     <h5 className="text-truncate">

@@ -1,6 +1,5 @@
 import React from 'react';
 import head from '../res/head.png';
-import {Container} from 'reactstrap';
 import posed from 'react-pose';
 import "./LogoHeader.css";
 

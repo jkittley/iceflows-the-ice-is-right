@@ -9,10 +9,10 @@ class CardList extends React.Component {
     var arr = this.props.cards;
     return <div className="card-list">
       { arr.map((card, i) => (    
-        <div className="card-list-item">
+        <div className="card-list-item" key={card.title} >
         <PlayingCard 
+         key={card.title}
           style={{ marginTop: i+"px"}}
-          key={card.title} 
           autoFlip={this.props.autoFlip} 
           passCard={this.props.passCard} 
           settings={this.props.settings}

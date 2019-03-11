@@ -31,16 +31,11 @@
       1px 1px 0 #000;
 }
 
-.welcome button:hover {
-
-}
-
 .welcome button.play  {
   margin-right:20px;
   margin-left:auto;
   background-image: url('../res/patterns/pattern1.png');
   transform:rotate(6deg);
-  z-index: 500!important
 }
 
 .welcome button.tour  {
@@ -48,7 +43,6 @@
   margin-right:auto;
   background-image: url('../res/patterns/pattern3.png');
   transform:rotate(-5deg);
-  z-index: 400!important;
 }
 
 .welcome button.browse  {

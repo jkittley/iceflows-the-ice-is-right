@@ -2,14 +2,14 @@
   position: absolute;
   top: 10px;
   right: 0;
-  z-index: 6000;
+  z-index: 9000;
 }
 
 @media (max-width: 1200px) {
   .settingsPane {
     top:5px;
   }
-  .settingsPane .btn {
+  .settingsPane .btn-group-vertical .btn {
     padding: 0.5rem 1rem;
     font-size:95%;
     line-height: 1.4;
@@ -18,12 +18,15 @@
 
 @media (max-width: 768px) {
   .settingsPane {
-    top: 5px;
+    top: 0;
   }
-  .settingsPane .btn {
+  .settingsPane .btn-group-vertical .btn {
     padding: 0.4rem 0.9rem;
     font-size:90%;
     line-height: 1.4;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+    border-bottom-right-radius: 0;
   }
 }
 
@@ -31,7 +34,7 @@
   .settingsPane {
     top:0;
   }
-  .settingsPane .btn {
+  .settingsPane .btn-group-vertical .btn {
     padding: 6px;
     font-size:90%;
     line-height: 1;

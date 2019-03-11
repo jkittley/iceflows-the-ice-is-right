@@ -2,7 +2,7 @@ import React from 'react';
 import posed from 'react-pose';
 import CardList from './CardList';
 import LogoHeader from './LogoHeader';
-import { FaHandPointLeft, FaHandPointRight, FaDrawPolygon } from 'react-icons/fa';
+import { FaHandPointLeft, FaHandPointRight } from 'react-icons/fa';
 import { Container, Button, Row, Col } from 'reactstrap';
 import { compareFacts } from "../Helpers";
 import "./Tour.css";

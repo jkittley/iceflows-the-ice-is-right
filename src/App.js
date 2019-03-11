@@ -4,7 +4,6 @@ import Welcome from './components/Welcome';
 import Tour from './components/Tour';
 import CardBrowser from './components/CardBrowser';
 import Settings from './components/Settings';
-import SoundSettings from './components/SoundSettings';
 import MusicPlayer from './components/MusicPlayer';
 import MapBrowser from './components/MapBrowser';
 import {loadCardData,loadZoneData} from './DataLoaders';
@@ -132,7 +131,6 @@ class App extends React.Component {
     </Helmet>
     <MusicPlayer url={require('./res/sounds/gamemusic.wav')} muted={this.state.settings.muteMusic } autoPlay autoResume loop />
     <Settings {...this.state.settings} factMeta={this.state.factMeta} onSave={ this.saveSettings.bind(this) } />
-    <SoundSettings {...this.state.settings} onSave={ this.saveSettings.bind(this) } />
     { this.getMain() }
     </div>;    
   }

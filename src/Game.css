@@ -8,6 +8,8 @@
   margin: auto auto;
 }
 
+
+
 @media (max-width: 1200px) { 
   .decks {
     height: 80vh;
@@ -22,15 +24,17 @@
 
 @media (max-width: 768px) { 
   .decks {
-    flex-direction: column;
-    height: 90vh;
+    width: 180%;
+    align-content: right;
+  }
+  .decks-wrapper {
+    width: 100%;
+    overflow-x: scroll;
   }
 }
 
 @media (max-width: 576px) { 
-  .decks {
-    height: 90vh;
-  }
+
 }
 
 .game-area.container-fluid {
@@ -45,26 +49,31 @@
 
 .game-area .exit {
   position: absolute;
-  top: 140px;
-  left: 10px;
+  top: 10px;
+  right: 65px;
 }
 
-
-@media (max-width: 992px) {
-  .game-area .exit {
-    top: 95px;
-  }
-}
-
-@media (max-width: 768px) { 
+@media (max-width: 1200px) {
   .game-area .exit {
     position: absolute;
-    top: 70px;
+    top: 5px;
+    right: 55px;
   }
-  .game-area .exit .btn { 
-    padding: 6px;
-    font-size:90%;
-    line-height: 1;
+}
+
+@media (max-width: 768px) {
+  .game-area .exit {
+    position: absolute;
+    top: 5px;
+    right: 50px;
+  }
+}
+
+@media (max-width: 576px) {
+  .game-area .exit {
+    position: absolute;
+    top: 5px;
+    right: 35px;
   }
 }
 

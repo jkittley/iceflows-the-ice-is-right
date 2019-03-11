@@ -1,7 +1,7 @@
 
 import React from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Col, Label, Input } from 'reactstrap';
-import { FaCog } from 'react-icons/fa';
+import { Button, Modal, ModalHeader, ButtonGroup, ModalBody, ModalFooter, FormGroup, Col, Label, Input, UncontrolledTooltip } from 'reactstrap';
+import { FaCog, FaDrum, FaCircle, FaMusic, FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
 import posed from 'react-pose';
 import './Settings.css';
 
@@ -25,21 +25,40 @@ class Settings extends React.Component {
       showFacts: props.showFacts,
       animation: "hidden"
     };
+    this.toggleModal = this.toggleModal.bind(this)
   }
 
   componentDidMount() {
     setTimeout( () => this.setState({ animation: "visible" }), 200 );
   }
 
-  toggle() {
+  toggleModal() {
     this.setState({ 
       visible: !this.state.visible,
       showFacts: this.props.showFacts
     });
   }
 
+  toggleMuteAll() {
+    var newState = !(this.props.muteSFX && this.props.muteMusic)
+    this.props.onSave({ 
+      muteMusic: newState, 
+      muteSFX: newState
+    });
+  }
+
+  toggleSFX() {
+    console.log("toggleSFX");
+    this.props.onSave({muteSFX: !this.props.muteSFX});
+  }
+
+  toggleMusic() {
+    console.log("toggleMusic");
+    this.props.onSave({muteMusic: !this.props.muteMusic});
+  }
+
   save() {
-    this.toggle();
+    this.toggleModal();
     if (this.props.onSave) this.props.onSave({
       showFacts: this.state.showFacts
     });
@@ -56,11 +75,37 @@ class Settings extends React.Component {
   render() {
     return <SettingsWrap pose={this.state.animation}>
       <div className="settingsPane">
-        <Button size="lg" color="warning" onClick={ () => this.toggle() }><FaCog/></Button>
+        
+        <ButtonGroup size="lg" vertical>
+          
+          <Button size="lg" color="warning" onClick={ () => this.toggleModal() }><FaCog/></Button>
+
+          <Button className="d-none d-lg-inline" id="btn-mute-all" onClick={ () => this.toggleMuteAll() } color="light">
+            { this.props.muteMusic && this.props.muteSFX ? <FaVolumeMute color="#ccc" /> : <FaVolumeUp/> }
+          </Button>
+          <UncontrolledTooltip placement="bottom" target="btn-mute-all">
+            { this.props.muteMusic && this.props.muteSFX ? "UnMute" : "Mute" } All Sounds
+          </UncontrolledTooltip>
+          
+          <Button id="btn-mute-music" onClick={this.toggleMusic.bind(this)} color="light" >
+            <FaMusic color={ this.props.muteMusic ? "#ccc" : "black" }/>
+          </Button>
+          <UncontrolledTooltip placement="bottom" target="btn-mute-music">
+            { !this.props.muteMusic ? "Mute" : "UnMute" } Music
+          </UncontrolledTooltip>
+            
+          <Button id="btn-mute-sfx" onClick={this.toggleSFX.bind(this)} color="light">
+            <FaDrum  color={ this.props.muteSFX ? "#ccc" : "black" }/>
+          </Button>
+          <UncontrolledTooltip placement="bottom" target="btn-mute-sfx">
+            { !this.props.muteSFX ? "Mute" : "UnMute" } Sound Effects
+          </UncontrolledTooltip>
+
+        </ButtonGroup>
       </div>
       
    <Modal isOpen={this.state.visible}>
-      <ModalHeader toggle={ () => this.toggle() }>Settings</ModalHeader>
+      <ModalHeader toggle={ this.toggleModal }>Settings</ModalHeader>
       <ModalBody>
       <h5>Show Facts</h5>  
       { Object.keys(this.props.factMeta).map(function(key, i) {
@@ -79,7 +124,7 @@ class Settings extends React.Component {
 
       </ModalBody>
       <ModalFooter>
-        <Button color="secondary" onClick={ () => this.toggle() }>Cancel</Button>{' '}
+        <Button color="secondary" onClick={ this.toggleModal }>Cancel</Button>{' '}
         <Button color="primary" onClick={ () => this.save() }>Save</Button>{' '}
       </ModalFooter>
       </Modal></SettingsWrap>;
