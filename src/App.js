@@ -6,6 +6,7 @@ import CardBrowser from './components/CardBrowser';
 import Settings from './components/Settings';
 import MusicPlayer from './components/MusicPlayer';
 import MapBrowser from './components/MapBrowser';
+import menumusic from './res/sounds/menumusic.wav';
 import {loadCardData,loadZoneData} from './DataLoaders';
 
 import './App.css';
@@ -25,16 +26,18 @@ class App extends React.Component {
       cards: [], 
       mounted: false,
       settings: {
-        showFacts: ['fact_fast_flow','fact_max_thick','fact_mean_thick','fact_thick_in_fast_flow'],
+        showFacts: ['fact_fast_flow','fact_mean_thick', 'fact_min_gl_bed','fact_per_bed','fact_pot_sea_level'],
         muteSFX: false,
         muteMusic: true,
       },
       factMeta: {},
       zoneInfo: {},
+      musicTrack: menumusic
     };
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     this.loadData = this.loadData.bind(this);
     this.pickPage = this.pickPage.bind(this);
+    this.changeTrack = this.changeTrack.bind(this);
   }
   
   componentDidMount() {
@@ -98,12 +101,16 @@ class App extends React.Component {
   getMain() {
     // if (this.state.width < 800 || this.state.height < 600) return <ScreenTooSmall settings={this.state.settings}/>;
 
-    if (this.state.page === "game")   return <Game        cards={this.state.cards} settings={this.state.settings} zoneInfo={this.state.zoneInfo} exitGame={ this.pickPage } />;
+    if (this.state.page === "game")   return <Game        cards={this.state.cards} settings={this.state.settings} zoneInfo={this.state.zoneInfo} exitGame={ this.pickPage } changeTrack={this.changeTrack } />;
     if (this.state.page === "tour")   return <Tour        cards={this.state.cards} settings={this.state.settings} goHome={ this.pickPage } goPlay={ () => this.pickPage("game") } />;
     if (this.state.page === "browse") return <CardBrowser cards={this.state.cards} settings={this.state.settings} goHome={ () => this.pickPage(null) } />;
     if (this.state.page === "map")    return <MapBrowser  zoneInfo={this.state.zoneInfo} settings={this.state.settings} goHome={ () => this.pickPage(null) } />;
 
     return <Welcome cards={this.state.cards} dataLoaded={this.state.dataLoaded} settings={this.state.settings} onPagePick={ this.pickPage }/>
+  }
+
+  changeTrack(track) {
+    this.setState({ musicTrack: track })
   }
 
   render() {
@@ -129,7 +136,7 @@ class App extends React.Component {
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="675" />
     </Helmet>
-    <MusicPlayer url={require('./res/sounds/gamemusic.wav')} muted={this.state.settings.muteMusic } autoPlay autoResume loop />
+    <MusicPlayer url={this.state.musicTrack} muted={this.state.settings.muteMusic } autoPlay autoResume loop />
     <Settings {...this.state.settings} factMeta={this.state.factMeta} onSave={ this.saveSettings.bind(this) } />
     { this.getMain() }
     </div>;    

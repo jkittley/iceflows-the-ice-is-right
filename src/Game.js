@@ -5,6 +5,8 @@ import GameOver from './components/GameOver';
 import ScoreCard from './components/ScoreCard';
 import LogoHeader from './components/LogoHeader';
 import { compareFacts } from "./Helpers";
+import gamemusic from './res/sounds/gamemusic.wav';
+import menumusic from './res/sounds/menumusic.wav';
 import posed from 'react-pose';
 import "./Game.css"
 
@@ -46,6 +48,7 @@ class Game extends React.Component {
       deck1SelectedFact: null,
       deck2SelectedFact: null,
       gameOver: false,
+      allowSelection: true,
       score: 0,
       numDraws: 0,
     };
@@ -59,10 +62,12 @@ class Game extends React.Component {
     this.setState({ animation: "in" });
     this.deal1();
     this.deal2();
+    this.props.changeTrack(gamemusic);
   }
 
   reset() {
     this.setState({ animation: "out" });
+    this.props.changeTrack(menumusic);
     setTimeout( () => this.props.exitGame(), 500);
   }
 
@@ -98,15 +103,15 @@ class Game extends React.Component {
   }
  
   win () {
-    this.setState({ score: this.state.score + 100 });
+    this.setState({ allowSelection: false, score: this.state.score + 100 });
   }
 
   loose() {
-    this.setState({ score: this.state.score - 50});
+    this.setState({ allowSelection: false, score: this.state.score - 50});
   }
 
   draw() {
-    this.setState({ numDraws: this.state.numDraws + 1});
+    this.setState({ allowSelection: false, numDraws: this.state.numDraws + 1});
   }
 
   play(guess) {
@@ -127,7 +132,8 @@ class Game extends React.Component {
     this.setState({
       deck1: [...this.state.deck1, topCard],
       deck2: this.state.deck2.filter((card) => card.title !== topCard.title),
-      deck1SelectedFact: null
+      deck1SelectedFact: null,
+      allowSelection: true
     });
   }
 
@@ -157,6 +163,7 @@ class Game extends React.Component {
                   highlightFact={ this.state.deck1SelectedFact ? this.state.deck1SelectedFact.title : null } 
                   onFactSelect={ this.onFactSelect1.bind(this) } 
                   zoneInfo={this.props.zoneInfo} 
+                  allowSelection={this.state.allowSelection}
                 />
                 <CardList 
                   cards={this.state.deck2} 
@@ -168,6 +175,7 @@ class Game extends React.Component {
                   playFunc={ this.play.bind(this) }
                   numCardsLeft={this.props.cards.length-this.state.deck1.length}
                   zoneInfo={this.props.zoneInfo} 
+                  allowSelection={this.state.allowSelection}
                 />
               </div>
             </div>
