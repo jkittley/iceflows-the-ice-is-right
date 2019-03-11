@@ -4,6 +4,7 @@
   top:0;
   left:0;
   width: 100%;
+  min-width: 300px;
   height: 90%;
 }
 
@@ -35,27 +36,11 @@
 
 
 .playing-card .front .img {
-  width: 500px;
-  height: 500px;
+  width: 100%;
   margin: auto auto;
   font-size: 16px;
 }
 
-@media only screen and (max-width: 1199px), screen and (max-height: 750px)  {
-  .playing-card .front .img {
-    margin: 5px auto;
-    width: 400px;
-    height: 400px;
-  }
-}
-
-@media only screen and (max-width: 991px)  {
-  .playing-card .front .img {
-    margin: 5px auto;
-    width: 290px;
-    height: 290px;
-  }
-}
 
 /* Back */
 
