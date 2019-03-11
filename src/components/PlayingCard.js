@@ -131,7 +131,7 @@ class PlayingCard extends React.Component {
               </Card>
 
               <div className="card-controls">
-                { !this.props.hideControls && this.state.flipped && !this.props.highlightFact && <div className="text-center p-2">
+                { !this.props.hideControls && this.state.flipped && !this.props.highlightFact && <div className="text-center p-2 help-select">
                   <h5>Please Select a fact</h5></div>
                 }
                 { !this.props.hideControls && this.props.passCard && this.state.flipped && <Button size="lg" color="light" block className="mt-2" onClick={this.passCard.bind(this)}>

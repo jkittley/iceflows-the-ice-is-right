@@ -47,7 +47,7 @@
 
 .playing-card .front .title {
   position: absolute;
-  top: 10px;
+  bottom: 10px;
   left: 0;
   right: 0;
   color: black;
@@ -63,7 +63,7 @@
 .playing-card .front .img {
   width: 100%;
   margin: auto auto;
-  margin-top: 40px;
+  margin-top: 20px;
   font-size: 16px;
 }
 
@@ -164,9 +164,13 @@
   .playing-card .back .card {
     padding: 5px;
   }
+  .help-select {
+    display: none;
+  }
 }
 
 /* back, initially hidden pane */
 .playing-card .back {
   -webkit-transform: rotateY(180deg);
 }
+

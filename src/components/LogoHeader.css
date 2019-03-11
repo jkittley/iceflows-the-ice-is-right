@@ -1,5 +1,6 @@
 /*  Main sections  */
 .logo {
+  position: sticky;
   text-align: center;
   padding-bottom: 10px;
   height: 18vh;
@@ -60,7 +61,9 @@
 
 @media (max-width: 480px) { 
   .logo.game img {
-    width: 80%;
-    height: auto;
+    display: none;
+  }
+  .logo.game {
+    height: 7vh;
   }
 }

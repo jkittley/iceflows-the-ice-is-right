@@ -68,3 +68,11 @@
   }
 }
 
+@media (max-width: 480px) { 
+  .game-area .exit {
+    position: absolute;
+    top: 0px;
+    right: 35px;
+    left: initial;
+  }
+}
