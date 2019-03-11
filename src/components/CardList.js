@@ -24,6 +24,7 @@ class CardList extends React.Component {
           numCardsLeft={this.props.numCardsLeft}
           hideControls={this.props.hideControls}
           zoneInfo={this.props.zoneInfo} 
+          allowSelection={this.props.allowSelection}
           {...card} /></div>
       ))}
      

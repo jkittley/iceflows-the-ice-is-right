@@ -125,17 +125,16 @@ class PlayingCard extends React.Component {
                    zoneInfo={this.props.zoneInfo} 
                   />
                 </div>
-                
                 <h1 className="title mt-2">{this.props.title }</h1>
                 <FactList settings={this.props.settings} facts={this.props.facts} factSelected={this.factSelected} highlightFact={this.props.highlightFact} />
               </Card>
 
               <div className="card-controls">
                 { !this.props.hideControls && this.state.flipped && !this.props.highlightFact && <div className="text-center p-2 help-select">
-                  <h5>Please Select a fact</h5></div>
+                  <h5><FaHandPointUp/> Please Select a fact  <FaHandPointUp/></h5></div>
                 }
-                { !this.props.hideControls && !this.props.passCard && this.state.flipped && this.props.highlightFact && <div className="text-center p-2 help-select">
-                  <h5>Make a guess <FaHandPointRight/></h5></div>
+                { !this.props.hideControls && this.props.allowSelection && !this.props.passCard && this.state.flipped && this.props.highlightFact && <div className="text-center p-2 help-select">
+                  <h5><FaHandPointRight/> Make a guess <FaHandPointRight/></h5></div>
                 }
                 { !this.props.hideControls && this.props.passCard && this.state.flipped && <Button size="lg" color="light" block className="mt-2" onClick={this.passCard.bind(this)}>
                   <FaHandPointRight/> { this.props.numCardsLeft > 0 ? "Deal Next Card" : "Finish" }{' '}<FaHandPointLeft/> 
@@ -146,14 +145,14 @@ class PlayingCard extends React.Component {
           </div>
         </div>
 
-
     
     </CardWrapper>;
   }
 }
 
 PlayingCard.defaultProps = {
-  hideControls: false
+  hideControls: false,
+  passCard: false,
 }
 
 export default PlayingCard;
