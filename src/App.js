@@ -1,6 +1,5 @@
 import React from 'react';
 import Game from './Game';
-import ScreenTooSmall from './components/ScreenTooSmall';
 import Welcome from './components/Welcome';
 import Tour from './components/Tour';
 import CardBrowser from './components/CardBrowser';

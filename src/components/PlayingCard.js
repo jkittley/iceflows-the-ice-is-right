@@ -1,5 +1,5 @@
 import React from 'react';
-import Fact from './Fact';
+import FactList from './FactList';
 import { Card, CardBody, Row, Button, Col } from 'reactstrap';
 import posed from 'react-pose';
 import { FaHandPointLeft, FaHandPointRight, FaHandPointUp, FaHandPointDown } from 'react-icons/fa';
@@ -84,6 +84,7 @@ class PlayingCard extends React.Component {
     if (this.state.flipped) displayCSS += " hover";
 
     return <CardWrapper className="playing-card" pose={ this.state.animation }>
+        
         <div className={displayCSS}>
           <div className="flipper">
             <div className="front">
@@ -101,6 +102,19 @@ class PlayingCard extends React.Component {
                   <h1 className="title">{this.props.title }</h1>
                 </CardBody>
               </Card>
+              <div className="card-controls">
+                { !this.props.hideControls &&  !this.state.flipped && this.props.highlightFact && 
+                  <Row>
+                    <Col>
+                      <Button size="lg" color="light" block className="mt-2" onClick={ () => this.play("higher")}><FaHandPointUp/> Higher</Button> 
+                    </Col>
+                    <Col>
+                      <Button size="lg" color="light" block className="mt-2" onClick={ () => this.play("lower")}><FaHandPointDown/> Lower</Button> 
+                    </Col>
+                  </Row>
+                }
+              </div>
+
             </div>
             <div className="back">
               <Card>
@@ -113,40 +127,23 @@ class PlayingCard extends React.Component {
                 </div>
                 
                 <h1 className="title mt-2">{this.props.title }</h1>
-                <div className="fact-list">
-                { this.props.facts.filter((f) => this.props.settings.showFacts.indexOf(f.id) >= 0).map( (x,i) => (
-                    <Fact 
-                      key={i} {...x} 
-                      cardId={this.props.id}
-                      isSelected={this.props.highlightFact === x.title} 
-                      onClick={this.factSelected.bind(this)} 
-                    />
-                ))}
-                </div>
+                <FactList settings={this.props.settings} facts={this.props.facts} factSelected={this.factSelected} />
               </Card>
+
+              <div className="card-controls">
+                { !this.props.hideControls && this.state.flipped && !this.props.highlightFact && <div className="text-center p-2">
+                  <h5>Please Select a fact</h5></div>
+                }
+                { !this.props.hideControls && this.props.passCard && this.state.flipped && <Button size="lg" color="light" block className="mt-2" onClick={this.passCard.bind(this)}>
+                  <FaHandPointRight/> { this.props.numCardsLeft > 0 ? "Deal Next Card" : "Finish" }{' '}<FaHandPointLeft/> 
+                </Button> }
+                {/* { !this.props.hideControls && !this.props.passCard&& this.state.flipped  && <Button size="lg" color="light" block className="mt-2" onClick={ this.props.dealFunc }><FaUndo/> New Card</Button> } */}
+              </div>
             </div>
           </div>
         </div>
 
 
-        { !this.props.hideControls &&  !this.state.flipped && this.props.highlightFact && 
-          <Row>
-            <Col style={{ paddingRight: "2px" }}>
-              <Button size="lg" color="light" block className="mt-2" onClick={ () => this.play("higher")}><FaHandPointUp/> Higher</Button> 
-            </Col>
-            <Col style={{ paddingLeft: "2px" }}>
-              <Button size="lg" color="light" block className="mt-2" onClick={ () => this.play("lower")}><FaHandPointDown/> Lower</Button> 
-            </Col>
-          </Row>
-        }
-        { !this.props.hideControls && this.state.flipped && !this.props.highlightFact && <div className="text-center p-2">
-          <h5 className="text-white">Please Select a fact</h5></div>
-        }
-        { !this.props.hideControls && this.props.passCard && this.state.flipped && <Button size="lg" color="light" block className="mt-2" onClick={this.passCard.bind(this)}>
-          <FaHandPointRight/> { this.props.numCardsLeft > 0 ? "Deal Next Card" : "Finish" }{' '}<FaHandPointLeft/> 
-        </Button> }
-        {/* { !this.props.hideControls && !this.props.passCard&& this.state.flipped  && <Button size="lg" color="light" block className="mt-2" onClick={ this.props.dealFunc }><FaUndo/> New Card</Button> } */}
-    
     
     </CardWrapper>;
   }

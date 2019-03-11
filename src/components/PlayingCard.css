@@ -1,11 +1,20 @@
 /* Playing card */
 .playing-card {
-  position: absolute;
-  top:0;
-  left:0;
+  position: relative;
   width: 100%;
-  min-width: 300px;
-  height: 90%;
+  height: 100%;
+  padding: 5px;
+}
+
+.playing-card h1 {
+  font-family: 'PlaySir', sans-serif;
+  font-size: 1.5em;
+  padding: 5px;
+}
+
+.playing-card h5.text-truncate {
+  padding-bottom: 0;
+  margin-bottom: 0;
 }
 
 .playing-card .card {
@@ -17,12 +26,28 @@
   border-radius: 8px;
 }
 
+@media (max-width: 768px) { 
+  .playing-card .card {
+    border: solid 5px white;
+  }
+}
+
+.playing-card .card-controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 5px;
+  background-color: white;
+}
+
+
 
 /* Front */
 
 .playing-card .front .title {
   position: absolute;
-  bottom: 10px;
+  top: 10px;
   left: 0;
   right: 0;
   color: black;
@@ -38,28 +63,32 @@
 .playing-card .front .img {
   width: 100%;
   margin: auto auto;
+  margin-top: 40px;
   font-size: 16px;
+}
+
+@media (max-width: 768px) { 
+  .playing-card .front .img {
+    margin-top: 0;
+    height: 100%;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    background-color: white;
+  }
 }
 
 
 /* Back */
 
 .playing-card .back .img {
-  height: 300px;
+  height: 40%;
   width: 100%;
   background-color: white;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
   font-size: 8px;
-}
-
-
-.playing-card .fact-list {
-  margin: 0;
-  padding: 5px;
-  overflow-y: auto;
-  overflow-x: hidden;
 }
 
 @media only screen and (max-width: 1000px) {
@@ -129,6 +158,12 @@
 .playing-card .back .card {
   padding: 10px;
   background-color: #C0D6E4;
+}
+
+@media (max-width: 768px) { 
+  .playing-card .back .card {
+    padding: 5px;
+  }
 }
 
 /* back, initially hidden pane */

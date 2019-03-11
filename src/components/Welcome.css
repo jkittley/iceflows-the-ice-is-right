@@ -20,7 +20,7 @@
 }
 
 .welcome div {
-  font-family: 'PlaySir', cursive;
+  font-family: 'PlaySir', sans-serif;
   -webkit-text-stroke: 1px black;
   color: white;
   text-shadow:

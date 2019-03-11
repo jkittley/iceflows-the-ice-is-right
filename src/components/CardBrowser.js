@@ -48,7 +48,7 @@ class CardBrowser extends React.Component {
 
   deal(idx) {
     var pick = this.props.cards[idx];
-    if (this.state.deck.length > 0) this.setState({  deck: [ this.state.deck[0], pick] }); else this.setState({  deck: [ pick ] });
+    if (this.state.deck.length > 0) this.setState({  deck: [ ...this.state.deck, pick] }); else this.setState({  deck: [ pick ] });
   }
 
   goHome() {

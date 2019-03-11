@@ -1,6 +1,5 @@
 import React from 'react';
 import PlayingCard from './PlayingCard';
-import { CardGroup } from 'reactstrap';
 import "./CardList.css";
 
 class CardList extends React.Component {
@@ -9,8 +8,8 @@ class CardList extends React.Component {
     //var arr = this.props.cards.slice(Math.max(this.props.cards.length - 2, 0));
     var arr = this.props.cards;
     return <div className="card-list">
-      <CardGroup>
       { arr.map((card, i) => (    
+        <div className="card-list-item">
         <PlayingCard 
           style={{ marginTop: i+"px"}}
           key={card.title} 
@@ -25,9 +24,9 @@ class CardList extends React.Component {
           numCardsLeft={this.props.numCardsLeft}
           hideControls={this.props.hideControls}
           zoneInfo={this.props.zoneInfo} 
-          {...card} />
+          {...card} /></div>
       ))}
-    </CardGroup>
+     
     </div>;
   }
 }

@@ -148,7 +148,7 @@ class Game extends React.Component {
             </div>
 
           
-            <div className="decks d-flex flex-row">
+            <div className="decks">
               <CardList 
                 autoFlip 
                 cards={this.state.deck1} 

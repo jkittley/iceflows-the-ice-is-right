@@ -1,8 +1,8 @@
 /*  Main sections  */
 .logo {
   text-align: center;
-  padding-bottom: 30px;
-  height: 20vh;
+  padding-bottom: 10px;
+  height: 18vh;
   margin-bottom:20px;
 }
 
@@ -11,6 +11,9 @@
 }
 
 @media (max-width: 1200px) { 
+  .logo {
+    height: 16vh;
+  }
   .logo.game img {
     width: 600px;
     height: auto;

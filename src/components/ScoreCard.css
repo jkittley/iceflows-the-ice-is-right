@@ -6,7 +6,7 @@
 }
 
 .score-card h1 {
-  font-family: 'PlaySir', cursive;
+  font-family: 'PlaySir', sans-serif;
   font-size: 50px;
   -webkit-text-stroke: 1px black;
     color: white;
@@ -19,7 +19,7 @@
 }
 
 .score-card h6 {
-  font-family: 'PlaySir', cursive;
+  font-family: 'PlaySir', sans-serif;
   font-size: 20px;
   -webkit-text-stroke: 1px black;
     color: white;

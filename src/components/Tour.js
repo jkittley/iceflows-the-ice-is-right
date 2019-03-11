@@ -113,7 +113,7 @@ class Welcome extends React.Component {
         <Row className="mt-4">
           <Col md={12} lg={5} className="mb-2">
            <TourWrapper pose={this.state.animation}>
-            <div className="bg-white p-4 rounded">
+            <div className="bg-white p-4 rounded" style={{ margin: "5px" }}>
               
               { this.state.tourStage === 0 && <div className="text-center">
                <h3>The ICE IS RIGHT is a card game, which all the penguins down in Antarctic like to play.</h3>

@@ -1,17 +1,42 @@
 
 .decks {
-  height: 80vh;
+  display: flex;
+  flex-direction: row;
+  height: 78vh;
   width: 100%;
-  min-width: 800px;
   max-width: 1200px;
   margin: auto auto;
 }
 
+@media (max-width: 1200px) { 
+  .decks {
+    height: 80vh;
+  }
+}
+
+@media (max-width: 992px) { 
+  .decks {
+    height: 85vh;
+  }
+}
+
+@media (max-width: 768px) { 
+  .decks {
+    flex-direction: column;
+    height: 90vh;
+  }
+}
+
+@media (max-width: 576px) { 
+  .decks {
+    height: 90vh;
+  }
+}
+
 .game-area.container-fluid {
-  overflow: hidden;
   padding: 0;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
 }
 
 .game-area .container {

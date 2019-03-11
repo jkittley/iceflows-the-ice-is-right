@@ -30,7 +30,7 @@
 }
 
 .score-popup h1 {
-  font-family: 'PlaySir', cursive;
+  font-family: 'PlaySir', sans-serif;
   font-size: 70px;
   -webkit-text-stroke: 1px black;
    color: white;
@@ -43,7 +43,7 @@
 }
 
 .score-popup h2 {
-  font-family: 'PlaySir', cursive;
+  font-family: 'PlaySir', sans-serif;
   font-size: 50px;
   -webkit-text-stroke: 1px black;
    color: white;

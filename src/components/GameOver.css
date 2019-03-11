@@ -19,7 +19,7 @@
 
 .game-over h1 {
   margin-bottom: 20px;
-  font-family: 'PlaySir', cursive;
+  font-family: 'PlaySir', sans-serif;
   font-size: 50px;
   -webkit-text-stroke: 1px black;
    color: white;
@@ -33,7 +33,7 @@
 
 .game-over h2 {
   margin-bottom: 50px;
-  font-family: 'PlaySir', cursive;
+  font-family: 'PlaySir', sans-serif;
   font-size: 30px;
   -webkit-text-stroke: 1px black;
    color: white;
