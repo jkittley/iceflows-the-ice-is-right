@@ -2,7 +2,6 @@ import React from 'react';
 import posed from 'react-pose';
 import MusicPlayer from './MusicPlayer';
 import ScorePopup from './ScorePopup';
-import { Progress } from 'reactstrap';
 import "./ScoreCard.css";
 
 const ScoreNumberWrap = posed.div({
@@ -80,14 +79,13 @@ class ScoreCard extends React.Component {
 
   render() {
     return <div className="score-card bg-black">
-     { this.state.audioFile && <MusicPlayer url={this.state.audioFile} muted={this.props.settings.muteSFX } autoPlay callbackFinish={this.resetAudio.bind(this)} /> }
+     <MusicPlayer url={this.state.audioFile} muted={this.props.settings.muteSFX } autoPlay callbackFinish={this.resetAudio.bind(this)} /> 
      <ScoreNumberWrap pose={this.state.animation}>
-     <h1>SCORE:<span width="200">{ this.props.score }</span></h1>
-     </ScoreNumberWrap>
-     <div className="stats text-center text-white mt-2">
-        <Progress className="d-none d-lg-block" value={ this.props.cardsPlayed } max={this.props.numCards}/>
+     <h1>SCORE:<span width="200">{ this.props.score }</span></h1> 
+     <div className="stats text-left text-white mt-2">
         <h6 className="mt-2">Cards remaining: { Math.max(0, this.props.numCards - this.props.cardsPlayed) }</h6>
-      </div>
+     </div>
+     </ScoreNumberWrap>
 
       { this.state.showBonusAnimation && <ScorePopup mode={this.state.scorePopup} scoreType={this.state.scoreType} /> }
     </div>;
