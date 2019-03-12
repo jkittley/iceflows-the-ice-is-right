@@ -81,8 +81,9 @@ class PlayingCard extends React.Component {
   render() {   
     if (this.props.title === undefined) return null;
     var displayCSS = "flip-container";
-    if (this.state.flipped) displayCSS += " hover";
-
+    if (this.state.flipped) displayCSS += " flipped";
+    if (this.props.mouseOver) displayCSS += " mouse-over";
+ 
     return <CardWrapper className="playing-card" pose={ this.state.animation }>
         
         <div className={displayCSS}>
@@ -149,10 +150,13 @@ class PlayingCard extends React.Component {
     </CardWrapper>;
   }
 }
+const uuidv4 = require('uuid/v4');
 
 PlayingCard.defaultProps = {
+  id: uuidv4(),
   hideControls: false,
   passCard: false,
+  mouseOver: true,
 }
 
 export default PlayingCard;

@@ -1,0 +1,27 @@
+.card-browser {
+  max-width: 1200px;
+}
+
+.card-browser .deck {
+  display: flex;
+  flex-direction: row;
+  height: 70vh;
+  width: 100%;
+  max-width: 1200px;
+  margin: auto auto;
+}
+
+.card-browser .options {
+  display: flex;
+  flex-flow: wrap;
+}
+
+.card-browser .options button{
+  flex-grow: 1;
+}
+
+@media (max-width: 768px) { 
+  .card-browser .options {
+  }
+}
+

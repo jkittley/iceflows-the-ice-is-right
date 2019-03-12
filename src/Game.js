@@ -176,6 +176,7 @@ class Game extends React.Component {
                   numCardsLeft={this.props.cards.length-this.state.deck1.length}
                   zoneInfo={this.props.zoneInfo} 
                   allowSelection={this.state.allowSelection}
+                  mouseOver={false}
                 />
               </div>
             </div>

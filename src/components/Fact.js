@@ -20,7 +20,7 @@ class Fact extends React.Component {
 
   render() {
     var uid = this.props.id+"_"+this.props.cardId;
-    var classNames = "fact py-2 hand"
+    var classNames = "fact py-2"
     var icon = null;
     if (this.props.isSelected) classNames += " bg-dark text-white";
     
@@ -28,13 +28,13 @@ class Fact extends React.Component {
     <Col >
     <h5 className="text-truncate">
       {this.props.title }{' '}
-      <span href="#" id={uid}>
-      <FaInfoCircle/>
-      </span>
+      { this.props.desc && <span href="#" id={uid}><FaInfoCircle/></span> }
       </h5>
-      <UncontrolledTooltip placement="right" target={uid}>
-        {this.props.desc }
-      </UncontrolledTooltip>
+      
+      { this.props.desc && <UncontrolledTooltip placement="right" target={uid}>
+        { this.props.desc }
+       </UncontrolledTooltip> }
+      
     </Col>
     
     <Col className="text-right">

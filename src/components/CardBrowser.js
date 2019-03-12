@@ -4,6 +4,7 @@ import CardList from './CardList';
 import LogoHeader from './LogoHeader';
 import { FaHandPointLeft } from 'react-icons/fa';
 import { Container, Button, Row, Col } from 'reactstrap';
+import "./CardBrowser.css";
 
 const TourWrapper = posed.div({
   out: {
@@ -57,41 +58,38 @@ class CardBrowser extends React.Component {
   }
 
   render() {
-    return <Container fluid className="text-left">
-        <Container>
+    return <Container fluid className="card-browser">
         <TourWrapper pose={this.state.animation}>
         <LogoHeader />
         </TourWrapper>
         <Row className="mt-4">
 
-          <Col xs={3}>
+          <Col sm={12} md={4}>
             <TourWrapper pose={this.state.animation}>
-            
-           
-              { this.props.cards.map( (card, idx) => 
-                <Button key={idx} size="sm" className="m-1" color="light" onClick={ () => this.deal(idx) }>{ card.title }</Button>
+              <div className="options">
+              { this.props.cards.sort( (a,b) => a.title > b.title ? 0 : ( a.title < b.title ? -1 : 0 ) ).map( (card, idx) => 
+                <Button key={card.id} size="sm" className="m-1" color="light" onClick={ () => this.deal(idx) }>{ card.title }</Button>
               )}
-              <br/>
+              </div>
             </TourWrapper>
           </Col>
 
-          <Col xs={9}>
+          <Col sm={12} md={8}>
             <TourWrapper pose={this.state.animation}>
-              <div className="decks d-flex">
+              <div className="deck">
               <CardList  
                 cards={this.state.deck} 
                 autoFlip={true}
                 settings={this.props.settings}
                 deal={ this.deal.bind(this) } 
                 hideControls={true}
+                mouseOver={false}
               />
               </div>
             </TourWrapper>
           </Col>
         </Row>
         
-        </Container>
-
         <div className="back-button-pane">  
           <Button color="light" onClick={this.goHome}><FaHandPointLeft/> Back</Button>
         </div>

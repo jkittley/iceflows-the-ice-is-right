@@ -2,8 +2,9 @@
   font-size: 20px;
 }
 
-.fact:hover {
+.mouse-over .fact:hover {
   background-color: #eee;
+  cursor: pointer; 
 }
 
 @media only screen and (max-width: 1000px) {
