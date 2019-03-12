@@ -68,7 +68,7 @@ class MusicPlayer extends React.Component {
       {controls}
       { this.props.url && <Sound
           url={this.props.url}
-          playFromPosition={20}
+          playFromPosition={1}
           autoLoad={this.props.autoLoad}
           playStatus={this.state.playStatus}
           loop={this.props.loop}
@@ -83,6 +83,7 @@ MusicPlayer.defaultProps = {
   loop: false,
   callbackFinish: false,
   autoLoad: true,
+  autoResume: false
 };
          
 export default MusicPlayer;
