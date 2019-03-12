@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button, Modal, ModalHeader, ButtonGroup, ModalBody, ModalFooter, FormGroup, Col, Label, Input, UncontrolledTooltip } from 'reactstrap';
-import { FaCog, FaDrum, FaCircle, FaMusic, FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
+import { FaCog, FaDrum, FaMusic, FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
 import posed from 'react-pose';
 import './Settings.css';
 
@@ -83,21 +83,21 @@ class Settings extends React.Component {
           <Button className="d-none d-lg-inline" id="btn-mute-all" onClick={ () => this.toggleMuteAll() } color="light">
             { this.props.muteMusic && this.props.muteSFX ? <FaVolumeMute color="#ccc" /> : <FaVolumeUp/> }
           </Button>
-          <UncontrolledTooltip placement="bottom" target="btn-mute-all">
+          <UncontrolledTooltip placement="left" target="btn-mute-all">
             { this.props.muteMusic && this.props.muteSFX ? "UnMute" : "Mute" } All Sounds
           </UncontrolledTooltip>
           
           <Button id="btn-mute-music" onClick={this.toggleMusic.bind(this)} color="light" >
             <FaMusic color={ this.props.muteMusic ? "#ccc" : "black" }/>
           </Button>
-          <UncontrolledTooltip placement="bottom" target="btn-mute-music">
+          <UncontrolledTooltip placement="left" target="btn-mute-music">
             { !this.props.muteMusic ? "Mute" : "UnMute" } Music
           </UncontrolledTooltip>
             
           <Button id="btn-mute-sfx" onClick={this.toggleSFX.bind(this)} color="light">
             <FaDrum  color={ this.props.muteSFX ? "#ccc" : "black" }/>
           </Button>
-          <UncontrolledTooltip placement="bottom" target="btn-mute-sfx">
+          <UncontrolledTooltip placement="left" target="btn-mute-sfx">
             { !this.props.muteSFX ? "Mute" : "UnMute" } Sound Effects
           </UncontrolledTooltip>
 
