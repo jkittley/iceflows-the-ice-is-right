@@ -66,7 +66,6 @@ class ScoreCard extends React.Component {
   }
 
   itsADraw() {
-    console.log("Its a draw");
     this.setState({ showBonusAnimation: true, scorePopup: "in", scoreType: "draw", audioFile: require('../res/sounds/draw.wav') });
     setTimeout( () => this.setState({ scorePopup: "out" }), 1000);
     setTimeout( () => this.setState({ showBonusAnimation: false, scorePopup: "hidden", audioFile: null }), 1500);

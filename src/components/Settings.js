@@ -48,12 +48,10 @@ class Settings extends React.Component {
   }
 
   toggleSFX() {
-    console.log("toggleSFX");
     this.props.onSave({muteSFX: !this.props.muteSFX});
   }
 
   toggleMusic() {
-    console.log("toggleMusic");
     this.props.onSave({muteMusic: !this.props.muteMusic});
   }
 

@@ -39,7 +39,6 @@ class Map extends React.Component {
 
   onBasinOver(zoneId) {
     if (this.props.allowZoneSelect) {
-      console.log(zoneId);
       this.selectZone(zoneId);
     }
   }
