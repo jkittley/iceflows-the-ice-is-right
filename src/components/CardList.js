@@ -9,9 +9,9 @@ class CardList extends React.Component {
     var arr = this.props.cards;
     return <div className="card-list">
       { arr.map((card, i) => (    
-        <div className="card-list-item" key={card.title} >
+        <div className="card-list-item" key={this.props.id + "_" + card.id} >
         <PlayingCard 
-         key={card.title}
+          id={this.props.id + "_" + card.id}
           style={{ marginTop: i+"px"}}
           autoFlip={this.props.autoFlip} 
           passCard={this.props.passCard} 
@@ -25,6 +25,7 @@ class CardList extends React.Component {
           hideControls={this.props.hideControls}
           zoneInfo={this.props.zoneInfo} 
           allowSelection={this.props.allowSelection}
+          mouseOver={this.props.mouseOver}
           {...card} /></div>
       ))}
      
@@ -32,7 +33,10 @@ class CardList extends React.Component {
   }
 }
 
+const uuidv4 = require('uuid/v4');
+
 CardList.defaultProps = {
+  id: uuidv4(),
   autoFlip: false
 };
          
