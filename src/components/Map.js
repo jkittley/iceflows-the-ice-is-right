@@ -14,10 +14,11 @@ class Map extends React.Component {
     super(props);
     this.state = { 
       layers: {
-        "icedepth": { id: "icedepth", title: "Ice Depth", image: require('../res/maps/layer_icedepth.jpg') },
+        "icedepth": { id: "icedepth", title: "Ice Thickness", image: require('../res/maps/layer_icedepth.jpg') },
         "bedelev" : { id: "bedelev", title: "Bed Elevation", image: require('../res/maps/layer_bedelevation.jpg') },
+        "icespeed" : { id: "icespeed", title: "Ice Flow Speed", image: require('../res/maps/layer_iceflowspeed.jpg') },
       },
-      layerOrder: ["icedepth", "bedelev"],
+      layerOrder: ["icedepth", "bedelev", "icespeed"],
       activeLayer: null,
       activeZone: null,
       showInfoPane: this.props.infoOpen,
