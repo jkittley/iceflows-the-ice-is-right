@@ -8,11 +8,7 @@ import MusicPlayer from './components/MusicPlayer';
 import MapBrowser from './components/MapBrowser';
 import menumusic from './res/sounds/menumusic.wav';
 import {loadCardData,loadZoneData} from './DataLoaders';
-
 import './App.css';
-import {Helmet} from "react-helmet";
-import ReactGA from 'react-ga';
-ReactGA.initialize('UA-79207363-1');
 
 class App extends React.Component {
   
@@ -125,31 +121,11 @@ class App extends React.Component {
   
 
   render() {
-    var twitterCard = require("./res/twitter-card.png");
-    var openCard = require("./res/opengraph-card.png");
     if (this.state.mounted===false) return <div className="loading"><h1>Loading...</h1></div>;
     return <div className="app">
-    <Helmet>
-      <meta charSet="utf-8" />
-      <title>The Ice Is Right - An Ice Flows Game</title>
-      <meta name="twitter:card" content="summary"/>
-      <meta name="twitter:site" content="@iceflowsgame"/>
-      <meta name="twitter:title" content="The Ice Is Right - An Ice Flows Game"/>
-      <meta name="twitter:description" content="A game about ice flow in the Antarctic" />
-      <meta name="twitter:creator" content="@iceflowsgame"/>
-      <meta name="twitter:image" content={"http://www.iceflowsgame.com"+twitterCard} />
-      <meta property="og:title" content="Ice Flows" />
-      <meta property="og:type" content="article" />
-      <meta property="og:url" content="http://www.iceflowsgame.com/theiceisright/" />
-      <meta property="og:image" content={"http://www.iceflowsgame.com"+openCard} />
-      <meta property="og:description" content="A game about ice flow in the Antarctic" />
-      <meta property="og:site_name" content="The Ice Is Right - An Ice Flows Game" />
-      <meta property="og:image:width" content="1200" />
-      <meta property="og:image:height" content="675" />
-    </Helmet>
+  
     <MusicPlayer url={this.state.musicTrack} muted={this.state.settings.muteMusic } autoPlay autoResume loop />
     <MusicPlayer url={this.state.sfxTrack} muted={this.state.settings.muteSFX } on autoPlay callbackFinish={this.sfxFinish} /> 
-
     <Settings {...this.state.settings} factMeta={this.state.factMeta} onSave={ this.saveSettings.bind(this) } />
     { this.getMain() }
     </div>;    

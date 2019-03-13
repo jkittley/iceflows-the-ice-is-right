@@ -7,12 +7,24 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <meta name="theme-color" content="#000000" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+      <meta name="theme-color" content="#000000" />
+      
+      <meta name="twitter:card" content="summary_large_image"/>
+      <meta name="twitter:site" content="@iceflowsgame"/>
+      <meta name="twitter:title" content="The Ice Is Right - An Ice Flows Game"/>
+      <meta name="twitter:description" content="A game about ice flow in the Antarctic" />
+      <meta name="twitter:creator" content="@iceflowsgame"/>
+      <meta name="twitter:image" content="http://iceflowsgame.com%PUBLIC_URL%/twitter-card.png" />
+      <meta property="og:title" content="Ice Flows" />
+      <meta property="og:type" content="article" />
+      <meta property="og:url" content="http://iceflowsgame.com%PUBLIC_URL%" />
+      <meta property="og:image" content="http://iceflowsgame.com%PUBLIC_URL%/opengraph-card.png" />
+      <meta property="og:description" content="A game about ice flow in the Antarctic" />
+      <meta property="og:site_name" content="The Ice Is Right - An Ice Flows Game" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="675" />
+
+      <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -37,5 +49,14 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-79207363-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
   </body>
 </html>
