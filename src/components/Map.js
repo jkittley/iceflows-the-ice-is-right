@@ -18,7 +18,7 @@ class Map extends React.Component {
         "bedelev" : { id: "bedelev", title: "Bed Elevation", image: require('../res/maps/layer_bedelevation.jpg') },
         "icespeed" : { id: "icespeed", title: "Ice Flow Speed", image: require('../res/maps/layer_iceflowspeed.jpg') },
       },
-      layerOrder: ["icedepth", "bedelev", "icespeed"],
+      layerOrder: ["icespeed", "icedepth", "bedelev"],
       activeLayer: null,
       activeZone: null,
       showInfoPane: this.props.infoOpen,
