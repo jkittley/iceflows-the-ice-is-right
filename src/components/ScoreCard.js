@@ -27,7 +27,6 @@ class ScoreCard extends React.Component {
       animation: "hidden",
       bonusAnimation: "hidden",
       showBonusAnimation: "hidden",
-      audioFile: null,
     }
   }
 
@@ -54,21 +53,24 @@ class ScoreCard extends React.Component {
   }
 
   pointGained() {
-    this.setState({ showBonusAnimation: true, scorePopup: "in", scoreType: "win", audioFile: require('../res/sounds/win.wav') });
-    setTimeout( () => this.setState({ scorePopup: "out" }), 1000);
-    setTimeout( () => this.setState({ showBonusAnimation: false, scorePopup: "hidden", audioFile: null }), 1500);
+    this.props.playSFX(require('../res/sounds/win.wav'));
+    this.setState({ showBonusAnimation: true, scorePopup: "in", scoreType: "win" });
+    setTimeout( () => this.setState({ scorePopup: "out" }), 2000);
+    setTimeout( () => this.setState({ showBonusAnimation: false, scorePopup: "hidden" }), 2500);
   }
 
   pointLost() {
-    this.setState({ showBonusAnimation: true, scorePopup: "in", scoreType: "loose", audioFile: require('../res/sounds/loose.wav') });
+    this.props.playSFX(require('../res/sounds/loose.wav'));
+    this.setState({ showBonusAnimation: true, scorePopup: "in", scoreType: "loose" });
     setTimeout( () => this.setState({ scorePopup: "out" }), 1000);
-    setTimeout( () => this.setState({ showBonusAnimation: false, scorePopup: "hidden", audioFile: null }), 1500);
+    setTimeout( () => this.setState({ showBonusAnimation: false, scorePopup: "hidden" }), 1500);
   }
 
   itsADraw() {
-    this.setState({ showBonusAnimation: true, scorePopup: "in", scoreType: "draw", audioFile: require('../res/sounds/draw.wav') });
+    this.props.playSFX(require('../res/sounds/draw.wav'));
+    this.setState({ showBonusAnimation: true, scorePopup: "in", scoreType: "draw" });
     setTimeout( () => this.setState({ scorePopup: "out" }), 1000);
-    setTimeout( () => this.setState({ showBonusAnimation: false, scorePopup: "hidden", audioFile: null }), 1500);
+    setTimeout( () => this.setState({ showBonusAnimation: false, scorePopup: "hidden" }), 1500);
   }
 
   resetAudio() {
@@ -78,7 +80,6 @@ class ScoreCard extends React.Component {
 
   render() {
     return <div className="score-card bg-black">
-     <MusicPlayer url={this.state.audioFile} muted={this.props.settings.muteSFX } autoPlay callbackFinish={this.resetAudio.bind(this)} /> 
      <ScoreNumberWrap pose={this.state.animation}>
      <h1>SCORE:<span width="200">{ this.props.score }</span></h1> 
      <div className="stats text-left text-white mt-2">

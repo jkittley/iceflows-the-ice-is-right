@@ -28,16 +28,19 @@ class App extends React.Component {
       settings: {
         showFacts: ['fact_fast_flow','fact_mean_thick', 'fact_min_gl_bed','fact_per_bed','fact_pot_sea_level'],
         muteSFX: false,
-        muteMusic: true,
+        muteMusic: false,
       },
       factMeta: {},
       zoneInfo: {},
-      musicTrack: menumusic
+      musicTrack: menumusic,
+      sfxTrack: null
     };
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     this.loadData = this.loadData.bind(this);
     this.pickPage = this.pickPage.bind(this);
     this.changeTrack = this.changeTrack.bind(this);
+    this.playSFX = this.playSFX.bind(this);
+    this.sfxFinish = this.sfxFinish.bind(this);
   }
   
   componentDidMount() {
@@ -85,7 +88,6 @@ class App extends React.Component {
   }
 
   pickPage(page=null) {
-    console.log(page);
     this.setState({ page: page });
   }
 
@@ -101,7 +103,7 @@ class App extends React.Component {
   getMain() {
     // if (this.state.width < 800 || this.state.height < 600) return <ScreenTooSmall settings={this.state.settings}/>;
 
-    if (this.state.page === "game")   return <Game        cards={this.state.cards} settings={this.state.settings} zoneInfo={this.state.zoneInfo} exitGame={ this.pickPage } changeTrack={this.changeTrack } />;
+    if (this.state.page === "game")   return <Game        cards={this.state.cards} settings={this.state.settings} playSFX={this.playSFX} zoneInfo={this.state.zoneInfo} exitGame={ this.pickPage } changeTrack={this.changeTrack } />;
     if (this.state.page === "tour")   return <Tour        cards={this.state.cards} settings={this.state.settings} goHome={ this.pickPage } goPlay={ () => this.pickPage("game") } />;
     if (this.state.page === "browse") return <CardBrowser cards={this.state.cards} settings={this.state.settings} goHome={ () => this.pickPage(null) } />;
     if (this.state.page === "map")    return <MapBrowser  zoneInfo={this.state.zoneInfo} settings={this.state.settings} goHome={ () => this.pickPage(null) } />;
@@ -112,6 +114,15 @@ class App extends React.Component {
   changeTrack(track) {
     this.setState({ musicTrack: track })
   }
+
+  playSFX(sfx) {
+    this.setState({ sfxTrack: sfx })
+  }
+
+  sfxFinish() {
+    this.setState({ sfxTrack: null })
+  }
+  
 
   render() {
     var twitterCard = require("./res/twitter-card.png");
@@ -137,6 +148,8 @@ class App extends React.Component {
       <meta property="og:image:height" content="675" />
     </Helmet>
     <MusicPlayer url={this.state.musicTrack} muted={this.state.settings.muteMusic } autoPlay autoResume loop />
+    <MusicPlayer url={this.state.sfxTrack} muted={this.state.settings.muteSFX } on autoPlay callbackFinish={this.sfxFinish} /> 
+
     <Settings {...this.state.settings} factMeta={this.state.factMeta} onSave={ this.saveSettings.bind(this) } />
     { this.getMain() }
     </div>;    

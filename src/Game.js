@@ -60,8 +60,8 @@ class Game extends React.Component {
 
   componentDidMount() {
     this.setState({ animation: "in" });
-    this.deal1();
-    this.deal2();
+    this.deal1(false);
+    this.deal2(false);
     this.props.changeTrack(gamemusic);
   }
 
@@ -71,10 +71,11 @@ class Game extends React.Component {
     setTimeout( () => this.props.exitGame(), 500);
   }
 
-  deal1() { this.deal(1); }
-  deal2() { this.deal(2); }
-  deal(deckChoice=2) {
+  deal1(sound=true) { this.deal(1, sound); }
+  deal2(sound=true) { this.deal(2, sound); }
+  deal(deckChoice=2, sound=true) {
     if (this.state.allCards.length <= 0) return this.setState({ gameOver: true });
+    if (sound) this.props.playSFX(require('./res/sounds/deal.wav'));
     var pick = this.state.allCards[Math.floor(Math.random()*this.state.allCards.length)];
     if (deckChoice===1) {
       this.setState({ 
@@ -147,7 +148,8 @@ class Game extends React.Component {
             numCards={this.props.cards.length}
             cardsPlayed={this.state.deck1.length}
             settings={this.props.settings} 
-            numDraws={this.state.numDraws} />
+            numDraws={this.state.numDraws}
+            playSFX={this.props.playSFX} />
           
             <div className="exit">
             <Button size="sm" color="light" outline onClick={this.reset.bind(this)}>Quit</Button>
