@@ -14,7 +14,9 @@ body, html {
 }
 
 body {
-  background-image: url('./res/patterns/pattern4.png');
+  /* background-image: url('./res/patterns/pattern4.png'); */
+  background-color: #00468B;
+  background-image: linear-gradient(to bottom, #3a7fe7, #3365ba, #2b4d8f, #203566, #142040);
 }
 
 @font-face {
