@@ -19,26 +19,25 @@ class Fact extends React.Component {
   }
 
   render() {
-    var uid = this.props.id+"_"+this.props.cardId;
+    var uid = this.props.id+"_"+this.props.uid;
     var classNames = "fact py-2"
     var icon = null;
     if (this.props.isSelected) classNames += " bg-dark text-white";
     
     return <Row onClick={ () => this.props.onClick(this.props) } className={classNames}>
     <Col >
-    <h5 className="text-truncate">
-      {this.props.title }{' '}
-      { this.props.desc && <span href="#" id={uid}><FaInfoCircle/></span> }
-      </h5>
-      
+    <h5>
+      <span className="title">{this.props.title }</span>
+      { this.props.desc && <a href="#" id={uid}><FaInfoCircle/></a> }
       { this.props.desc && <UncontrolledTooltip placement="right" target={uid}>
         { this.props.desc }
        </UncontrolledTooltip> }
-      
+      </h5>
+
     </Col>
     
     <Col className="text-right">
-    <Badge pill>{icon} {this.props.value } {this.props.unit }{' '}
+    <Badge pill>{icon} {this.props.value } <span className="units">{this.props.unit }</span>{' '}
     <div className="d-none d-xl-inline ml-2"><ReactStars
       className="float-right"
       count={4}

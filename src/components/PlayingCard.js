@@ -127,7 +127,7 @@ class PlayingCard extends React.Component {
                   />
                 </div>
                 <h1 className="title mt-2">{this.props.title }</h1>
-                <FactList settings={this.props.settings} facts={this.props.facts} factSelected={this.factSelected} highlightFact={this.props.highlightFact} />
+                <FactList uid={this.props.id} settings={this.props.settings} facts={this.props.facts} factSelected={this.factSelected} highlightFact={this.props.highlightFact} />
               </Card>
 
               <div className="card-controls">
