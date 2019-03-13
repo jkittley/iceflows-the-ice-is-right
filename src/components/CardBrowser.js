@@ -25,12 +25,32 @@ const TourWrapper = posed.div({
   }
 });
 
+const DeckWrapper = posed.div({
+  out: {
+    x: 500,
+    opacity: 0,
+    delay: 100,
+    transition: {
+      default: { duration: 300 }
+    }
+  },
+  in: {
+    x: 0,
+    opacity: 1,
+    delay: 100,
+    transition: {
+      default: { duration: 300 }
+    }
+  }
+});
+
 class CardBrowser extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = { 
       animation: "out",
+      deckAnimation: "out",
       deck: [],
     };
     this.goHome = this.goHome.bind(this);
@@ -38,7 +58,7 @@ class CardBrowser extends React.Component {
   }
 
   componentDidMount() {
-    setTimeout( () => this.setState({ animation: "in" }), 500);
+    setTimeout( () => this.setState({ animation: "in", deckAnimation: "in" }), 500);
     setTimeout( () => this.deal(0), 700);
   }
 
@@ -48,8 +68,11 @@ class CardBrowser extends React.Component {
   }
 
   deal(idx) {
-    var pick = this.props.cards[idx];
-    if (this.state.deck.length > 0) this.setState({  deck: [ ...this.state.deck, pick] }); else this.setState({  deck: [ pick ] });
+    if (this.state.deck.length > 0 && this.state.deck[0].id === this.props.cards[idx].id) return; 
+    this.setState({ deckAnimation: "out" });
+    setTimeout( () => { 
+      this.setState({  deck: [ this.props.cards[idx] ], deckAnimation: "in" });
+    }, 500);
   }
 
   goHome() {
@@ -75,7 +98,7 @@ class CardBrowser extends React.Component {
           </Col>
 
           <Col sm={12} md={8}>
-            <TourWrapper pose={this.state.animation}>
+            <DeckWrapper pose={this.state.deckAnimation}>
               <div className="deck">
               <CardList  
                 cards={this.state.deck} 
@@ -86,7 +109,7 @@ class CardBrowser extends React.Component {
                 mouseOver={false}
               />
               </div>
-            </TourWrapper>
+            </DeckWrapper>
           </Col>
         </Row>
         
