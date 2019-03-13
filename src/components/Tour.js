@@ -121,11 +121,11 @@ class Welcome extends React.Component {
                </div>
               }
               { this.state.tourStage === 1 && <div>
-               <h3>The game is played with a deck of { this.props.cards.length} cards. One card for each Antarctic Basin.</h3>
-               <h3>On the back of each card you can see the Basins name and a map of where it is on the continent.</h3></div>
+               <h3>The game is played with a deck of { this.props.cards.length} cards. One card for each Ice Stream.</h3>
+               <h3>On the back of each card you can see the Ice Stream's name and a map of where it is on the continent.</h3></div>
               }
               { this.state.tourStage === 2 &&
-               <h3>On the front, is a list of facts about a this Antarctic Basin. Now pick one, go on click on it.</h3>
+               <h3>On the front, is a list of facts about a this Antarctic Ice Stream. Now pick one, go on click on it.</h3>
               }
               { this.state.tourStage === 3 &&
                <h3>Great, you selected {this.state.selectedFact.title} ({this.state.selectedFact.value} {this.state.selectedFact.unit}). Now I will deal another card.</h3>
@@ -142,7 +142,7 @@ class Welcome extends React.Component {
               }
               { this.state.tourStage === 6 && <div>
                <h3>That's It!</h3>
-               <h3>You are ready to play. In the game every correct guess scores 100 points and every wrong guess looses 50 points!</h3>
+               <h3>You are ready to play. In the game every correct guess scores 100 points and every wrong guess loses 50 points!</h3>
                <Button className="mt-4" size="lg" block color="warning" onClick={ () => this.goPlay() }><FaHandPointRight/> Play <FaHandPointLeft/></Button></div>
               }
               { this.state.tourStage !== 6 &&
