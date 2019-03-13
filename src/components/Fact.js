@@ -24,21 +24,21 @@ class Fact extends React.Component {
     var icon = null;
     if (this.props.isSelected) classNames += " bg-dark text-white";
     
-    return <Row onClick={ () => this.props.onClick(this.props) } className={classNames}>
-    <Col >
-    <h5>
-      <span className="title">{this.props.title }</span>
-      { this.props.desc && <a href="#" id={uid}><FaInfoCircle/></a> }
-      { this.props.desc && <UncontrolledTooltip placement="right" target={uid}>
-        { this.props.desc }
-       </UncontrolledTooltip> }
-      </h5>
-
-    </Col>
+    return <div onClick={ () => this.props.onClick(this.props) } className={classNames}>
     
-    <Col className="text-right">
-    <Badge pill>{icon} {this.props.value } <span className="units">{this.props.unit }</span>{' '}
-    <div className="d-none d-xl-inline ml-2"><ReactStars
+    <div className="message">
+      <h5>
+        <span className="title">{this.props.title }</span>{' '}{ this.props.desc && <a href="#" id={uid}><FaInfoCircle/></a> }
+        <br/><span className="units">{this.props.unit }</span>
+        { this.props.desc && <UncontrolledTooltip placement="right" target={uid}>
+        { this.props.desc }
+        </UncontrolledTooltip> }
+      </h5>
+    </div>
+    
+    <div className="figure text-right">
+    <Badge pill>{icon} {this.props.value }
+    {/* <div className="d-none d-xl-inline ml-2"><ReactStars
       className="float-right"
       count={4}
       size={20}
@@ -46,10 +46,11 @@ class Fact extends React.Component {
       value={(this.props.value / this.props.max) * 5}
       color1={'#444'} 
       color2={'#FFD700'} />
-    </div>
+    </div> */}
     </Badge>
-    </Col>
-    </Row>
+    </div>
+
+    </div>
   }
 }
 

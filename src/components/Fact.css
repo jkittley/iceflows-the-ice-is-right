@@ -1,15 +1,35 @@
+.fact {
+  position: relative;
+  height: 60px;
+  width: 100%;
+}
+
+.fact .message {
+  position: absolute;
+  left: 10px;
+  margin: auto auto;
+  max-width: 70%;
+}
+
+.fact .figure {
+  position: absolute;
+  right: 10px;
+  margin: auto;
+}
+
 .fact .badge-pill {
+  margin-top:5px;
   font-size: 20px;
 }
 
-.fact .title {
+/* .fact .title {
   white-space: nowrap;
   text-align: left;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 80%;
   margin-right: 5px;
-}
+} */
 
 .fact .units {
   font-size: 0.7em;
