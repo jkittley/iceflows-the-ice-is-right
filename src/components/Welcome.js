@@ -1,6 +1,6 @@
 import React from 'react';
 import posed from 'react-pose';
-import { Container, Row, Col, Button} from 'reactstrap';
+import { Container, Row, Col, Button, Modal, ModalBody, ModalHeader, ModalFooter} from 'reactstrap';
 import LogoHeader from './LogoHeader';
 import "./Welcome.css";
 
@@ -143,8 +143,10 @@ class Welcome extends React.Component {
       animation: "start",
       showTour: false,
       showBrowse: false,
+      ackModal: false,
     };
     this.onPagePick = this.onPagePick.bind(this);
+    this.toggleAckModal = this.toggleAckModal.bind(this);
   }
 
   componentDidMount() {
@@ -154,6 +156,10 @@ class Welcome extends React.Component {
   onPagePick(p) {
     this.setState({ animation: "out" });
     setTimeout( () => this.props.onPagePick(p), 500);
+  }
+
+  toggleAckModal() {
+    this.setState({ ackModal: !this.state.ackModal })
   }
 
   render() {
@@ -184,14 +190,68 @@ class Welcome extends React.Component {
           </Col>
           <Col md={{ size: 2 }} sm={{ size: 6 }}>
             <CardWrap2 pose={this.state.animation}>
-                <Button  className="map" onClick={ () => this.onPagePick("map") }><div>Map Explorer</div></Button>
+                <Button className="map" onClick={ () => this.onPagePick("map") }><div>Map Explorer</div></Button>
             </CardWrap2>
           </Col>
 
         </Row>
         <FootWrap pose={this.state.animation}>
-        <h2 className="mt-4 pt-4">Pick a card, any card.</h2>
+        <h2 className="pick-a-card mt-4 pt-4">Pick a card, any card.</h2>
         </FootWrap>
+
+        <Modal isOpen={this.state.ackModal} toggle={this.toggleAckModal}>
+          <ModalHeader toggle={this.toggle}>Acknowledgements</ModalHeader>
+          <ModalBody>
+            <p>Ice Flows, the Ice is Right was developed by Anne Le Brocq at the University of Exeter in collaboration with <a href="http://kittley.com/" rel="noopener noreferrer" target="_blank">Kittley Ltd</a>.
+            </p>
+
+            <h5>Datasets and Information</h5>
+            <ul>
+              <li><a href="https://www.bas.ac.uk/project/bedmap-2/" rel="noopener noreferrer" target="_blank">BEDMAP2 dataset</a></li>
+              <li><a href="https://nsidc.org/data/measures" rel="noopener noreferrer" target="_blank">Measures ice velocity & drainage basins</a></li>
+            </ul>
+            <h5>Audio Assets</h5>
+            <ul>
+              <li><a href="http://www.freeSounds.org" rel="noopener noreferrer" target="_blank">FreeSound.org</a></li>
+              <li><a href="http://www.freesfx.co.uk" rel="noopener noreferrer" target="_blank">freesfx.co.uk</a></li>
+            </ul>
+            <h5>Font and Artwork</h5>
+            <ul>
+              <li><a href="https://c7n1.me/category/playsir-2/" rel="noopener noreferrer" target="_blank"> Situjuh Nazara</a></li>
+            </ul>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="secondary" onClick={this.toggleAckModal}>Cancel</Button>
+          </ModalFooter>
+        </Modal>
+
+        
+        <div className="copyright"> 
+        <FootWrap pose={this.state.animation}>
+        <Row>
+          <Col>
+            <p className="mb-1">Created by</p>
+            <a href="https://www.exter.ac.uk/" target="_blank">
+              <img src={require('../res/exeter-dark.png')} alt="University of Exeter" className="img-fluid pt-2" />
+            </a>
+          </Col>
+          <Col>
+          <p className="text-center mt-2">&copy; University of Exeter 2019 | Anne Le Brocq</p>
+          <p className="text-center pb-2">
+            <a href="/privacypolicy.html">Privacy Policy / Terms of Use</a> | {' '}
+            <a href="#" onClick={ this.toggleAckModal.bind(this) } >Acknowledgements</a>
+          </p>
+          </Col>
+          <Col>
+            <p className="mb-1">Game Development</p>
+            <a href="http://www.kittley.com/" target="_blank">
+              <img src={require('../res/kittley.png')} alt="Kittley.com" className="img-fluid align-self-center" />
+            </a>
+          </Col>
+          </Row>
+          </FootWrap>
+        </div>
+        
         
     </Container>;
   }
