@@ -1,7 +1,7 @@
 import React from 'react';
-import { Badge, Row, Col, UncontrolledTooltip } from 'reactstrap';
+import { Badge, UncontrolledTooltip } from 'reactstrap';
 import { FaInfoCircle } from 'react-icons/fa';
-import ReactStars from 'react-stars'
+// import ReactStars from 'react-stars'
 import "./Fact.css";
 
 class Fact extends React.Component {

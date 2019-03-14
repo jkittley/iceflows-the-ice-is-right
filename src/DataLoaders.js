@@ -14,22 +14,23 @@ function loadCardData (onRowRead, onComplete, onError) {
     complete: function(results) {
       // Get the facts
       var factIds = results.meta.fields.filter(field => field.trim().startsWith("fact")).map(field => field.trim()); 
-      var meta = {}
+      var factMeta = {}
+
       // Add the rows
       results.data.forEach(function (row) {
 
         // Meta data from meta rows
         if (row.title === "meta") {
           factIds.forEach(function (factId) { 
-            if (!(factId in meta)) meta[factId] = { id: factId };
-            meta[factId][row.imagePath] = row[factId];
+            if (!(factId in factMeta)) factMeta[factId] = { id: factId };
+            factMeta[factId][row.imagePath] = row[factId];
           });
 
         // Facts from rows
         } else {
           var facts = [];
           factIds.forEach(factId => facts.push({ 
-            ...meta[factId],
+            ...factMeta[factId],
             value: row[factId],
           }))
 
@@ -40,7 +41,7 @@ function loadCardData (onRowRead, onComplete, onError) {
       });
 
       // On complete callback
-      onComplete(meta);
+      onComplete(factMeta);
 
     }
   });

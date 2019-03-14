@@ -1,7 +1,10 @@
 
 import React from 'react';
-import { Button, Modal, ModalHeader, ButtonGroup, ModalBody, ModalFooter, FormGroup, Col, Label, Input, UncontrolledTooltip } from 'reactstrap';
-import { FaCog, FaDrum, FaMusic, FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
+import { connect } from 'react-redux'
+
+import { updSettings, updFactMeta, toggleMuteSFX, toggleMuteMusic } from '../redux/actions'
+import { Button, Modal, ModalHeader, ButtonGroup, ModalBody, ModalFooter, ListGroup, ListGroupItem, UncontrolledTooltip } from 'reactstrap';
+import { FaCog, FaDrum, FaMusic, FaRegCircle, FaRegCheckCircle } from 'react-icons/fa';
 import posed from 'react-pose';
 import './Settings.css';
 
@@ -22,7 +25,6 @@ class Settings extends React.Component {
     super(props);
     this.state = {
       visible: false,
-      showFacts: props.showFacts,
       animation: "hidden"
     };
     this.toggleModal = this.toggleModal.bind(this)
@@ -33,10 +35,7 @@ class Settings extends React.Component {
   }
 
   toggleModal() {
-    this.setState({ 
-      visible: !this.state.visible,
-      showFacts: this.props.showFacts
-    });
+    this.setState({ visible: !this.state.visible });
   }
 
   toggleMuteAll() {
@@ -55,19 +54,9 @@ class Settings extends React.Component {
     this.props.onSave({muteMusic: !this.props.muteMusic});
   }
 
-  save() {
-    this.toggleModal();
-    if (this.props.onSave) this.props.onSave({
-      showFacts: this.state.showFacts
-    });
-  }
-
   selectFact(fact, checked) {
-    if (checked) {
-      this.setState({ showFacts: [ ...this.state.showFacts, fact.id ]})
-    } else {
-      this.setState({ showFacts: this.state.showFacts.filter((f) => f !== fact.id) })
-    }
+    var changes =  { selected: checked };
+    this.props.updFactMeta(fact.id, changes);
   }
 
   render() {
@@ -78,56 +67,49 @@ class Settings extends React.Component {
           
           <Button size="lg" color="warning" onClick={ () => this.toggleModal() }><FaCog/></Button>
 
-          <Button className="d-none d-lg-inline" id="btn-mute-all" onClick={ () => this.toggleMuteAll() } color="light">
-            { this.props.muteMusic && this.props.muteSFX ? <FaVolumeMute color="#ccc" /> : <FaVolumeUp/> }
-          </Button>
-          <UncontrolledTooltip placement="left" target="btn-mute-all">
-            { this.props.muteMusic && this.props.muteSFX ? "UnMute" : "Mute" } All Sounds
-          </UncontrolledTooltip>
-          
-          <Button id="btn-mute-music" onClick={this.toggleMusic.bind(this)} color="light" >
-            <FaMusic color={ this.props.muteMusic ? "#ccc" : "black" }/>
+          <Button id="btn-mute-music" onClick={ this.props.toggleMuteMusic } color="light" >
+            <FaMusic color={ this.props.isMusicMuted ? "#ccc" : "black" }/>
           </Button>
           <UncontrolledTooltip placement="left" target="btn-mute-music">
-            { !this.props.muteMusic ? "Mute" : "UnMute" } Music
+            { !this.props.isMusicMuted ? "Mute" : "UnMute" } Music
           </UncontrolledTooltip>
             
-          <Button id="btn-mute-sfx" onClick={this.toggleSFX.bind(this)} color="light">
-            <FaDrum  color={ this.props.muteSFX ? "#ccc" : "black" }/>
+          <Button id="btn-mute-sfx" onClick={ this.props.toggleMuteSFX } color="light">
+            <FaDrum  color={ this.props.isSFXMuted ? "#ccc" : "black" }/>
           </Button>
           <UncontrolledTooltip placement="left" target="btn-mute-sfx">
-            { !this.props.muteSFX ? "Mute" : "UnMute" } Sound Effects
+            { !this.props.isSFXMuted ? "Mute" : "UnMute" } Sound Effects
           </UncontrolledTooltip>
 
         </ButtonGroup>
       </div>
       
    <Modal isOpen={this.state.visible}>
-      <ModalHeader toggle={ this.toggleModal }>Settings</ModalHeader>
-      <ModalBody>
-      <h5>Show Facts</h5>  
-      { Object.keys(this.props.factMeta).map(function(key, i) {
-        var meta = this.props.factMeta[key];
-        var selected = this.props.showFacts.indexOf(meta.id) >= 0; 
-        return (
-          <Col key={i} sm={{ size: 10 }}>
-            <FormGroup check>
-              <Label check>
-                <Input type="checkbox" defaultChecked={selected} onChange={ (e) => this.selectFact(meta, e.target.checked) } />{' '} {meta.title}
-              </Label>
-            </FormGroup>
-          </Col>);
-        }.bind(this))
-      }
-
-      </ModalBody>
+      <ModalHeader toggle={ this.toggleModal }>Card Facts</ModalHeader>
+      <ListGroup>
+      { this.props.factsMeta.map( (fact) => {
+        return <ListGroupItem key={fact.id} className="hand" onClick={ () => this.selectFact(fact, !fact.selected) } >
+        { fact.selected ? <FaRegCheckCircle/> : <FaRegCircle/> } 
+        {' '}{fact.title}{' ('}{fact.unit}{')'}
+        </ListGroupItem>;
+      }) }
+      </ListGroup>
+     
       <ModalFooter>
-        <Button color="secondary" onClick={ this.toggleModal }>Cancel</Button>{' '}
-        <Button color="primary" onClick={ () => this.save() }>Save</Button>{' '}
+        <Button color="secondary" onClick={ this.toggleModal }>Close</Button>{' '}
       </ModalFooter>
       </Modal></SettingsWrap>;
     
   }
 }
 
-export default Settings;
+const mapStateToProps = state => { return { 
+  isSFXMuted: state.settings.muteSFX, 
+  isMusicMuted: state.settings.muteMusic, 
+  getSettings: state.settings, 
+  factsMeta: state.cards.factsMeta 
+}};
+
+const mapDispatchToProps = { updSettings, updFactMeta, toggleMuteSFX, toggleMuteMusic }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Settings);

@@ -1,5 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux'
 import posed from 'react-pose';
+import { BrowserRouter as Link } from "react-router-dom";
+import { sfx, setMusic } from "../redux/actions";
+
 import { Container, Row, Col, Button, Modal, ModalBody, ModalHeader, ModalFooter} from 'reactstrap';
 import LogoHeader from './LogoHeader';
 import "./Welcome.css";
@@ -145,7 +149,7 @@ class Welcome extends React.Component {
       showBrowse: false,
       ackModal: false,
     };
-    this.onPagePick = this.onPagePick.bind(this);
+    // this.onPagePick = this.onPagePick.bind(this);
     this.toggleAckModal = this.toggleAckModal.bind(this);
   }
 
@@ -153,18 +157,16 @@ class Welcome extends React.Component {
     setTimeout( () => this.setState({ animation: "in" }), 500);
   }
 
-  onPagePick(p) {
-    this.setState({ animation: "out" });
-    setTimeout( () => this.props.onPagePick(p), 500);
-  }
+  // onPagePick(page) {
+  //   this.setState({ animation: "out" });
+  //   setTimeout( () => this.props.gotoPage(page), 500);
+  // }
 
   toggleAckModal() {
     this.setState({ ackModal: !this.state.ackModal })
   }
 
   render() {
-
-    if (!this.props.dataLoaded) return <h1>Loading...</h1>
 
     return <Container className="welcome">
       <LogoWrap pose={this.state.animation}>
@@ -174,23 +176,23 @@ class Welcome extends React.Component {
         <Row style={{ marginTop: "30px" }}>
           <Col xl={{ size: 2, offset: 1 }} md={{ size: 2 }} sm={{ size: 6 }} style={{ zIndex: 500 }}>
             <CardWrap1 pose={this.state.animation}>
-                <Button className="play" onClick={ () => this.onPagePick("game") }><div>Play Now!</div></Button>
+                <Button className="play" onClick={ () => this.props.sfx("ping") }><div>Play Now!</div></Button>
             </CardWrap1>
           </Col>
           <Col md={{ size: 2 }} sm={{ size: 6 }}>
             <CardWrap3 pose={this.state.animation}>
-                <Button className="tour" onClick={ () => this.onPagePick("tour") }><div>How To Play</div></Button>
+                <Button className="tour" onClick={ () => this.props.sfx("ping") }><div>How To Play</div></Button>
             </CardWrap3>
           </Col>
 
           <Col md={{ size: 2, offset: 2 }} sm={{ size: 6 }}>
             <CardWrap2 pose={this.state.animation}>
-                <Button  className="browse" onClick={ () => this.onPagePick("browse") }><div>Browse Cards</div></Button>
+                <Button  className="browse" onClick={ () => this.props.sfx("ping") }><div>Browse Cards</div></Button>
             </CardWrap2>
           </Col>
           <Col md={{ size: 2 }} sm={{ size: 6 }}>
             <CardWrap2 pose={this.state.animation}>
-                <Button className="map" onClick={ () => this.onPagePick("map") }><div>Map Explorer</div></Button>
+                <Button className="map" onClick={ () => this.props.sfx("ping") }><div>Map Explorer</div></Button>
             </CardWrap2>
           </Col>
 
@@ -231,20 +233,26 @@ class Welcome extends React.Component {
         <Row>
           <Col>
             <p className="mb-1">Created by</p>
-            <a href="https://www.exter.ac.uk/" target="_blank">
+            <a href="https://www.exter.ac.uk/" rel="noopener noreferrer" target="_blank">
               <img src={require('../res/exeter-dark.png')} alt="University of Exeter" className="img-fluid pt-2" />
             </a>
           </Col>
           <Col>
+          <Button onClick={ () => this.props.sfx("win") } >SFX Win</Button>
+          <Button onClick={ () => this.props.sfx("loose") } >SFX Loose</Button>
+
+          <Button onClick={ () => this.props.setMusic("game") } >Game Music</Button>
+          <Button onClick={ () => this.props.setMusic("menu") } >Menu Music</Button>
+
           <p className="text-center mt-2">&copy; University of Exeter 2019 | Anne Le Brocq</p>
           <p className="text-center pb-2">
             <a href="/privacypolicy.html">Privacy Policy / Terms of Use</a> | {' '}
-            <a href="#" onClick={ this.toggleAckModal.bind(this) } >Acknowledgements</a>
+            <a href="#" onClick={ this.toggleAckModal.bind(this) }>Acknowledgements</a>
           </p>
           </Col>
           <Col>
             <p className="mb-1">Game Development</p>
-            <a href="http://www.kittley.com/" target="_blank">
+            <a href="http://www.kittley.com/" rel="noopener noreferrer" target="_blank">
               <img src={require('../res/kittley.png')} alt="Kittley.com" className="img-fluid align-self-center" />
             </a>
           </Col>
@@ -257,4 +265,6 @@ class Welcome extends React.Component {
   }
 }
 
-export default Welcome;
+const mapDispatchToProps = { sfx, setMusic }
+
+export default connect(null, mapDispatchToProps)(Welcome);

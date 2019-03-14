@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux'
+import { getMapLayers, getDefaultMapLayer, geMapLayerOrder, getMapZones } from "../redux/selectors";
+
 import { Button, ButtonGroup } from 'reactstrap';
 import SVG from 'react-inlinesvg';
 import { FaSearch, FaCaretRight, FaInfo } from 'react-icons/fa';
@@ -7,64 +10,53 @@ import "./Map.css";
 
 const uuidv4 = require('uuid/v4');
 
-
 class Map extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = { 
-      layers: {
-        "icedepth": { id: "icedepth", title: "Ice Thickness", image: require('../res/maps/layer_icedepth.jpg') },
-        "bedelev" : { id: "bedelev", title: "Bed Elevation", image: require('../res/maps/layer_bedelevation.jpg') },
-        "icespeed" : { id: "icespeed", title: "Ice Flow Speed", image: require('../res/maps/layer_iceflowspeed.jpg') },
-      },
-      layerOrder: ["icespeed", "icedepth", "bedelev"],
-      activeLayer: null,
+      activeLayer: this.props.defaultLayer,
       activeZone: null,
       showInfoPane: this.props.infoOpen,
-    };
-    // Init the active layer
-    this.state.activeLayer = this.state.layers[this.state.layerOrder[0]];
+    };    
+
     // Bindings
     this.selectLayer = this.selectLayer.bind(this);
     this.toggleLayer = this.toggleLayer.bind(this);
     this.selectZone = this.selectZone.bind(this);
     this.toggleZoom = this.toggleZoom.bind(this);
-    this.onBasinOver = this.onBasinOver.bind(this);
+    this.onZoneClick = this.onZoneClick.bind(this);
     this.showZoneInfo = this.showZoneInfo.bind(this);
     // Refs
     this.overlayRef = React.createRef();
     this.mapRef = React.createRef();
   }
 
-  onBasinOver(zoneId) {
-    if (this.props.allowZoneSelect) {
-      this.selectZone(zoneId);
-    }
+  onZoneClick(zoneId) {
+    if (this.props.allowZoneSelect) this.selectZone(zoneId);
   }
 
-  myOnLoadHandler() {
-    if (this.props.initZone) this.selectZone(this.props.initZone);
-    
+  onOverlayLoad() {
+    if (this.props.initZone !== null) this.selectZone(this.props.initZone);
+
     if (this.props.zoneInfo && this.props.allowZoneSelect) {
       Object.keys(this.props.zoneInfo).forEach( (zoneId) => { 
         var element = document.getElementById(zoneId+"___"+this.props.uid);
-        element.addEventListener("mousedown", () => this.onBasinOver(zoneId), false);
+        element.addEventListener("mousedown", () => this.onZoneClick(zoneId), false);
         element.classList.add("hand");
       });
     }
   }
 
   toggleLayer() {
-    var i = this.state.layerOrder.indexOf(this.state.activeLayer.id);
+    var i = this.props.layerOrder.indexOf(this.state.activeLayer.id);
     var n = i+1;
-    if (n >= this.state.layerOrder.length) n = 0;
-    this.selectLayer(this.state.layerOrder[n]);
+    if (n >= this.props.layerOrder.length) n = 0;
+    this.selectLayer(this.props.layerOrder[n]);
   }
 
   selectLayer(key) {
-    console.log(key);
-    this.setState({ activeLayer: this.state.layers[key] });
+    this.setState({ activeLayer: this.props.layers[key] });
   }
   
   selectZone (zoneId, deselectOthers=true) {
@@ -90,9 +82,9 @@ class Map extends React.Component {
   render () {
     return <div id={this.props.uid} className={"map" + (this.props.round ? " round" : "") } ref={this.mapRef}>
 
-      { Object.keys(this.state.layers).map( function(k, i) { 
-        var isVisible = this.state.layers[k] === this.state.activeLayer;
-        return <div className="layer" key={uuidv4()} style={{ opacity: isVisible ? 1 : 0, backgroundImage: "url(" + this.state.layers[k].image + ")" }}></div>;
+      { Object.keys(this.props.layers).map( function(k, i) { 
+        var isVisible = this.props.layers[k] === this.state.activeLayer;
+        return <div className="layer" key={uuidv4()} style={{ opacity: isVisible ? 1 : 0, backgroundImage: "url(" + this.props.layers[k].image + ")" }}></div>;
       }.bind(this))}
   
       <div className="overlay" ref={this.overlayRef}>
@@ -101,7 +93,7 @@ class Map extends React.Component {
           uniquifyIDs={true}
           uniqueHash={this.props.uid}
           preloader={<h1>Loading</h1>}
-          onLoad={(src) => this.myOnLoadHandler(src) }>
+          onLoad={(src) => this.onOverlayLoad(src) }>
         </SVG>
       </div>
 
@@ -130,10 +122,19 @@ class Map extends React.Component {
 Map.defaultProps = {
   uid: uuidv4(),
   round: false,
-  zoneInfo: false,
   allowZoom: true,
   allowZoneSelect: false,
   infoOpen: false,
+  initLayer: null,
+  initZone: null,
 }
 
-export default Map
+const mapStateToProps = (state) => ({
+  layers: getMapLayers(state),
+  defaultLayer: getDefaultMapLayer(state),
+  layerOrder: geMapLayerOrder(state),
+  zoneInfo: getMapZones(state)
+});
+
+const mapDispatchToProps = { }
+export default connect(mapStateToProps, mapDispatchToProps)(Map);

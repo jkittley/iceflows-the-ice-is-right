@@ -1,6 +1,5 @@
 import React from 'react';
 import posed from 'react-pose';
-import MusicPlayer from './MusicPlayer';
 import ScorePopup from './ScorePopup';
 import "./ScoreCard.css";
 

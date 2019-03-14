@@ -23,7 +23,7 @@
  height: 50px;
 }
 
-.welcome button {
+.welcome button.play, .welcome button.tour, .welcome button.map, .welcome button.browse {
   width: 250px;
   height: 350px;
   background-color: blue;

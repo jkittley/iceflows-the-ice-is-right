@@ -1,12 +1,18 @@
 import React from 'react';
+import { connect } from 'react-redux'
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import { addCard, setCardsReady, addZone, setMapsReady, setFactsMeta } from './redux/actions'
+
+import ReactLoading from 'react-loading';
+
 import Game from './Game';
 import Welcome from './components/Welcome';
 import Tour from './components/Tour';
 import CardBrowser from './components/CardBrowser';
 import Settings from './components/Settings';
-import MusicPlayer from './components/MusicPlayer';
 import MapBrowser from './components/MapBrowser';
 import menumusic from './res/sounds/menumusic.wav';
+
 import {loadCardData,loadZoneData} from './DataLoaders';
 import './App.css';
 
@@ -17,23 +23,11 @@ class App extends React.Component {
     this.state = { 
       width: 0, 
       height: 0,
-      page: null,   
-      dataLoaded: false,
-      cards: [], 
-      mounted: false,
-      settings: {
-        showFacts: ['fact_fast_flow','fact_mean_thick', 'fact_min_gl_bed','fact_per_bed','fact_pot_sea_level'],
-        muteSFX: false,
-        muteMusic: false,
-      },
-      factMeta: {},
-      zoneInfo: {},
       musicTrack: menumusic,
       sfxTrack: null
     };
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     this.loadData = this.loadData.bind(this);
-    this.pickPage = this.pickPage.bind(this);
     this.changeTrack = this.changeTrack.bind(this);
     this.playSFX = this.playSFX.bind(this);
     this.sfxFinish = this.sfxFinish.bind(this);
@@ -43,17 +37,17 @@ class App extends React.Component {
     this.loadData();
     this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);
-    setTimeout( () => this.setState({ mounted: true }), 200);
   }
 
   loadData() {
     
     loadCardData(
       function (rowData) { // On Row
-        this.setState({ cards: [...this.state.cards, rowData ]});
+        this.props.addCard(rowData);
       }.bind(this),
-      function (meta) { // On Complete
-        this.setState({ factMeta: meta, dataLoaded: true });
+      function (factMeta) { // On Complete
+        this.props.setFactsMeta(factMeta);
+        this.props.setCardsReady(true);
       }.bind(this),
       function(err, file, inputElem, reason) { // On Error
         console.log("Error", err);
@@ -62,10 +56,10 @@ class App extends React.Component {
 
     loadZoneData(
       function (rowData) { // On Row
-        this.setState({ zoneInfo: { ...this.state.zoneInfo, ...rowData } });
+        this.props.addZone(rowData);
       }.bind(this),
-      function (meta) { // On Complete
-        console.log("Zones", this.state.zoneInfo);
+      function () { // On Complete
+        this.props.setMapsReady(true);
       }.bind(this),
       function(err, file, inputElem, reason) { // On Error
         console.log("Error", err);
@@ -83,30 +77,6 @@ class App extends React.Component {
     this.setState({ width: window.innerWidth, height: window.innerHeight });
   }
 
-  pickPage(page=null) {
-    this.setState({ page: page });
-  }
-
-  saveSettings (changes) {
-    this.setState({ 
-      settings: {
-        ...this.state.settings,
-        ...changes
-      }
-    })
-  }
-
-  getMain() {
-    // if (this.state.width < 800 || this.state.height < 600) return <ScreenTooSmall settings={this.state.settings}/>;
-
-    if (this.state.page === "game")   return <Game        cards={this.state.cards} settings={this.state.settings} playSFX={this.playSFX} zoneInfo={this.state.zoneInfo} exitGame={ this.pickPage } changeTrack={this.changeTrack } />;
-    if (this.state.page === "tour")   return <Tour        cards={this.state.cards} settings={this.state.settings} goHome={ this.pickPage } goPlay={ () => this.pickPage("game") } />;
-    if (this.state.page === "browse") return <CardBrowser cards={this.state.cards} settings={this.state.settings} goHome={ () => this.pickPage(null) } />;
-    if (this.state.page === "map")    return <MapBrowser  zoneInfo={this.state.zoneInfo} settings={this.state.settings} goHome={ () => this.pickPage(null) } />;
-
-    return <Welcome cards={this.state.cards} dataLoaded={this.state.dataLoaded} settings={this.state.settings} onPagePick={ this.pickPage }/>
-  }
-
   changeTrack(track) {
     this.setState({ musicTrack: track })
   }
@@ -119,17 +89,37 @@ class App extends React.Component {
     this.setState({ sfxTrack: null })
   }
   
+ 
+  // <Settings />
 
   render() {
-    if (this.state.mounted===false) return <div className="loading"><h1>Loading...</h1></div>;
-    return <div className="app">
-  
-    <MusicPlayer url={this.state.musicTrack} muted={this.state.settings.muteMusic } autoPlay autoResume loop />
-    <MusicPlayer url={this.state.sfxTrack} muted={this.state.settings.muteSFX } on autoPlay callbackFinish={this.sfxFinish} /> 
-    <Settings {...this.state.settings} factMeta={this.state.factMeta} onSave={ this.saveSettings.bind(this) } />
-    { this.getMain() }
-    </div>;    
+    if (this.props.areCardsReady && this.props.areMapsReady && this.props.areSoundsReady) return <Router>
+      <div className="app">
+        <Settings />
+        <Route path="/" exact component={Welcome} />
+        <Route path="/play" exact component={Game} />
+        <Route path="/howto/" component={Tour} />
+        <Route path="/cards/" component={CardBrowser} />
+        <Route path="/map/" component={MapBrowser} />
+      </div>
+    </Router>; 
+            
+    // Not loaded yet
+    return <div className="loading">
+      <ReactLoading type="bars" className="spinner" color="white" height={'10%'} width={'10%'} />
+    </div>;
   }
 }
 
-export default App;
+const mapStateToProps = state => { return {
+  isSFXMuted: state.settings.muteSFX, 
+  isMusicMuted: state.settings.muteMusic, 
+  areCardsReady: state.cards.ready, 
+  areMapsReady: state.maps.ready, 
+  areSoundsReady: state.general.soundsReady,
+  currentPage: state.general.page 
+} };
+
+const mapDispatchToProps = { addCard, setCardsReady, addZone, setMapsReady, setFactsMeta }
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

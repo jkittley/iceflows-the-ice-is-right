@@ -34,8 +34,21 @@ body {
 }
 
 .loading {
+  position: absolute;
   width: 100vw;
   height: 100vh;
-  text-align: center;
-  padding-top: 20%;
+  padding: 0;
+  margin: 0;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading .spinner {
+  position: relative;
+  margin: auto auto;
 }

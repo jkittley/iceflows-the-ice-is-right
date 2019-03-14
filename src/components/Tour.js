@@ -4,6 +4,7 @@ import CardList from './CardList';
 import LogoHeader from './LogoHeader';
 import { FaHandPointLeft, FaHandPointRight } from 'react-icons/fa';
 import { Container, Button, Row, Col } from 'reactstrap';
+import ErrorMessage from './ErrorMessage';
 import { compareFacts } from "../Helpers";
 import "./Tour.css";
 
@@ -105,6 +106,9 @@ class Welcome extends React.Component {
   }
 
   render() {
+
+    if (this.props.cards.length === 0) return <ErrorMessage message="Sorry the tour is currently unavailable. Please try later." />;
+
     return <Container fluid className="text-left">
         <Container>
         <TourWrapper pose={this.state.animation}>
@@ -179,6 +183,10 @@ class Welcome extends React.Component {
 
       </Container>;
   }
+}
+
+Welcome.defaultProps = {
+  cards: [],
 }
 
 export default Welcome;
