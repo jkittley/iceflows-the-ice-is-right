@@ -33,8 +33,6 @@ class PlayingCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: true,
-      shutting: false,
       flipped: props.stopAnimation === true ? true : false,
       animation: props.stopAnimation === true ? "visible" : "hidden",
     };
