@@ -89,8 +89,8 @@ class Settings extends React.Component {
       <ListGroup>
       { this.props.factsMeta.map( (fact) => {
         return <ListGroupItem key={fact.id} className="hand" onClick={ () => this.selectFact(fact, !fact.selected) } >
-        { fact.selected ? <FaRegCheckCircle/> : <FaRegCircle/> } 
-        {' '}{fact.title}{' ('}{fact.unit}{')'}
+        { fact.selected ? <FaRegCheckCircle color="green"/> : <FaRegCircle  color="#aaa"/> } 
+        <span style={{ color: fact.selected ? 'black' : '#aaa' }} >{' '}{fact.title}{' ('}{fact.unit}{')'}</span>
         </ListGroupItem>;
       }) }
       </ListGroup>
