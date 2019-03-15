@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux'
 
 import { updSettings, updFactMeta, toggleMuteSFX, toggleMuteMusic } from '../redux/actions'
-import { Button, Modal, ModalHeader, ButtonGroup, ModalBody, ModalFooter, ListGroup, ListGroupItem, UncontrolledTooltip } from 'reactstrap';
+import { Button, Modal, ModalHeader, ButtonGroup, ModalFooter, ListGroup, ListGroupItem, UncontrolledTooltip } from 'reactstrap';
 import { FaCog, FaDrum, FaMusic, FaRegCircle, FaRegCheckCircle } from 'react-icons/fa';
 import posed from 'react-pose';
 import './Settings.css';

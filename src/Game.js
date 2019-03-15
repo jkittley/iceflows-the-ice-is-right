@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { addError, setMusic, goHome, sfx } from './redux/actions';
 
-import { Container, Button, Row, Col } from 'reactstrap';
-import { FaHandPointLeft, FaHandPointRight, FaHandPointUp, FaHandPointDown } from 'react-icons/fa';
+import { Container, Button } from 'reactstrap';
+import { FaHandPointLeft, FaHandPointUp, FaHandPointDown } from 'react-icons/fa';
 
 import GameOver from './components/GameOver';
 import ScoreCard from './components/ScoreCard';

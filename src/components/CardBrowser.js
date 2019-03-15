@@ -45,7 +45,6 @@ class CardBrowser extends React.Component {
   }
 
   selectCard(idx) {
-    console.log("Selecting Card");
     this.setState({ deckAnimation: "out" });
     setTimeout( () => this.setState({ deckAnimation: "start" }), 300);
     setTimeout( () => this.setState({  selectedCard: this.props.cards[idx], deckAnimation: "in" }), 510);

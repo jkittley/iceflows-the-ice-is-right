@@ -74,11 +74,6 @@ class ScoreCard extends React.Component {
     setTimeout( () => this.setState({ showBonusAnimation: false, scorePopup: "hidden" }), 1500);
   }
 
-  resetAudio() {
-    console.log('Callback');
-    this.setState({ audioFile: null });
-  }
-
   render() {
     return <div className="score-card bg-black">
      <ScoreNumberWrap pose={this.state.animation}>
