@@ -40,6 +40,10 @@
   cursor: pointer;
 }
 
+.welcome button.play:hover, .welcome button.tour:hover, .welcome button.map:hover, .welcome button.browse:hover {
+  border-color: rgb(49, 229, 252);
+}
+
 .welcome .pick-a-card, .welcome button {
   font-family: 'PlaySir', sans-serif;
   -webkit-text-stroke: 1px black;

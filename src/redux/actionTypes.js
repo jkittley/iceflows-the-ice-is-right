@@ -1,4 +1,5 @@
 export const SET_PAGE = "SET_PAGE";
+export const ADD_ERROR = "ADD_ERROR";
 
 export const UPD_SETTINGS = "UPD_SETTINGS";
 export const TOGGLE_MUTE_FX = "SOUND_TOGGLE_FX";

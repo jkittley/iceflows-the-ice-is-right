@@ -1,12 +1,16 @@
 import React from 'react';
-import { Container, Button } from 'reactstrap';
-import CardList from './components/CardList';
+import { connect } from 'react-redux';
+import { addError, setMusic, goHome, sfx } from './redux/actions';
+
+import { Container, Button, Row, Col } from 'reactstrap';
+import { FaHandPointLeft, FaHandPointRight, FaHandPointUp, FaHandPointDown } from 'react-icons/fa';
+
 import GameOver from './components/GameOver';
 import ScoreCard from './components/ScoreCard';
 import LogoHeader from './components/LogoHeader';
+import PlayingCard from './components/PlayingCard';
+
 import { compareFacts } from "./Helpers";
-import gamemusic from './res/sounds/gamemusic.wav';
-import menumusic from './res/sounds/menumusic.wav';
 import posed from 'react-pose';
 import "./Game.css"
 
@@ -45,38 +49,46 @@ class Game extends React.Component {
       allCards: props.cards,
       deck1: [],
       deck2: [],
-      deck1SelectedFact: null,
-      deck2SelectedFact: null,
+      allowFactSelection: true,
+      selectedFact: null,
+      revealed: false,
+      showControls: true,
       gameOver: false,
       allowSelection: true,
       score: 0,
       numDraws: 0,
+      deck1Animation: "start",
+      deck2Animation: "start"
     };
     this.play = this.play.bind(this);
     this.win = this.win.bind(this);
     this.loose = this.loose.bind(this);
     this.draw = this.draw.bind(this);
+    this.reveal = this.reveal.bind(this);
+    this.onFactSelect = this.onFactSelect.bind(this);
+    this.passCard = this.passCard.bind(this);
   }
 
   componentDidMount() {
     this.setState({ animation: "in" });
-    this.deal1(false);
-    this.deal2(false);
-    this.props.changeTrack(gamemusic);
+    this.props.setMusic("game");
+    this.deal(1, false);
+    this.deal(2, false);
+    setTimeout( () => this.setState({ deck1Animation: "in", deck2Animation: "in" }), 500);
   }
 
   reset() {
     this.setState({ animation: "out" });
-    this.props.changeTrack(menumusic);
-    setTimeout( () => this.props.exitGame(), 500);
+    this.props.setMusic("menu");
+    setTimeout(this.props.goHome, 500);
   }
 
-  deal1(sound=true) { this.deal(1, sound); }
-  deal2(sound=true) { this.deal(2, sound); }
   deal(deckChoice=2, sound=true) {
     if (this.state.allCards.length <= 0) return this.setState({ gameOver: true });
-    if (sound) this.props.playSFX(require('./res/sounds/deal.wav'));
+    if (sound) this.props.sfx("deal");
+
     var pick = this.state.allCards[Math.floor(Math.random()*this.state.allCards.length)];
+
     if (deckChoice===1) {
       this.setState({ 
         allCards: this.state.allCards.filter((x) => x !== pick),
@@ -90,19 +102,30 @@ class Game extends React.Component {
     }
   }
   
-  onFactSelect1(x) { this.onFactSelect(1, x); }
-  onFactSelect2(x) { this.onFactSelect(2, x); }
-  onFactSelect(deckChoice, fact) {
-    if (deckChoice===1) { this.setState({ deck1SelectedFact: fact }) } 
-    else                { this.setState({ deck2SelectedFact: fact }) } 
-  }
-  factCheck() {
-    if (this.state.deck1SelectedFact === null) return false;
-    if (this.state.deck2SelectedFact === null) return false;
-    if (this.state.deck1SelectedFact.id !== this.state.deck2SelectedFact.id) return false;
-    return true;
+  onFactSelect(fact) {
+    this.setState({ selectedFact: fact.id });
   }
  
+  reveal() {
+    this.setState({ revealed: true, allowFactSelection: false, showControls: false });
+  }
+
+  play(guess) {
+    this.reveal(2);
+    setTimeout( () => {
+      var factId = this.state.selectedFact;
+      var val1 = this.state.deck1[this.state.deck1.length-1][factId];
+      var val2 = this.state.deck2[this.state.deck2.length-1][factId];
+      if (val1 === null || val2 == null || val1 === undefined || val2 === undefined) return;
+      var result = compareFacts(guess, val1, val2);
+      if (result === 1) { this.win(); }
+      else if (result === -1) { this.loose(); } 
+      else { this.draw(); }
+    }, 500);
+
+    setTimeout( () => this.setState({ showControls: true }), 2000);
+  }
+
   win () {
     this.setState({ allowSelection: false, score: this.state.score + 100 });
   }
@@ -115,79 +138,93 @@ class Game extends React.Component {
     this.setState({ allowSelection: false, numDraws: this.state.numDraws + 1});
   }
 
-  play(guess) {
-    var factId = this.state.deck1SelectedFact.id;
-    var val1 = this.state.deck1[this.state.deck1.length-1][factId];
-    var val2 = this.state.deck2[this.state.deck2.length-1][factId];
-    var result = compareFacts(guess, val1, val2);
-    if (result === 1) { this.win(); }
-    else if (result === -1) { this.loose(); } 
-    else { this.draw(); }
-  }
-
   passCard() {
-    var topCard = {
-      ...this.state.deck2[this.state.deck2.length-1],
-      stopAnimation: true,
-    };
-    this.setState({
-      deck1: [...this.state.deck1, topCard],
-      deck2: this.state.deck2.filter((card) => card.title !== topCard.title),
-      deck1SelectedFact: null,
-      allowSelection: true
-    });
+    this.setState({ deck2Animation: "pass" });
+    
+    setTimeout( () => {
+      var topCard = { ...this.state.deck2[this.state.deck2.length-1], flipped: true };
+      this.setState({
+        deck1: [...this.state.deck1, topCard],
+        deck2: this.state.deck2.filter((card) => card.title !== topCard.title),
+        selectedFact: null,
+        allowFactSelection: true,
+        revealed: false,
+        deck2Animation: "start"
+      });
+   
+    }, 500);
+
+    setTimeout( () => { 
+      this.deal(2);
+      this.setState({ deck2Animation: "in" });
+    }, 600);
   }
 
+  renderControls() {
+    if (this.state.selectedFact !== null && !this.state.revealed) return <div className="buttons">
+        <Button size="lg" color="success" onClick={ () => this.play("higher")}><FaHandPointUp/> Higher</Button> 
+        <Button size="lg" color="success" onClick={ () => this.play("lower")}><FaHandPointDown/> Lower</Button> 
+        </div>;
+    if (this.state.revealed) return <div className="buttons">
+        <Button size="lg" color="primary" onClick={ () => this.passCard() }><FaHandPointLeft/> Next</Button> 
+      </div>;
+  }
+  
   render() {
     return (
       <Container fluid className="game-area">
         <GameWrap pose={this.state.animation}>
           <LogoHeader size="game" />
-          <ScoreCard 
-            score={this.state.score} 
-            numCards={this.props.cards.length}
-            cardsPlayed={this.state.deck1.length}
-            settings={this.props.settings} 
-            numDraws={this.state.numDraws}
-            playSFX={this.props.playSFX} />
+        </GameWrap>
+        <ScoreCard 
+          score={this.state.score} 
+          numCards={this.props.cards.length}
+          cardsPlayed={this.state.deck1.length}
+          numDraws={this.state.numDraws} />
           
             <div className="exit">
             <Button size="sm" color="light" outline onClick={this.reset.bind(this)}>Quit</Button>
             </div>
+        
 
             <div className="decks-wrapper">
               <div className="decks">
-                <CardList 
-                  autoFlip 
-                  cards={this.state.deck1} 
-                  settings={this.props.settings}
-                  deal={ this.deal1.bind(this) } 
-                  highlightFact={ this.state.deck1SelectedFact ? this.state.deck1SelectedFact.title : null } 
-                  onFactSelect={ this.onFactSelect1.bind(this) } 
-                  allowSelection={this.state.allowSelection}
-                />
-                <CardList 
-                  cards={this.state.deck2} 
-                  settings={this.props.settings}
-                  deal={this.deal2.bind(this)} 
-                  passCard={this.passCard.bind(this)} 
-                  highlightFact={ this.state.deck1SelectedFact ? this.state.deck1SelectedFact.title : null } 
-                  onFactSelect={ this.onFactSelect2.bind(this) } 
-                  playFunc={ this.play.bind(this) }
-                  numCardsLeft={this.props.cards.length-this.state.deck1.length}
-                  allowSelection={this.state.allowSelection}
-                  mouseOver={false}
-                />
+
+                <div className="deck">
+                  <PlayingCard 
+                    {...this.state.deck1[this.state.deck1.length-1]}
+                    allowFactSelection={this.state.allowFactSelection}
+                    onFactSelect={ (x) => this.onFactSelect(x) }
+                    highlightFact={this.state.selectedFact}
+                    animation={this.state.deck1Animation}
+                    flipped={true} 
+                  />
+                </div>
+
+                <div className="deck">
+                  <PlayingCard
+                    {...this.state.deck2[this.state.deck2.length-1]} 
+                    flipped={this.state.revealed}
+                    animation={this.state.deck2Animation}
+                    highlightFact={this.state.selectedFact}
+                  />
+                </div>
+                <div className="game-controls">
+                  { this.state.showControls && this.renderControls() }
+                </div>
+
               </div>
             </div>
         
         
           { this.state.gameOver && <GameOver playAgain={this.reset.bind(this)} settings={this.props.settings} score={this.state.score} /> }
-        </GameWrap>
+        
        </Container>
     );
   }
 }
 
 
-export default Game;
+const mapStateToProps = state => { return { cards: state.cards.all }};
+const mapDispatchToProps = { addError, setMusic, goHome, sfx }
+export default connect(mapStateToProps, mapDispatchToProps)(Game);

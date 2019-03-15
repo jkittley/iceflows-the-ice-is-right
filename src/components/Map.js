@@ -1,6 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux'
-import { getMapLayers, getDefaultMapLayer, geMapLayerOrder, getMapZones } from "../redux/selectors";
+import { connect } from 'react-redux';
 
 import { Button, ButtonGroup } from 'reactstrap';
 import SVG from 'react-inlinesvg';
@@ -15,7 +14,7 @@ class Map extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
-      activeLayer: this.props.defaultLayer,
+      activeLayer: this.props.initLayer,
       activeZone: null,
       showInfoPane: this.props.infoOpen,
     };    
@@ -130,10 +129,10 @@ Map.defaultProps = {
 }
 
 const mapStateToProps = (state) => ({
-  layers: getMapLayers(state),
-  defaultLayer: getDefaultMapLayer(state),
-  layerOrder: geMapLayerOrder(state),
-  zoneInfo: getMapZones(state)
+  layers: state.maps.layers,
+  initLayer: state.maps.layers[state.maps.defaultLayer],
+  layerOrder: state.maps.layerOrder,
+  zoneInfo: state.maps.zones
 });
 
 const mapDispatchToProps = { }

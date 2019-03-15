@@ -1,19 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import posed from 'react-pose';
-import CardList from './CardList';
 import LogoHeader from './LogoHeader';
-import { FaHandPointLeft, FaHandPointRight } from 'react-icons/fa';
+import PlayingCard from './PlayingCard';
+import { FaHandPointDown, FaHandPointUp, FaHandPointLeft, FaHandPointRight } from 'react-icons/fa';
 import { Container, Button, Row, Col } from 'reactstrap';
 import { addError, goHome } from '../redux/actions';
 import { compareFacts } from "../Helpers";
 import "./Tour.css";
 
 const TourWrapper = posed.div({
-  out: {
+  start: {
     y: -500,
     opacity: 0,
-    delay: 100,
     transition: {
       default: { duration: 300 }
     }
@@ -21,7 +20,13 @@ const TourWrapper = posed.div({
   in: {
     y: 0,
     opacity: 1,
-    delay: 100,
+    transition: {
+      default: { duration: 300 }
+    }
+  },
+  out: {
+    y: 500,
+    opacity: 0,
     transition: {
       default: { duration: 300 }
     }
@@ -33,9 +38,11 @@ class GameTour extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
-      animation: "out",
-      deck: [],
-      autoFlip: false,
+      animation: "start",
+      animationCard: "start",
+      selectedCard: props.cards[0],
+      allowFactSelection: false,
+      revealed: false,
       allowTourAdv: true,
       tourStage: 0,
       selectedFact: null,
@@ -44,28 +51,25 @@ class GameTour extends React.Component {
     this.advTour = this.advTour.bind(this);
     this.backTour = this.backTour.bind(this);
     this.goHome = this.goHome.bind(this);
-    this.goPlay = this.goPlay.bind(this);
+    this.onFactSelect = this.onFactSelect.bind(this);
   }
 
   componentDidMount() {
-    setTimeout( () => this.setState({ animation: "in" }), 500);
-  }
-
-  onClick() {
-    this.setState({ animation: "out" });
-    setTimeout(this.props.onClick, 500);
+    setTimeout( () => this.setState({ animation: "in", animationCard: "in" }), 500);
   }
 
   onFactSelect(fact) {
     if (this.state.tourStage!==2) return;
-    this.setState( { selectedFact: fact, autoFlip: false, allowTourAdv: true });
+    this.setState( { selectedFact: fact, allowTourAdv: true });
   }
 
   deal() {
-    var pick = this.props.cards[Math.floor(Math.random()*this.props.cards.length)];
-    this.setState({ 
-      deck: [...this.state.deck, pick]
-    });
+    this.setState({ animationCard: "out" });
+    setTimeout( () => {
+      var pick = this.props.cards[Math.floor(Math.random()*this.props.cards.length)];
+      this.setState({ selectedCard: pick, revealed: false, animationCard: "start" });
+    }, 500);
+    setTimeout(() => this.setState({ animationCard: "in" }), 600);
   }
 
   backTour() {
@@ -74,10 +78,10 @@ class GameTour extends React.Component {
 
   advTour() {
     var newStage = Math.min(this.state.tourStage + 1, 6);
-    if (newStage===1) this.deal();
-    if (newStage===2) this.setState({ autoFlip: true, allowTourAdv: false });
+    if (newStage===2) this.setState({ revealed: true, allowFactSelection: true, allowTourAdv: false });
+    if (newStage===3) this.setState({  allowFactSelection: false });
     if (newStage===4) { this.deal(); this.setState({ allowTourAdv: false }); }
-    if (newStage===5) this.setState({ allowTourAdv: true });
+    if (newStage===5) this.setState({ revealed: true, allowTourAdv: true });
     if (newStage===6) this.setState({ allowTourAdv: false });
     this.setState({ tourStage: newStage });
   }
@@ -89,7 +93,7 @@ class GameTour extends React.Component {
 
   checkGuess() {
     var card1 = this.state.selectedFact.value;
-    var card2 = this.state.deck[this.state.deck.length-1][this.state.selectedFact.id];
+    var card2 = this.state.selectedCard[this.state.selectedFact.id];
     var result = compareFacts(this.state.guess, card1, card2)
     if (result === 1) { return "Well done, you got it right!"; }
     else if (result === -1) { return "Whoops, you were wrong. Never mind there are plenty more cards in the pack :)."; } 
@@ -97,27 +101,19 @@ class GameTour extends React.Component {
   }
 
   goHome() {
-    this.setState({ animation: "out" });
-    setTimeout(this.props.goHome, 500);
-  }
-
-  goPlay() {
-    this.setState({ animation: "out" });
+    this.setState({ animation: "out", animationCard: "out" });
     setTimeout(this.props.goHome, 500);
   }
 
   render() {
+    return <Container className="text-left">
+      
+      
 
-    if (this.props.cards.length === 0) {
-      this.props.addError("Sorry the tour is currently unavailable. Please try later.");
-      return null;
-    }
-
-    return <Container fluid className="text-left">
-        <Container>
         <TourWrapper pose={this.state.animation}>
-        <LogoHeader />
+          <LogoHeader />
         </TourWrapper>
+
         <Row className="mt-4">
           <Col md={12} lg={5} className="mb-2">
            <TourWrapper pose={this.state.animation}>
@@ -129,8 +125,8 @@ class GameTour extends React.Component {
                </div>
               }
               { this.state.tourStage === 1 && <div>
-               <h3>The game is played with a deck of { this.props.cards.length} cards. One card for each Ice Stream.</h3>
-               <h3>On the back of each card you can see the Ice Stream's name and a map of where it is on the continent.</h3></div>
+               <h3>The game is played with a deck of { this.props.cards.length} cards. One card for each of Antarctic's Ice Streams.</h3>
+               <h3>On the back of each card <FaHandPointRight/> you can see the Ice Stream's name and a map of where it is on the continent.</h3></div>
               }
               { this.state.tourStage === 2 &&
                <h3>On the front, is a list of facts about a this Antarctic Ice Stream. Now pick one, go on click on it.</h3>
@@ -145,41 +141,44 @@ class GameTour extends React.Component {
              }
               { this.state.tourStage === 5 && <div>
                <h3>{this.checkGuess() }</h3>
-               <h3>You guessed {this.state.guess}, and the previous card said {this.state.selectedFact.value} {this.state.selectedFact.unit}.</h3>
+               <h3>You guessed {this.state.guess}. On this card {this.state.selectedFact.title} is {this.state.selectedCard[this.state.selectedFact.id]} {this.state.selectedFact.unit} {' '}
+               and on the previous card {this.state.selectedFact.title} was {this.state.selectedFact.value}  {this.state.selectedFact.unit}.</h3>
               </div>
               }
               { this.state.tourStage === 6 && <div>
                <h3>That's It!</h3>
                <h3>You are ready to play. In the game every correct guess scores 100 points and every wrong guess loses 50 points!</h3>
-               <Button className="mt-4" size="lg" block color="warning" onClick={ () => this.goPlay() }><FaHandPointRight/> Play <FaHandPointLeft/></Button></div>
+               <Button className="mt-4" size="lg" block color="warning" onClick={ this.goHome }><FaHandPointRight/> Play <FaHandPointLeft/></Button></div>
               }
-              { this.state.tourStage !== 6 &&
-              <Button className="mt-4" color="success" onClick={this.advTour} disabled={!this.state.allowTourAdv}><FaHandPointRight/> Next</Button>
+              
+              { this.state.tourStage !== 4 && this.state.tourStage !== 6 &&
+              <Button className="mt-4" color="primary" onClick={this.advTour} disabled={!this.state.allowTourAdv}><FaHandPointRight/> Next</Button>
               }
+
+              { this.state.tourStage === 4 && <div>
+              <Button className="mt-4" color="success" onClick={ () => this.play("higher") }><FaHandPointUp/> Higher</Button>{' '}
+              <Button className="mt-4" color="success" onClick={ () => this.play("lower") }><FaHandPointDown/> Lower</Button>
+              </div>}
 
             </div>
             </TourWrapper>
           </Col>
 
           <Col md={12} lg="7">
-          <TourWrapper pose={this.state.animation}>
             <div className="decks d-flex">
-            <CardList  
-              cards={this.state.deck} 
-              autoFlip={this.state.autoFlip}
-              settings={this.props.settings}
-              deal={ this.deal.bind(this) } 
-              highlightFact={ this.state.selectedFact ? this.state.selectedFact.title : null } 
-              onFactSelect={ this.onFactSelect.bind(this) } 
-              playFunc={ this.play.bind(this) }
-            />
+            <PlayingCard 
+                {...this.state.selectedCard}
+                allowFactSelection={this.state.allowFactSelection}
+                onFactSelect={ this.onFactSelect }
+                highlightFact={ this.state.selectedFact ? this.state.selectedFact.id : null }
+                animation={this.state.animationCard}
+                flipped={this.state.revealed} 
+              />
             </div>
-            
-          </TourWrapper>
           </Col>
 
         </Row>
-        </Container>
+
 
         <div className="back-button-pane">  
           <Button color="light" onClick={this.goHome}><FaHandPointLeft/> Back</Button>
@@ -189,10 +188,6 @@ class GameTour extends React.Component {
   }
 }
 
-GameTour.defaultProps = {
-  cards: []
-}
-
-const mapStateToProps = state => { return { }};
+const mapStateToProps = state => { return { cards: state.cards.all }};
 const mapDispatchToProps = { addError, goHome }
 export default connect(mapStateToProps, mapDispatchToProps)(GameTour);

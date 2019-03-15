@@ -246,7 +246,7 @@ class Welcome extends React.Component {
           <p className="text-center mt-2">&copy; University of Exeter 2019 | Anne Le Brocq</p>
           <p className="text-center pb-2">
             <a href="/privacypolicy.html">Privacy Policy / Terms of Use</a> | {' '}
-            <a href="#" onClick={ this.toggleAckModal.bind(this) }>Acknowledgements</a>
+            <button className="discrete" onClick={ this.toggleAckModal.bind(this) }>Acknowledgements</button>
           </p>
           </Col>
           <Col>

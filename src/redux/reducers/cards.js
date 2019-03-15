@@ -15,7 +15,7 @@ export default function(state = initialState, action) {
         all: [
           ...state.all,
           action.payload
-        ]
+        ].sort((a,b) => (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0))
       };
     }
 

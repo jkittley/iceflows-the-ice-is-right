@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { sfx } from '../redux/actions';
 import posed from 'react-pose';
 import ScorePopup from './ScorePopup';
 import "./ScoreCard.css";
@@ -52,21 +54,21 @@ class ScoreCard extends React.Component {
   }
 
   pointGained() {
-    this.props.playSFX(require('../res/sounds/win.wav'));
+    this.props.sfx("win");
     this.setState({ showBonusAnimation: true, scorePopup: "in", scoreType: "win" });
-    setTimeout( () => this.setState({ scorePopup: "out" }), 2000);
-    setTimeout( () => this.setState({ showBonusAnimation: false, scorePopup: "hidden" }), 2500);
+    setTimeout( () => this.setState({ scorePopup: "out" }), 1000);
+    setTimeout( () => this.setState({ showBonusAnimation: false, scorePopup: "hidden" }), 1500);
   }
 
   pointLost() {
-    this.props.playSFX(require('../res/sounds/loose.wav'));
+    this.props.sfx("loose");
     this.setState({ showBonusAnimation: true, scorePopup: "in", scoreType: "loose" });
     setTimeout( () => this.setState({ scorePopup: "out" }), 1000);
     setTimeout( () => this.setState({ showBonusAnimation: false, scorePopup: "hidden" }), 1500);
   }
 
   itsADraw() {
-    this.props.playSFX(require('../res/sounds/draw.wav'));
+    this.props.sfx("draw");
     this.setState({ showBonusAnimation: true, scorePopup: "in", scoreType: "draw" });
     setTimeout( () => this.setState({ scorePopup: "out" }), 1000);
     setTimeout( () => this.setState({ showBonusAnimation: false, scorePopup: "hidden" }), 1500);
@@ -91,4 +93,6 @@ class ScoreCard extends React.Component {
   }
 }
 
-export default ScoreCard;
+const mapStateToProps = state => { return { }};
+const mapDispatchToProps = { sfx }
+export default connect(mapStateToProps, mapDispatchToProps)(ScoreCard);

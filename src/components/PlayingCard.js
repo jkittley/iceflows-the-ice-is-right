@@ -1,160 +1,111 @@
 import React from 'react';
-import FactList from './FactList';
-import { Card, CardBody, Row, Button, Col } from 'reactstrap';
 import posed from 'react-pose';
-import { FaHandPointLeft, FaHandPointRight, FaHandPointUp, FaHandPointDown } from 'react-icons/fa';
+import FactList from './FactList';
+import { Card, CardBody } from 'reactstrap';
 import Map from './Map';
 import "./PlayingCard.css"
 
-const CardWrapper = posed.div({
-  hidden: {
+const CardAnimWrap = posed.div({
+  start: {
     y: -500,
     opacity: 0,
-    transition: { duration: 150 }
-  },
-  visible: {
-    y: 0,
-    opacity: 1,
-    delay: 300,
     transition: {
-      y: { type: 'spring', stiffness: 100, damping: 15 },
       default: { duration: 300 }
     }
   },
-  passToOther: {
+  in: {
+    y: 0,
+    opacity: 1,
+    delay: 400,
+    transition: {
+      default: { duration: 300 }
+    }
+  },
+  out: {
+    y: 500,
+    opacity: 0,
+    transition: {
+      default: { duration: 300 }
+    }
+  },
+  pass: {
     x: "-100%",
     opacity: 1,
-    transition: { duration: 200 }
-  },
-});;
+    transition: {
+      default: { duration: 300 }
+    }
+  }
+});
 
 class PlayingCard extends React.Component {
   
-  constructor(props) {
-    super(props);
-    this.state = {
-      flipped: props.stopAnimation === true ? true : false,
-      animation: props.stopAnimation === true ? "visible" : "hidden",
-    };
-    this.flip = this.flip.bind(this);
-    this.play = this.play.bind(this);
-    this.factSelected = this.factSelected.bind(this);
+  renderFront() {
+    return <div className="front">
+      <Card>
+        <CardBody>
+          <div className="img">
+            <Map 
+              uid={"card_front_"+this.props.id} 
+              initLayer={this.props.initMapLayer}
+              initZone={this.props.zoneId }
+              round={true}
+            />
+          </div>
+          <h1 className="title">{this.props.title }</h1>
+        </CardBody>
+      </Card>
+    </div>;
   }
 
-  componentDidMount() {
-    this.setState({ animation: "visible" });
-    if (this.props.autoFlip && this.props.stopAnimation !== true) {
-      setTimeout(() => {
-        this.flip();
-      }, 15);
-    }  
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    // If the property auto flip changes then flip
-    if (!prevState.flipped && this.props.autoFlip) { this.flip(); }
-  }
-
-  play(guess) {
-    this.flip();
-    if (this.props.playFunc) this.props.playFunc(guess);
-  }
-
-  flip (dir=true) {
-    this.setState({ flipped: dir });
-  }
-
-  passCard () {
-    this.setState({ animation: "passToOther" });
-    setTimeout(() => {
-       this.props.passCard(); 
-       this.props.dealFunc();
-    }, 250);
-  }
-
-  factSelected(fact) {
-    if (this.props.onFactSelect) this.props.onFactSelect(fact);
+  renderBack() {
+    return <div className="back">
+      <Card>
+        <div className="img">
+          <Map
+          uid={"card_back_"+this.props.id } 
+          initZone={ this.props.zoneId }
+          initLayer={ this.props.initMapLayer }
+          />
+        </div>
+        <h1 className="title mt-2">{ this.props.title }</h1>
+        <FactList 
+          facts={ this.props.facts } 
+          allowSelection={ this.props.allowFactSelection }
+          onSelect={ this.props.onFactSelect }
+          highlightFact={ this.props.highlightFact } />
+      </Card>
+    </div>;
   }
 
   render() {   
     if (this.props.title === undefined) return null;
+
     var displayCSS = "flip-container";
-    if (this.state.flipped) displayCSS += " flipped";
-    if (this.props.mouseOver) displayCSS += " mouse-over";
+    if (this.props.flipped) displayCSS += " flipped";
+    if (this.props.allowFactSelection) displayCSS += " mouse-over";
  
-    return <CardWrapper className="playing-card" pose={ this.state.animation }>
-        
+    return <CardAnimWrap className="playing-card" pose={ this.props.animation} >
         <div className={displayCSS}>
           <div className="flipper">
-            <div className="front">
-              <Card>
-                <CardBody>
-                  <div className="img">
-                    <Map 
-                      uid={"card_front_"+this.props.id} 
-                      initLayer={this.state.initMapLayer}
-                      setInitLayer={this.setInitLayer}
-                      initZone={this.props.zoneId }
-                      round={true}
-                    />
-                  </div>
-                  <h1 className="title">{this.props.title }</h1>
-                </CardBody>
-              </Card>
-              <div className="card-controls">
-                { !this.props.hideControls &&  !this.state.flipped && this.props.highlightFact && 
-                  <Row>
-                    <Col>
-                      <Button size="lg" color="light" block className="mt-2" onClick={ () => this.play("higher")}><FaHandPointUp/> Higher</Button> 
-                    </Col>
-                    <Col>
-                      <Button size="lg" color="light" block className="mt-2" onClick={ () => this.play("lower")}><FaHandPointDown/> Lower</Button> 
-                    </Col>
-                  </Row>
-                }
-              </div>
-
-            </div>
-            <div className="back">
-              <Card>
-                <div className="img">
-                  <Map
-                   uid={"card_back_"+this.props.id} 
-                   initZone={this.props.zoneId }
-                   initLayer={this.state.initMapLayer}
-                  />
-                </div>
-                <h1 className="title mt-2">{this.props.title }</h1>
-                <FactList uid={this.props.id} settings={this.props.settings} facts={this.props.facts} factSelected={this.factSelected} highlightFact={this.props.highlightFact} />
-              </Card>
-
-              <div className="card-controls">
-                { !this.props.hideControls && this.state.flipped && !this.props.highlightFact && <div className="text-center p-2 help-select">
-                  <h5><FaHandPointUp/> Please Select a fact  <FaHandPointUp/></h5></div>
-                }
-                { !this.props.hideControls && this.props.allowSelection && !this.props.passCard && this.state.flipped && this.props.highlightFact && <div className="text-center p-2 help-select">
-                  <h5><FaHandPointRight/> Make a guess <FaHandPointRight/></h5></div>
-                }
-                { !this.props.hideControls && this.props.passCard && this.state.flipped && <Button size="lg" color="light" block className="mt-2" onClick={this.passCard.bind(this)}>
-                  <FaHandPointRight/> { this.props.numCardsLeft > 0 ? "Deal Next Card" : "Finish" }{' '}<FaHandPointLeft/> 
-                </Button> }
-                {/* { !this.props.hideControls && !this.props.passCard&& this.state.flipped  && <Button size="lg" color="light" block className="mt-2" onClick={ this.props.dealFunc }><FaUndo/> New Card</Button> } */}
-              </div>
-            </div>
+            { this.renderFront() }
+            { this.renderBack() }
           </div>
-        </div>
-
-    
-    </CardWrapper>;
+        </div>    
+    </CardAnimWrap>;
   }
+
 }
+
 const uuidv4 = require('uuid/v4');
 
 PlayingCard.defaultProps = {
   id: uuidv4(),
-  hideControls: false,
-  passCard: false,
-  mouseOver: true,
+  initMapLayer: null,
+  flipped: false,
+  allowFactSelection: false,
+  onFactSelect: false,
+  animation: "start",
+  highlightFact: null
 }
 
 export default PlayingCard;

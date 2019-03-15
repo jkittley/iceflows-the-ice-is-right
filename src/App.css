@@ -52,3 +52,14 @@ body {
   position: relative;
   margin: auto auto;
 }
+
+
+button.discrete {
+  background:none!important;
+  color:inherit;
+  border:none; 
+  padding:0!important;
+  font: inherit;
+  /*border is optional*/
+  cursor: pointer;
+}

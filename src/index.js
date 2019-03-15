@@ -14,6 +14,8 @@ import './index.css';
 
 var loadedSFX = null;
 var loadedMusic = null;
+var knownMusic = [];
+var knownSFX = [];
 
 function soundManagerStateChangeHandler() {
   var state = store.getState();
@@ -47,7 +49,7 @@ function soundManagerStateChangeHandler() {
 }
 
 function playMusic(ref, repeat=false) {
-  if (ref===undefined || ref===null) return;
+  if (knownMusic.indexOf(ref) < 0) return;
   if (loadedMusic === ref && !repeat) return;
   if (loadedMusic !== null) stopMusic(loadedMusic);
   loadedMusic = ref;
@@ -63,7 +65,7 @@ function stopMusic(ref) {
 }
 
 function playSFX(ref) {
-  if (ref===undefined || ref===null) return;
+  if (knownSFX.indexOf(ref) < 0) return;
   // if (loadedSFX === ref) return; // If you uncomment this then only one occurrence of an FX at a time.
   loadedSFX = ref;
   store.dispatch(sfx(null));
@@ -97,9 +99,11 @@ soundManager.setup({
     var state = store.getState();
     state.general.optionsMusic.forEach(sound => {
       createSound(sound.ref, sound.url);
+      knownMusic.push(sound.ref);
     });
     state.general.optionsSFX.forEach(sound => {
       createSound(sound.ref, sound.url);
+      knownSFX.push(sound.ref);
     });
     store.dispatch(setSoundsReady(true));
   }

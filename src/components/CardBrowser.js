@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { addError, goHome } from '../redux/actions';
 import posed from 'react-pose';
-import CardList from './CardList';
+import PlayingCard from './PlayingCard';
 import LogoHeader from './LogoHeader';
 import { FaHandPointLeft } from 'react-icons/fa';
 import { Container, Button, Row, Col } from 'reactstrap';
@@ -27,85 +27,65 @@ const CardBrowserWrapper = posed.div({
   }
 });
 
-const DeckWrapper = posed.div({
-  out: {
-    x: 500,
-    opacity: 0,
-    delay: 100,
-    transition: {
-      default: { duration: 300 }
-    }
-  },
-  in: {
-    x: 0,
-    opacity: 1,
-    delay: 100,
-    transition: {
-      default: { duration: 300 }
-    }
-  }
-});
-
 class CardBrowser extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = { 
-      animation: "out",
-      deckAnimation: "out",
-      deck: [],
+      animation: "start",
+      deckAnimation: "start",
+      selectedCard: this.props.cards.length > 0 ? this.props.cards[0] : null,
     };
     this.goHome = this.goHome.bind(this);
-    this.deal = this.deal.bind(this);
+    this.selectCard = this.selectCard.bind(this);
   }
 
   componentDidMount() {
-    setTimeout( () => this.setState({ animation: "in", deckAnimation: "in" }), 500);
-    setTimeout( () => this.deal(0), 700);
-    this.deal(0);
+    setTimeout( () => this.setState({ animation: "in", deckAnimation: "in" }), 300);
   }
 
-  onClick() {
-    this.setState({ animation: "out" });
-    setTimeout(this.props.onClick, 500);
-  }
-
-  deal(idx) {
-    console.log("dealing");
-    // if (this.state.deck.length > 0 && this.state.deck[0].id === this.props.cards[idx].id) return; 
+  selectCard(idx) {
+    console.log("Selecting Card");
     this.setState({ deckAnimation: "out" });
-    setTimeout( () => { 
-      this.setState({  deck: [ this.props.cards[idx] ], deckAnimation: "in" });
-    }, 500);
+    setTimeout( () => this.setState({ deckAnimation: "start" }), 300);
+    setTimeout( () => this.setState({  selectedCard: this.props.cards[idx], deckAnimation: "in" }), 510);
   }
 
   goHome() {
-    this.setState({ animation: "out" });
+    this.setState({ animation: "out", deckAnimation: "out" });
     setTimeout(this.props.goHome, 500);
   }
 
   renderDeck() {
     if (this.props.cards.length === 0) return null;
-    return <DeckWrapper pose={this.state.deckAnimation}>
-    <div className="deck">
-    <CardList  
-      cards={this.state.deck} 
-      autoFlip={true}
-      settings={this.props.settings}
-      deal={ this.deal.bind(this) } 
-      hideControls={true}
-      mouseOver={false}
+    return <div className="deck">
+    <PlayingCard 
+      animation={this.state.deckAnimation}
+      flipped={true} 
+      {...this.state.selectedCard}
     />
-    </div>
-   </DeckWrapper>;
+    </div>;
+        
+  //   return 
+  //   <div className="deck">
+  //   <CardList  
+  //     cards={this.state.deck} 
+  //     autoFlip={true}
+  //     settings={this.props.settings}
+  //     deal={ this.deal.bind(this) } 
+  //     hideControls={true}
+  //     mouseOver={false}
+  //   />
+  //   </div>
+  //  </DeckWrapper>;
   }
 
   renderOptions() {
     if (this.props.cards.length === 0) return null;
     return <CardBrowserWrapper pose={this.state.animation}>
     <div className="options">
-    { this.props.cards.sort( (a,b) => a.title > b.title ? 0 : ( a.title < b.title ? -1 : 0 ) ).map( (card, idx) => 
-      <Button key={card.id} size="sm" className="m-1" color="light" onClick={ () => this.deal(idx) }>{ card.title }</Button>
+    { this.props.cards.map( (card, idx) => 
+      <Button key={card.id} size="sm" className="m-1" color="light" onClick={ () => this.selectCard(idx) }>{ card.title }</Button>
     )}
     </div></CardBrowserWrapper>;
   }
