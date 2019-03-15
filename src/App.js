@@ -1,17 +1,16 @@
 import React from 'react';
-import { connect } from 'react-redux'
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import { addCard, setCardsReady, addZone, setMapsReady, setFactsMeta } from './redux/actions'
+import { connect } from 'react-redux';
+import { addCard, setCardsReady, addZone, setMapsReady, setFactsMeta, addError } from './redux/actions';
 
 import ReactLoading from 'react-loading';
 
 import Game from './Game';
+import ErrorMessage from './components/ErrorMessage';
 import Welcome from './components/Welcome';
 import Tour from './components/Tour';
 import CardBrowser from './components/CardBrowser';
 import Settings from './components/Settings';
 import MapBrowser from './components/MapBrowser';
-import menumusic from './res/sounds/menumusic.wav';
 
 import {loadCardData,loadZoneData} from './DataLoaders';
 import './App.css';
@@ -20,27 +19,15 @@ class App extends React.Component {
   
   constructor(props) {
     super(props);
-    this.state = { 
-      width: 0, 
-      height: 0,
-      musicTrack: menumusic,
-      sfxTrack: null
-    };
-    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     this.loadData = this.loadData.bind(this);
-    this.changeTrack = this.changeTrack.bind(this);
-    this.playSFX = this.playSFX.bind(this);
-    this.sfxFinish = this.sfxFinish.bind(this);
+    this.main = this.main.bind(this);
   }
   
   componentDidMount() {
     this.loadData();
-    this.updateWindowDimensions();
-    window.addEventListener('resize', this.updateWindowDimensions);
   }
 
   loadData() {
-    
     loadCardData(
       function (rowData) { // On Row
         this.props.addCard(rowData);
@@ -50,10 +37,9 @@ class App extends React.Component {
         this.props.setCardsReady(true);
       }.bind(this),
       function(err, file, inputElem, reason) { // On Error
-        console.log("Error", err);
+        this.props.addError("failed to load card data", { reason: reason, file: file });
       }
     )
-
     loadZoneData(
       function (rowData) { // On Row
         this.props.addZone(rowData);
@@ -62,47 +48,25 @@ class App extends React.Component {
         this.props.setMapsReady(true);
       }.bind(this),
       function(err, file, inputElem, reason) { // On Error
-        console.log("Error", err);
+        this.props.addError("failed to load zone data", { reason: reason, file: file });
       }
     )
-
-
-  }
-  
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.updateWindowDimensions);
-  }
-  
-  updateWindowDimensions() {
-    this.setState({ width: window.innerWidth, height: window.innerHeight });
   }
 
-  changeTrack(track) {
-    this.setState({ musicTrack: track })
+  main() {
+    if (this.props.errors.length > 0) return <ErrorMessage />;
+    if (this.props.currentPage === "game") return <Game />;
+    if (this.props.currentPage === "tour") return <Tour />;
+    if (this.props.currentPage === "card") return <CardBrowser />;
+    if (this.props.currentPage === "maps") return <MapBrowser />;
+    return <Welcome />;
   }
-
-  playSFX(sfx) {
-    this.setState({ sfxTrack: sfx })
-  }
-
-  sfxFinish() {
-    this.setState({ sfxTrack: null })
-  }
-  
- 
-  // <Settings />
 
   render() {
-    if (this.props.areCardsReady && this.props.areMapsReady && this.props.areSoundsReady) return <Router>
-      <div className="app">
+    if (this.props.areCardsReady && this.props.areMapsReady && this.props.areSoundsReady) return <div className="app">
         <Settings />
-        <Route path="/" exact component={Welcome} />
-        <Route path="/play" exact component={Game} />
-        <Route path="/howto/" component={Tour} />
-        <Route path="/cards/" component={CardBrowser} />
-        <Route path="/map/" component={MapBrowser} />
-      </div>
-    </Router>; 
+        { this.main() }
+    </div>; 
             
     // Not loaded yet
     return <div className="loading">
@@ -112,14 +76,15 @@ class App extends React.Component {
 }
 
 const mapStateToProps = state => { return {
+  errors: state.general.errors,
   isSFXMuted: state.settings.muteSFX, 
   isMusicMuted: state.settings.muteMusic, 
   areCardsReady: state.cards.ready, 
   areMapsReady: state.maps.ready, 
   areSoundsReady: state.general.soundsReady,
   currentPage: state.general.page 
-} };
+}};
 
-const mapDispatchToProps = { addCard, setCardsReady, addZone, setMapsReady, setFactsMeta }
+const mapDispatchToProps = { addError, addCard, setCardsReady, addZone, setMapsReady, setFactsMeta }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
