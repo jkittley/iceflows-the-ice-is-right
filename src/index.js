@@ -47,6 +47,7 @@ function soundManagerStateChangeHandler() {
 }
 
 function playMusic(ref, repeat=false) {
+  if (ref===undefined || ref===null) return;
   if (loadedMusic === ref && !repeat) return;
   if (loadedMusic !== null) stopMusic(loadedMusic);
   loadedMusic = ref;
@@ -57,23 +58,25 @@ function playMusic(ref, repeat=false) {
 
 function stopMusic(ref) {
   loadedMusic = null;
+  if (ref===undefined || ref===null) return;
   soundManager.getSoundById(ref).stop();
 }
 
 function playSFX(ref) {
-  if (ref === null) return;
+  if (ref===undefined || ref===null) return;
   // if (loadedSFX === ref) return; // If you uncomment this then only one occurrence of an FX at a time.
   loadedSFX = ref;
+  store.dispatch(sfx(null));
   soundManager.getSoundById(ref).play({
     onfinish: () => { 
       loadedSFX = null; 
-      store.dispatch(sfx(null));
     }
   });
 }
 
 function stopSFX(ref) {
   loadedSFX = null;
+  if (ref===undefined || ref===null) return;
   soundManager.getSoundById(ref).stop();
   store.dispatch(sfx(null));
 }
