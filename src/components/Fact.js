@@ -17,7 +17,17 @@ class Fact extends React.Component {
     }
   }
 
-  render() {
+  renderLarge() {
+    var classNames = "fact large py-2"
+    if (this.props.isHighlighted) classNames += " bg-dark text-white";
+    return <div onClick={ this.onClick } className={classNames}>
+      <div className="title">{ this.props.fact.title }</div>
+      { this.props.fact.desc && <div className="desc">{ this.props.fact.desc }</div> }
+      <Badge pill>{this.props.fact.value } {this.props.fact.unit }</Badge>
+     </div>;
+  }
+
+  renderRow() {
     var classNames = "fact py-2"
     if (this.props.isHighlighted) classNames += " bg-dark text-white";
     return <div onClick={ this.onClick } className={classNames}>
@@ -34,6 +44,13 @@ class Fact extends React.Component {
       </div>
     </div>;
   }
+
+  render() {
+    if (this.props.large) return this.renderLarge();
+    return this.renderRow();
+  }
+
+
 }
 
 const uuidv4 = require('uuid/v4');

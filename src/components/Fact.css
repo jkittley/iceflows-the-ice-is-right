@@ -48,3 +48,28 @@
     font-size: 16px;
   }
 }
+
+.fact.large {
+  text-align: center;
+  position: relative;
+  height: auto;
+  width: 100%;
+  padding: 10px;
+}
+
+.fact.large .title {
+  font-size: 2em;
+}
+
+.fact.large .desc {
+  font-size: 1.5em;
+}
+
+.fact.large .units {
+  font-size: 1.2em;
+}
+
+.fact.large .badge-pill {
+  margin: 10px;
+  font-size: 32px;
+} 

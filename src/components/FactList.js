@@ -21,6 +21,7 @@ class FactList extends React.Component {
        <Fact 
         key={i} 
         fact={x} 
+        large={facts.length===1}
         { ...this.props }
         isHighlighted={ this.props.highlightFact === x.id } />
     ))}
