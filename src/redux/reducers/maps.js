@@ -1,4 +1,4 @@
-import { ADD_ZONE, SET_MAPS_READY } from "../actionTypes";
+import { ADD_ZONE, SET_MAPS_READY, SET_MAPS_DEFAULT_LAYER } from "../actionTypes";
 
 const initialState = {
   layers: {
@@ -31,7 +31,13 @@ export default function(state = initialState, action) {
         ready: action.payload
       };
     }
-    
+
+    case SET_MAPS_DEFAULT_LAYER: {
+      return {
+        ...state,
+        defaultLayer: action.payload
+      };
+    }  
 
     default:
       return state;

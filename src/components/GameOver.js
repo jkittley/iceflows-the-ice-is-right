@@ -48,7 +48,7 @@ class GameOver extends React.Component {
         <h1>Game Over</h1>
         <h2>You scored { this.props.score } points</h2>
         <div>
-          <Button color="warning" size="lg" onClick={ () => this.props.playAgain() }>Play Again?</Button>{' '}
+          <Button color="warning" size="lg" onClick={ this.props.playAgain }>Play Again?</Button>{' '}
         </div>
       </div>
     </GameOverWrapper>;

@@ -45,9 +45,9 @@ class PlayingCard extends React.Component {
         <CardBody>
           <div className="img">
             <Map 
-              uid={"card_front_"+this.props.id} 
-              initLayer={this.props.initMapLayer}
-              initZone={this.props.zoneId }
+              uid={ "card_front_" + this.props.id } 
+              initLayer={ this.props.initMapLayer }
+              initZone={ this.props.zoneId }
               round={true}
             />
           </div>
@@ -62,9 +62,9 @@ class PlayingCard extends React.Component {
       <Card>
         <div className="img">
           <Map
-          uid={"card_back_"+this.props.id } 
-          initZone={ this.props.zoneId }
-          initLayer={ this.props.initMapLayer }
+            uid={"card_back_" + this.props.id } 
+            initLayer={ this.props.initMapLayer }
+            initZone={ this.props.zoneId }
           />
         </div>
         <h1 className="title mt-2">{ this.props.title }</h1>

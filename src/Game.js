@@ -64,6 +64,7 @@ class Game extends React.Component {
     this.win = this.win.bind(this);
     this.loose = this.loose.bind(this);
     this.draw = this.draw.bind(this);
+    this.reset = this.reset.bind(this);
     this.reveal = this.reveal.bind(this);
     this.onFactSelect = this.onFactSelect.bind(this);
     this.passCard = this.passCard.bind(this);
@@ -78,7 +79,7 @@ class Game extends React.Component {
   }
 
   reset() {
-    this.setState({ animation: "out" });
+    this.setState({ animation: "out", deck1Animation: "out" });
     this.props.setMusic("menu");
     setTimeout(this.props.goHome, 500);
   }
@@ -217,7 +218,7 @@ class Game extends React.Component {
             </div>
         
         
-          { this.state.gameOver && <GameOver playAgain={this.reset.bind(this)} settings={this.props.settings} score={this.state.score} /> }
+          { this.state.gameOver && <GameOver playAgain={this.reset} settings={this.props.settings} score={this.state.score} /> }
         
        </Container>
     );

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
+import { setDefaultLayer } from '../redux/actions';
 import { Button, ButtonGroup } from 'reactstrap';
 import SVG from 'react-inlinesvg';
 import { FaSearch, FaCaretRight, FaInfo } from 'react-icons/fa';
@@ -31,6 +31,15 @@ class Map extends React.Component {
     this.mapRef = React.createRef();
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.initLayer !== prevProps.initLayer && this.props.initLayer !== this.state.activeLayer.id) {
+      this.setState({ activeLayer: this.props.layers[this.props.initLayer.id] });
+    }
+    if (this.props.initZone !== prevProps.initZone && this.props.initZone !== this.state.activeZone) {
+      this.selectZone(this.props.initZone);
+    }
+  }
+
   onZoneClick(zoneId) {
     if (this.props.allowZoneSelect) this.selectZone(zoneId);
   }
@@ -55,6 +64,7 @@ class Map extends React.Component {
   }
 
   selectLayer(key) {
+    this.props.setDefaultLayer(key);
     this.setState({ activeLayer: this.props.layers[key] });
   }
   
@@ -124,7 +134,6 @@ Map.defaultProps = {
   allowZoom: true,
   allowZoneSelect: false,
   infoOpen: false,
-  initLayer: null,
   initZone: null,
 }
 
@@ -132,8 +141,8 @@ const mapStateToProps = (state) => ({
   layers: state.maps.layers,
   initLayer: state.maps.layers[state.maps.defaultLayer],
   layerOrder: state.maps.layerOrder,
-  zoneInfo: state.maps.zones
+  zoneInfo: state.maps.zones,
 });
 
-const mapDispatchToProps = { }
+const mapDispatchToProps = { setDefaultLayer }
 export default connect(mapStateToProps, mapDispatchToProps)(Map);
