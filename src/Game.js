@@ -79,7 +79,7 @@ class Game extends React.Component {
   }
 
   reset() {
-    this.setState({ animation: "out", deck1Animation: "out" });
+    this.setState({ animation: "out", deck1Animation: "out", deck2Animation: "out" });
     this.props.setMusic("menu");
     setTimeout(this.props.goHome, 500);
   }
