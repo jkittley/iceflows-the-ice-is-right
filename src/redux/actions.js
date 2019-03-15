@@ -1,6 +1,6 @@
 import { SET_PAGE, UPD_SETTINGS, ADD_CARD, SET_CARDS_READY, 
   ADD_ZONE, SET_MAPS_READY, SET_FACT_META, UPD_FACT_META,
-  TOGGLE_MUTE_FX, TOGGLE_MUTE_MUSIC, SET_SOUNDS_READY, SET_SFX, SET_MUSIC
+  TOGGLE_MUTE_FX, TOGGLE_MUTE_MUSIC, SET_SOUNDS_READY, SET_SFX, SET_MUSIC, ADD_ERROR
 } from "./actionTypes";
 
 
@@ -14,6 +14,11 @@ export const goHome = () => ({
 export const gotoPage = pageName => ({
   type: SET_PAGE,
   payload: pageName
+});
+
+export const addError = errorData => ({
+  type: ADD_ERROR,
+  payload: errorData
 });
 
 
