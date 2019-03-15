@@ -94,7 +94,6 @@ function createSound(ref, url) {
 }
 
 soundManager.setup({
-  debugMode: false,
   onready: function() {
     store.subscribe(soundManagerStateChangeHandler);
     var state = store.getState();

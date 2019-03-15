@@ -62,4 +62,6 @@ button.discrete {
   font: inherit;
   /*border is optional*/
   cursor: pointer;
+  -webkit-text-stroke: none;
+  text-shadow: none;
 }

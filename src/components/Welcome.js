@@ -173,7 +173,7 @@ class Welcome extends React.Component {
         <LogoHeader size="large" />
       </LogoWrap>
 
-        <Row style={{ marginTop: "30px" }}>
+        <Row style={{ marginTop: "30px" }} className="options">
           <Col xl={{ size: 2, offset: 1 }} md={{ size: 2 }} sm={{ size: 6 }} style={{ zIndex: 500 }}>
             <CardWrap1 pose={this.state.animation}>
                 <Button className="play" onClick={ () => this.onPagePick("game") }><div>Play Now!</div></Button>
@@ -238,15 +238,11 @@ class Welcome extends React.Component {
             </a>
           </Col>
           <Col>
-          {/* <Button onClick={ () => this.props.sfx("win") } >SFX Win</Button>
-          <Button onClick={ () => this.props.sfx("loose") } >SFX Loose</Button>
-          <Button onClick={ () => this.props.setMusic("game") } >Game Music</Button>
-          <Button onClick={ () => this.props.setMusic("menu") } >Menu Music</Button> */}
 
           <p className="text-center mt-2">&copy; University of Exeter 2019 | Anne Le Brocq</p>
           <p className="text-center pb-2">
-            <a href="/privacypolicy.html">Privacy Policy / Terms of Use</a> | {' '}
-            <button className="discrete" onClick={ this.toggleAckModal.bind(this) }>Acknowledgements</button>
+            <a href="/privacypolicy.html" rel="noopener noreferrer" target="_blank">Privacy Policy / Terms of Use</a> | {' '}
+            <a href="#" onClick={ this.toggleAckModal.bind(this) }>Acknowledgements</a>
           </p>
           </Col>
           <Col>
