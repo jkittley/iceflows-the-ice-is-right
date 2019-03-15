@@ -13,7 +13,7 @@ class ErrorMessage extends React.Component {
   }
 
   goHome() {
-
+    setTimeout(this.props.goHome, 500);
   }
 
   render() {
@@ -23,7 +23,7 @@ class ErrorMessage extends React.Component {
         <h1 className="display-4">Something went wrong :(</h1>
         { this.props.message && <p className="lead">{ this.props.message }</p> }
         <p className="lead">
-          <Button color="primary">Back Home</Button>
+          <Button color="primary" onClick={ this.goHome }>Back Home</Button>
         </p>
       </Jumbotron> 
       </Container>;
