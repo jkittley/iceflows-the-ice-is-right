@@ -12,6 +12,7 @@ const initialState = {
   ],
   optionsSFX: [
     { ref: "ping", url: require("../../res/sounds/ping.wav") },
+    { ref: "click", url: require("../../res/sounds/click.wav") },
     { ref: "deal", url: require("../../res/sounds/deal.wav") },
     { ref: "win", url: require("../../res/sounds/win.wav") },
     { ref: "loose", url: require("../../res/sounds/loose.wav") },

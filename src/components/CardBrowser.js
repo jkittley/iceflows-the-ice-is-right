@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addError, goHome } from '../redux/actions';
+import { addError, goHome, sfx } from '../redux/actions';
 import posed from 'react-pose';
 import PlayingCard from './PlayingCard';
 import LogoHeader from './LogoHeader';
@@ -51,6 +51,7 @@ class CardBrowser extends React.Component {
   }
 
   goHome() {
+    this.props.sfx("click");
     this.setState({ animation: "out", deckAnimation: "out" });
     setTimeout(this.props.goHome, 500);
   }
@@ -118,6 +119,6 @@ class CardBrowser extends React.Component {
 const mapStateToProps = state => { return {
   cards: state.cards.all, 
 }};
-const mapDispatchToProps = { addError, goHome }
+const mapDispatchToProps = { addError, goHome, sfx }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CardBrowser);

@@ -5,7 +5,7 @@ import LogoHeader from './LogoHeader';
 import PlayingCard from './PlayingCard';
 import { FaHandPointDown, FaHandPointUp, FaHandPointLeft, FaHandPointRight } from 'react-icons/fa';
 import { Container, Button, Row, Col } from 'reactstrap';
-import { addError, goHome } from '../redux/actions';
+import { addError, goHome, sfx } from '../redux/actions';
 import { compareFacts } from "../Helpers";
 import "./Tour.css";
 
@@ -101,6 +101,7 @@ class GameTour extends React.Component {
   }
 
   goHome() {
+    this.props.sfx("click");
     this.setState({ animation: "out", animationCard: "out" });
     setTimeout(this.props.goHome, 500);
   }
@@ -189,5 +190,5 @@ class GameTour extends React.Component {
 }
 
 const mapStateToProps = state => { return { cards: state.cards.all }};
-const mapDispatchToProps = { addError, goHome }
+const mapDispatchToProps = { addError, goHome, sfx }
 export default connect(mapStateToProps, mapDispatchToProps)(GameTour);

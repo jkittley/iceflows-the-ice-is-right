@@ -79,6 +79,7 @@ class Game extends React.Component {
   }
 
   reset() {
+    this.props.sfx("click");
     this.setState({ animation: "out", deck1Animation: "out", deck2Animation: "out" });
     this.props.setMusic("menu");
     setTimeout(this.props.goHome, 500);
