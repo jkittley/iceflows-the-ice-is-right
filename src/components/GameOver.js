@@ -1,7 +1,11 @@
 
 import React from 'react';
+import { connect } from 'react-redux'
+import { sfx } from "../redux/actions";
+
 import { Button } from 'reactstrap';
 import posed from 'react-pose';
+
 import "./GameOver.css";
 
 const GameOverWrapper = posed.div({
@@ -31,6 +35,11 @@ class GameOver extends React.Component {
 
   componentDidMount () {
     setTimeout(() => this.setState({ animation: "in" }), 500);
+    if (this.props.score > 0) {
+      this.props.sfx("gameover-good");
+    } else {
+      this.props.sfx("gameover-bad");
+    }
   }
 
   render() {
@@ -46,4 +55,6 @@ class GameOver extends React.Component {
   }
 }
 
-export default GameOver;
+const mapDispatchToProps = { sfx }
+
+export default connect(null, mapDispatchToProps)(GameOver);
