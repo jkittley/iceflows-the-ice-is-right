@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { addError, goHome } from '../redux/actions';
 import posed from 'react-pose';
 import CardList from './CardList';
 import LogoHeader from './LogoHeader';
@@ -6,7 +8,7 @@ import { FaHandPointLeft } from 'react-icons/fa';
 import { Container, Button, Row, Col } from 'reactstrap';
 import "./CardBrowser.css";
 
-const TourWrapper = posed.div({
+const CardBrowserWrapper = posed.div({
   out: {
     y: -500,
     opacity: 0,
@@ -60,6 +62,7 @@ class CardBrowser extends React.Component {
   componentDidMount() {
     setTimeout( () => this.setState({ animation: "in", deckAnimation: "in" }), 500);
     setTimeout( () => this.deal(0), 700);
+    this.deal(0);
   }
 
   onClick() {
@@ -68,7 +71,8 @@ class CardBrowser extends React.Component {
   }
 
   deal(idx) {
-    if (this.state.deck.length > 0 && this.state.deck[0].id === this.props.cards[idx].id) return; 
+    console.log("dealing");
+    // if (this.state.deck.length > 0 && this.state.deck[0].id === this.props.cards[idx].id) return; 
     this.setState({ deckAnimation: "out" });
     setTimeout( () => { 
       this.setState({  deck: [ this.props.cards[idx] ], deckAnimation: "in" });
@@ -80,45 +84,61 @@ class CardBrowser extends React.Component {
     setTimeout(this.props.goHome, 500);
   }
 
+  renderDeck() {
+    if (this.props.cards.length === 0) return null;
+    return <DeckWrapper pose={this.state.deckAnimation}>
+    <div className="deck">
+    <CardList  
+      cards={this.state.deck} 
+      autoFlip={true}
+      settings={this.props.settings}
+      deal={ this.deal.bind(this) } 
+      hideControls={true}
+      mouseOver={false}
+    />
+    </div>
+   </DeckWrapper>;
+  }
+
+  renderOptions() {
+    if (this.props.cards.length === 0) return null;
+    return <CardBrowserWrapper pose={this.state.animation}>
+    <div className="options">
+    { this.props.cards.sort( (a,b) => a.title > b.title ? 0 : ( a.title < b.title ? -1 : 0 ) ).map( (card, idx) => 
+      <Button key={card.id} size="sm" className="m-1" color="light" onClick={ () => this.deal(idx) }>{ card.title }</Button>
+    )}
+    </div></CardBrowserWrapper>;
+  }
+
   render() {
+    if (this.props.cards.length === 0) {
+      this.props.addError("No cards, please refresh and try again");
+      return null;
+    }
+    
     return <Container fluid className="card-browser">
-        <TourWrapper pose={this.state.animation}>
+        <CardBrowserWrapper pose={this.state.animation}>
         <LogoHeader />
-        </TourWrapper>
+        </CardBrowserWrapper>
+
         <Row className="mt-4">
-
           <Col sm={12} md={4}>
-            <TourWrapper pose={this.state.animation}>
-              <div className="options">
-              { this.props.cards.sort( (a,b) => a.title > b.title ? 0 : ( a.title < b.title ? -1 : 0 ) ).map( (card, idx) => 
-                <Button key={card.id} size="sm" className="m-1" color="light" onClick={ () => this.deal(idx) }>{ card.title }</Button>
-              )}
-              </div>
-            </TourWrapper>
+            { this.renderOptions() }
           </Col>
-
           <Col sm={12} md={8}>
-            <DeckWrapper pose={this.state.deckAnimation}>
-              <div className="deck">
-              <CardList  
-                cards={this.state.deck} 
-                autoFlip={true}
-                settings={this.props.settings}
-                deal={ this.deal.bind(this) } 
-                hideControls={true}
-                mouseOver={false}
-              />
-              </div>
-            </DeckWrapper>
+            { this.renderDeck()}
           </Col>
         </Row>
-        
         <div className="back-button-pane">  
           <Button color="light" onClick={this.goHome}><FaHandPointLeft/> Back</Button>
         </div>
-
       </Container>;
   }
 }
 
-export default CardBrowser;
+const mapStateToProps = state => { return {
+  cards: state.cards.all, 
+}};
+const mapDispatchToProps = { addError, goHome }
+
+export default connect(mapStateToProps, mapDispatchToProps)(CardBrowser);

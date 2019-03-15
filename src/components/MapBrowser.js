@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { goHome } from '../redux/actions';
+
 import posed from 'react-pose';
 import LogoHeader from './LogoHeader';
 import Map from './Map';
@@ -70,4 +73,5 @@ class MapBrowser extends React.Component {
   }
 }
 
-export default MapBrowser;
+const mapDispatchToProps = { goHome }
+export default connect(null, mapDispatchToProps)(MapBrowser);
