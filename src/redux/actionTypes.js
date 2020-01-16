@@ -15,5 +15,6 @@ export const SET_MAPS_READY = "SET_MAPS_READY";
 export const SET_MAPS_DEFAULT_LAYER = "SET_MAPS_DEFAULT_LAYER";
 
 export const SET_SOUNDS_READY = "SET_SOUNDS_READY";
+export const SET_SOUNDS_LOADED = "SET_SOUNDS_LOADED";
 export const SET_SFX = "SET_SFX";
 export const SET_MUSIC = "SET_MUSIC";

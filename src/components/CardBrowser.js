@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addError, goHome, sfx } from '../redux/actions';
+import { addError, goHome, sfx, gotoPage } from '../redux/actions';
 import posed from 'react-pose';
 import PlayingCard from './PlayingCard';
 import LogoHeader from './LogoHeader';
 import { FaHandPointLeft } from 'react-icons/fa';
 import { Container, Button, Row, Col } from 'reactstrap';
 import "./CardBrowser.css";
+import CardPrint from './CardPrint';
 
 const CardBrowserWrapper = posed.div({
   out: {
@@ -38,6 +39,7 @@ class CardBrowser extends React.Component {
     };
     this.goHome = this.goHome.bind(this);
     this.selectCard = this.selectCard.bind(this);
+    this.renderOptions = this.renderOptions.bind(this);
   }
 
   componentDidMount() {
@@ -65,19 +67,6 @@ class CardBrowser extends React.Component {
       {...this.state.selectedCard}
     />
     </div>;
-        
-  //   return 
-  //   <div className="deck">
-  //   <CardList  
-  //     cards={this.state.deck} 
-  //     autoFlip={true}
-  //     settings={this.props.settings}
-  //     deal={ this.deal.bind(this) } 
-  //     hideControls={true}
-  //     mouseOver={false}
-  //   />
-  //   </div>
-  //  </DeckWrapper>;
   }
 
   renderOptions() {
@@ -87,7 +76,8 @@ class CardBrowser extends React.Component {
     { this.props.cards.map( (card, idx) => 
       <Button key={card.id} size="sm" className="m-1" color="light" onClick={ () => this.selectCard(idx) }>{ card.title }</Button>
     )}
-    </div></CardBrowserWrapper>;
+    </div>
+    </CardBrowserWrapper>;
   }
 
   render() {
@@ -104,6 +94,9 @@ class CardBrowser extends React.Component {
         <Row className="mt-4">
           <Col sm={12} md={4}>
             { this.renderOptions() }
+            <hr/>
+            <CardPrint cards={[this.state.selectedCard]} text="Print Selected" />
+            <CardPrint cards={this.props.cards} text="Print All"  />
           </Col>
           <Col sm={12} md={8}>
             { this.renderDeck()}
@@ -119,6 +112,6 @@ class CardBrowser extends React.Component {
 const mapStateToProps = state => { return {
   cards: state.cards.all, 
 }};
-const mapDispatchToProps = { addError, goHome, sfx }
+const mapDispatchToProps = { addError, goHome, gotoPage, sfx }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CardBrowser);

@@ -89,6 +89,18 @@ class Map extends React.Component {
   }
 
   render () {
+
+    if (this.props.basic === true) {
+      console.log("YA BASIC");
+      let imgPath = "";
+      Object.keys(this.props.layers).map( function(k, i) { 
+        var isVisible = this.props.layers[k] === this.state.activeLayer;
+        console.log("YA BASIC", isVisible);
+        if (isVisible) imgPath = this.props.layers[k].image;
+      }.bind(this));
+      return <img src={imgPath} alt="Map" />;
+    }
+
     return <div id={this.props.uid} className={"map" + (this.props.round ? " round" : "") } ref={this.mapRef}>
 
       { Object.keys(this.props.layers).map( function(k, i) { 
@@ -135,6 +147,7 @@ Map.defaultProps = {
   allowZoneSelect: false,
   infoOpen: false,
   initZone: null,
+  basic: false
 }
 
 const mapStateToProps = (state) => ({

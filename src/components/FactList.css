@@ -6,7 +6,15 @@
   overflow-y: auto;
   overflow-x: hidden;
   background-color: #C0D6E4;
+  -webkit-print-color-adjust: exact;
+  color-adjust: exact;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
+}
+
+@media print {
+  .fact-list {
+    overflow-x: visible;
+  }
 }

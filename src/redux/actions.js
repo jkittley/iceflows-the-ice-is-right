@@ -1,6 +1,6 @@
 import { SET_PAGE, UPD_SETTINGS, ADD_CARD, SET_CARDS_READY, 
   ADD_ZONE, SET_MAPS_READY, SET_FACT_META, UPD_FACT_META,
-  TOGGLE_MUTE_FX, TOGGLE_MUTE_MUSIC, SET_SOUNDS_READY, SET_SFX, SET_MUSIC, ADD_ERROR, SET_MAPS_DEFAULT_LAYER
+  TOGGLE_MUTE_FX, TOGGLE_MUTE_MUSIC, SET_SOUNDS_READY, SET_SFX, SET_MUSIC, ADD_ERROR, SET_MAPS_DEFAULT_LAYER, SET_SOUNDS_LOADED
 } from "./actionTypes";
 
 
@@ -81,8 +81,13 @@ export const setDefaultLayer = value => ({
 
 // Sounds
 
-export const setSoundsReady = value => ({
+export const setSoundManagerReady = value => ({
   type: SET_SOUNDS_READY,
+  payload: value
+});
+
+export const setSoundsLoaded = value => ({
+  type: SET_SOUNDS_LOADED,
   payload: value
 });
 

@@ -1,9 +1,10 @@
-import { SET_PAGE, SET_SOUNDS_READY, SET_SFX, SET_MUSIC, ADD_ERROR } from "../actionTypes";
+import { SET_PAGE, SET_SOUNDS_READY, SET_SFX, SET_MUSIC, ADD_ERROR, SET_SOUNDS_LOADED } from "../actionTypes";
 
 const initialState = {
   page: "home",
   errors: [],
-  soundsReady: false,
+  soundManagerReady: false,
+  soundsLoaded: false,
   selectedMusic: "menu",
   selectedSFX: null,
   optionsMusic: [
@@ -42,7 +43,14 @@ export default function(state = initialState, action) {
     case SET_SOUNDS_READY: {
       return {
         ...state,
-        soundsReady: action.payload
+        soundManagerReady: action.payload
+      };
+    }
+
+    case SET_SOUNDS_LOADED: {
+      return {
+        ...state,
+        soundsLoaded: action.payload
       };
     }
 

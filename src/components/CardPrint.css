@@ -1,0 +1,59 @@
+@media print {
+
+  .print-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .print-container .page {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    page-break-after: always;
+    page-break-before: always;
+    page-break-inside: avoid;
+    width: 100%;
+    height: 100%;
+  }
+
+
+  .print-container .page .front, .print-container .page .back {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 2mm;
+  }
+
+  .print-container .front .card, .print-container .back .card {
+    border: solid 2px black;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+  }
+
+  .print-container .front {
+    top: 0;
+    left: 0;
+  }
+
+  .print-container .back .title {
+    font-family: 'PlaySir', sans-serif;
+    text-align: center;
+    padding: 5px;
+  }
+  
+  .print-container .back {
+    top: 0;
+    right: 0;
+  }
+
+  .print-container img {
+    width: 95%!important;
+    margin: auto auto;
+  }
+
+}

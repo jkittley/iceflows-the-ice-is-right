@@ -34,8 +34,10 @@ class Fact extends React.Component {
       <div className="message">
         <h5>
           <span className="title">{this.props.fact.title }</span>{' '}
-          { this.props.fact.desc && <button className="discrete" id={this.props.fact.id+"_tooltip_"+this.props.uid}><FaInfoCircle/></button> }
-          { this.props.fact.desc && <UncontrolledTooltip placement="right" target={this.props.fact.id+"_tooltip_"+this.props.uid}>{ this.props.fact.desc }</UncontrolledTooltip> }
+          { this.props.fact.desc && <button className="discrete" id={this.props.fact.id+"_tooltip_"+this.props.uid}>
+            { this.props.showToolTips && <FaInfoCircle/> }
+          </button> }
+          { this.props.fact.desc && this.props.showToolTips && <UncontrolledTooltip placement="right" target={this.props.fact.id+"_tooltip_"+this.props.uid}>{ this.props.fact.desc }</UncontrolledTooltip> }
         </h5>
         <span className="units">{this.props.fact.unit }</span>
       </div>
@@ -59,6 +61,7 @@ Fact.defaultProps = {
   isHighlighted: false,
   allowSelection: false,
   onSelect: null,
+  showToolTips: false,
 }
 
 export default Fact;

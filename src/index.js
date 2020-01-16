@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import store from './redux/store';
-import { setSoundsReady, sfx } from './redux/actions';
+import { setSoundManagerReady, setSoundsLoaded, sfx } from './redux/actions';
 import App from './App';
 
 import { soundManager } from 'soundmanager2';
@@ -16,36 +16,40 @@ var loadedSFX = null;
 var loadedMusic = null;
 var knownMusic = [];
 var knownSFX = [];
+var loadedSounds = [];
 
 function soundManagerStateChangeHandler() {
   var state = store.getState();
 
-  // If the new state is muted and there is music playing stop
-  if (state.settings.muteMusic && loadedMusic !== null) {
-    stopMusic(loadedMusic); 
-  } 
-  // If not muted and there is a track to play then start the music
-  if (!state.settings.muteMusic && state.general.selectedMusic !== null) {
-    playMusic(state.general.selectedMusic);
-  }
-  // If the music file changes
-  if (!state.settings.muteMusic && state.settings.selectedMusic !== loadedMusic) {
-    playMusic(state.general.selectedMusic);
-  }
-  
-  // If the new state is muted and there is an SFX loaded stop it
-  if (state.settings.muteSFX && loadedSFX !== null) {
-    stopSFX(loadedSFX);
-  }
-  // If SX is not muted and there is a SFX to play
-  if (!state.settings.muteSFX && state.general.selectedSFX !== null) {
-    playSFX(state.general.selectedSFX);
-  }
-  // If the system is muted then delete any sound effect created while muted
-  if (state.settings.muteSFX && state.general.selectedSFX !== null) {
-    stopSFX(state.general.selectedSFX);
-  }
+  if (state.general.soundManagerReady && state.general.soundsLoaded) {
+      
+    // If the new state is muted and there is music playing stop
+    if (state.settings.muteMusic && loadedMusic !== null) {
+      stopMusic(loadedMusic); 
+    } 
+    // If not muted and there is a track to play then start the music
+    if (!state.settings.muteMusic && state.general.selectedMusic !== null) {
+      playMusic(state.general.selectedMusic);
+    }
+    // If the music file changes
+    if (!state.settings.muteMusic && state.settings.selectedMusic !== loadedMusic) {
+      playMusic(state.general.selectedMusic);
+    }
+    
+    // If the new state is muted and there is an SFX loaded stop it
+    if (state.settings.muteSFX && loadedSFX !== null) {
+      stopSFX(loadedSFX);
+    }
+    // If SX is not muted and there is a SFX to play
+    if (!state.settings.muteSFX && state.general.selectedSFX !== null) {
+      playSFX(state.general.selectedSFX);
+    }
+    // If the system is muted then delete any sound effect created while muted
+    if (state.settings.muteSFX && state.general.selectedSFX !== null) {
+      stopSFX(state.general.selectedSFX);
+    }
 
+  }
 }
 
 function playMusic(ref, repeat=false) {
@@ -83,17 +87,22 @@ function stopSFX(ref) {
   store.dispatch(sfx(null));
 }
 
-function createSound(ref, url) {
+function createSound(ref, url, autoPlay) {
   soundManager.createSound({
     id: ref,
     url: url,
     autoLoad: true,
     autoPlay: false,
-    volume: 50
+    volume: 50, 
+    onload: () => {
+      loadedSounds.push(ref);
+      if (loadedSounds.length === knownMusic.length + knownSFX.length) store.dispatch(setSoundsLoaded(true));
+    }
   });
 }
 
 soundManager.setup({
+  debugMode: false,
   onready: function() {
     store.subscribe(soundManagerStateChangeHandler);
     var state = store.getState();
@@ -105,7 +114,7 @@ soundManager.setup({
       createSound(sound.ref, sound.url);
       knownSFX.push(sound.ref);
     });
-    store.dispatch(setSoundsReady(true));
+    store.dispatch(setSoundManagerReady(true))
   }
 });
 

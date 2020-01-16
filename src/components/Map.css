@@ -44,6 +44,12 @@
   left: 10px;
 }
 
+@media print {
+  .map .controls {
+    display: none;
+  }
+}
+
 .map .highlight {
   stroke: rgb(255, 0, 221)!important;
   stroke-width: 5px;
@@ -118,4 +124,14 @@
   bottom: 10px;
   width: auto;
   height: auto;
+}
+
+.map img {
+  width: 90%;
+}
+
+@media print {
+  .map img {
+    width: 70mm!important;
+  }
 }

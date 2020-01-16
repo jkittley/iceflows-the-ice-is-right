@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-comment-textnodes */
 import React from 'react';
 import { connect } from 'react-redux'
 import posed from 'react-pose';

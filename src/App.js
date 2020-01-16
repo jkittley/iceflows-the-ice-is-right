@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addCard, setCardsReady, addZone, setMapsReady, setFactsMeta, addError } from './redux/actions';
+import { addCard, setCardsReady, addZone, setMapsReady, setFactsMeta, addError, setMusic } from './redux/actions';
 
 import ReactLoading from 'react-loading';
 
@@ -9,6 +9,7 @@ import ErrorMessage from './components/ErrorMessage';
 import Welcome from './components/Welcome';
 import Tour from './components/Tour';
 import CardBrowser from './components/CardBrowser';
+import CardPrint from './components/CardPrint';
 import Settings from './components/Settings';
 import MapBrowser from './components/MapBrowser';
 
@@ -59,11 +60,12 @@ class App extends React.Component {
     if (this.props.currentPage === "tour") return <Tour />;
     if (this.props.currentPage === "card") return <CardBrowser />;
     if (this.props.currentPage === "maps") return <MapBrowser />;
+    if (this.props.currentPage === "print") return <CardPrint />;
     return <Welcome />;
   }
 
   render() {
-    if (this.props.areCardsReady && this.props.areMapsReady && this.props.areSoundsReady) return <div className="app">
+    if (this.props.areCardsReady && this.props.areMapsReady && this.props.isSoundManagerReady && this.props.areSoundsLoaded) return <div className="app">
         <Settings />
         { this.main() }
     </div>; 
@@ -81,10 +83,11 @@ const mapStateToProps = state => { return {
   isMusicMuted: state.settings.muteMusic, 
   areCardsReady: state.cards.ready, 
   areMapsReady: state.maps.ready, 
-  areSoundsReady: state.general.soundsReady,
+  isSoundManagerReady: state.general.soundManagerReady,
+  areSoundsLoaded: state.general.soundsLoaded,
   currentPage: state.general.page 
 }};
 
-const mapDispatchToProps = { addError, addCard, setCardsReady, addZone, setMapsReady, setFactsMeta }
+const mapDispatchToProps = { addError, addCard, setCardsReady, addZone, setMapsReady, setFactsMeta, setMusic }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

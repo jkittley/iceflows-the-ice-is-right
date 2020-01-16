@@ -4,6 +4,7 @@ import FactList from './FactList';
 import { Card, CardBody } from 'reactstrap';
 import Map from './Map';
 import "./PlayingCard.css"
+const uuidv4 = require('uuid/v4');
 
 const CardAnimWrap = posed.div({
   start: {
@@ -37,27 +38,9 @@ const CardAnimWrap = posed.div({
   }
 });
 
-class PlayingCard extends React.Component {
-  
-  renderFront() {
-    return <div className="front">
-      <Card>
-        <CardBody>
-          <div className="img">
-            <Map 
-              uid={ "card_front_" + this.props.id } 
-              initLayer={ this.props.initMapLayer }
-              initZone={ this.props.zoneId }
-              round={true}
-            />
-          </div>
-          <h1 className="title">{this.props.title }</h1>
-        </CardBody>
-      </Card>
-    </div>;
-  }
 
-  renderBack() {
+class PlayingCardBack extends React.Component {
+  render() {
     return <div className="back">
       <Card>
         <div className="img">
@@ -65,6 +48,7 @@ class PlayingCard extends React.Component {
             uid={"card_back_" + this.props.id } 
             initLayer={ this.props.initMapLayer }
             initZone={ this.props.zoneId }
+            basic={this.props.basic}
           />
         </div>
         <h1 className="title mt-2">{ this.props.title }</h1>
@@ -76,19 +60,48 @@ class PlayingCard extends React.Component {
       </Card>
     </div>;
   }
+}
 
+PlayingCardBack.defaultProps = {
+  id: uuidv4(),
+  initMapLayer: null,
+  allowFactSelection: false,
+  onFactSelect: false,
+  highlightFact: null,
+}
+
+class PlayingCardFront extends React.Component {
+  render() {
+    return <div className="front">
+      <Card>
+        <CardBody>
+          <div className="img">
+            <Map 
+              uid={ "card_front_" + this.props.id } 
+              initLayer={ this.props.initMapLayer }
+              initZone={ this.props.zoneId }
+              round={true}
+              basic={this.props.basic}
+            />
+          </div>
+          <h1 className="title">{this.props.title }</h1>
+        </CardBody>
+      </Card>
+    </div>;
+  }
+}
+
+class PlayingCard extends React.Component {
   render() {   
     if (this.props.title === undefined) return null;
-
     var displayCSS = "flip-container";
     if (this.props.flipped) displayCSS += " flipped";
     if (this.props.allowFactSelection) displayCSS += " mouse-over";
- 
     return <CardAnimWrap className="playing-card" pose={ this.props.animation} >
         <div className={displayCSS}>
           <div className="flipper">
-            { this.renderFront() }
-            { this.renderBack() }
+            <PlayingCardFront { ...this.props }/>
+            <PlayingCardBack { ...this.props }/>
           </div>
         </div>    
     </CardAnimWrap>;
@@ -96,7 +109,6 @@ class PlayingCard extends React.Component {
 
 }
 
-const uuidv4 = require('uuid/v4');
 
 PlayingCard.defaultProps = {
   id: uuidv4(),
@@ -105,7 +117,9 @@ PlayingCard.defaultProps = {
   allowFactSelection: false,
   onFactSelect: false,
   animation: "start",
-  highlightFact: null
+  highlightFact: null,
+  basic: false
 }
 
 export default PlayingCard;
+export { PlayingCardBack, PlayingCardFront };
