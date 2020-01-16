@@ -49,6 +49,7 @@ class PlayingCardBack extends React.Component {
             initLayer={ this.props.initMapLayer }
             initZone={ this.props.zoneId }
             basic={this.props.basic}
+            allowZoom={this.props.allowZoom}
           />
         </div>
         <h1 className="title mt-2">{ this.props.title }</h1>
@@ -68,6 +69,7 @@ PlayingCardBack.defaultProps = {
   allowFactSelection: false,
   onFactSelect: false,
   highlightFact: null,
+  allowZoom: true
 }
 
 class PlayingCardFront extends React.Component {
@@ -82,6 +84,7 @@ class PlayingCardFront extends React.Component {
               initZone={ this.props.zoneId }
               round={true}
               basic={this.props.basic}
+              allowZoom={this.props.allowZoom}
             />
           </div>
           <h1 className="title">{this.props.title }</h1>
@@ -90,6 +93,16 @@ class PlayingCardFront extends React.Component {
     </div>;
   }
 }
+
+PlayingCardFront.defaultProps = {
+  id: uuidv4(),
+  initMapLayer: null,
+  allowFactSelection: false,
+  onFactSelect: false,
+  highlightFact: null,
+  allowZoom: true
+}
+
 
 class PlayingCard extends React.Component {
   render() {   

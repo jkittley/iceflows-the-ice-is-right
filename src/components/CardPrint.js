@@ -10,7 +10,7 @@ class CardPrint extends React.Component {
     return <PrintComponents className="print-container" trigger={<Button className="mr-2">{ this.props.text }</Button>}>
       { this.props.cards.map(card => 
         <div className="page">
-          <PlayingCardBack {...card} basic={true} />
+          <PlayingCardBack {...card} basic={true} allowZoom={false} />
           {/* <PlayingCardFront {...card} basic={true} /> */}
         </div>
       )}

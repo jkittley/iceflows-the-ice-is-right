@@ -69,6 +69,7 @@ class Map extends React.Component {
   }
   
   selectZone (zoneId, deselectOthers=true) {
+    if (this.props.basic) return;
     if (deselectOthers) {
       var currentlyHighlighted = this.overlayRef.current.querySelectorAll("path.highlight");
       Array.from(currentlyHighlighted).forEach( (pathElem) => pathElem.classList.remove("highlight") );
@@ -81,7 +82,7 @@ class Map extends React.Component {
   }
 
   toggleZoom() {
-    this.mapRef.current.classList.toggle("zoom");
+    if (this.props.allowZoom) this.mapRef.current.classList.toggle("zoom");
   }
 
   showZoneInfo() {
